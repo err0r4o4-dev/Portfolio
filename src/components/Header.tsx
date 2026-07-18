@@ -1,21 +1,45 @@
+import { useLanguage, type Language } from "../language";
 import "../styles/Header.css";
 
+const navigation = {
+  en: { profile: "Profile", work: "Work", skills: "Skills", contact: "Contact", resume: "Résumé", skip: "Skip to content" },
+  th: { profile: "เกี่ยวกับฉัน", work: "ผลงาน", skills: "ทักษะ", contact: "ติดต่อ", resume: "เรซูเม่", skip: "ข้ามไปยังเนื้อหา" },
+};
+
 export default function Header() {
+  const { language, setLanguage } = useLanguage();
+  const copy = navigation[language];
+
   return (
     <header className="Header">
-      <a className="Skip-link" href="#main-content">Skip to content</a>
+      <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home">
           <span className="Header-mark">TD</span>
           <span>Thirawat Duangta</span>
         </a>
         <nav className="Header-nav" aria-label="Main navigation">
-          <a href="#about">Profile</a>
-          <a href="#projects">Work</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
+          <a href="#about">{copy.profile}</a>
+          <a href="#projects">{copy.work}</a>
+          <a href="#skills">{copy.skills}</a>
+          <a href="#contact">{copy.contact}</a>
         </nav>
-        <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Header-cv">Résumé <span aria-hidden="true">↓</span></a>
+        <div className="Header-actions">
+          <div className="Language-switch" aria-label="Select language">
+            {(["en", "th"] as Language[]).map((option) => (
+              <button
+                key={option}
+                type="button"
+                className={language === option ? "is-active" : ""}
+                aria-pressed={language === option}
+                onClick={() => setLanguage(option)}
+              >
+                {option.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Header-cv">{copy.resume} <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
     </header>
   );

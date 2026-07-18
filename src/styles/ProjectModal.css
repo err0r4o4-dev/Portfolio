@@ -29,7 +29,7 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6), 
-              0 0 40px rgba(0, 198, 255, 0.15);
+              0 0 40px rgba(107, 184, 255, 0.15);
   animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -167,7 +167,7 @@
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 198, 255, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(107, 184, 255, 0.15) 0%, transparent 70%);
   z-index: 1;
   filter: blur(20px);
 }
@@ -180,7 +180,7 @@
 }
 
 .ProjectModal-subtitle {
-  color: #60a5fa;
+  color: var(--accent);
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
@@ -207,9 +207,9 @@
 .ProjectModal-tag {
   font-size: 0.8rem;
   padding: 6px 14px;
-  background: rgba(0, 198, 255, 0.08);
-  border: 1px solid rgba(0, 198, 255, 0.2);
-  color: #00c6ff;
+  background: rgba(107, 184, 255, 0.08);
+  border: 1px solid rgba(107, 184, 255, 0.22);
+  color: var(--accent);
   border-radius: 999px;
   font-weight: 500;
 }
@@ -252,7 +252,7 @@
 }
 
 .ProjectModal-feature-icon {
-  color: #00c6ff;
+  color: var(--accent);
   font-weight: bold;
 }
 
@@ -294,13 +294,13 @@
 
 /* Button Variants */
 .ProjectModal-btn-primary {
-  background: linear-gradient(90deg, #4f46e5, #00c6ff);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 198, 255, 0.25);
+  background: var(--accent);
+  color: #06111e;
+  box-shadow: 0 4px 15px rgba(107, 184, 255, 0.25);
 }
 .ProjectModal-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(107, 184, 255, 0.38);
 }
 
 .ProjectModal-btn-secondary {
