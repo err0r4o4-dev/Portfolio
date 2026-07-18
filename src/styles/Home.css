@@ -1,0 +1,394 @@
+.Home {
+  width: 100%;
+  display: block;
+  padding-bottom: 80px;
+}
+
+.Hero {
+  padding: 80px 24px 40px;
+  background: linear-gradient(180deg, rgba(8, 12, 31, 0.94) 0%, rgba(5, 6, 16, 0.96) 100%);
+}
+
+.Hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Hero-label {
+  color: #7c8db8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+
+.Hero-title {
+  color: white;
+  font-size: clamp(2.8rem, 4vw, 4.8rem);
+  line-height: 1.02;
+  max-width: 780px;
+  margin-bottom: 24px;
+}
+
+.Hero-text {
+  max-width: 700px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.Hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.Hero-btn {
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Hero-btn-primary {
+  background: linear-gradient(90deg, #4f46e5, #00c6ff);
+  color: white;
+}
+
+.Hero-btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: white;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.About,
+.Skills,
+.Projects,
+.Contact {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+
+.About-card {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 32px;
+}
+
+.About-image {
+  min-height: 420px;
+  border-radius: 28px;
+  background: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=780&q=80') center/cover no-repeat;
+}
+
+.About-text h2 {
+  font-size: 2.25rem;
+  margin-bottom: 18px;
+}
+
+.About-description {
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.Skill-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.Skill-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.Skill-card h3 {
+  color: white;
+  font-size: 1.1rem;
+}
+
+.Skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.Skill-item {
+  padding: 10px 14px;
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.Skill-demo {
+  margin-top: auto;
+  width: fit-content;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: white;
+  background: linear-gradient(90deg, #4f46e5, #00c6ff);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.Section-header {
+  margin-bottom: 32px;
+}
+
+.Section-header h2 {
+  font-size: 2.25rem;
+  margin-bottom: 14px;
+}
+
+.Section-header p {
+  color: rgba(255, 255, 255, 0.74);
+  max-width: 640px;
+}
+
+.Project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 grid is much cleaner and gives more space for descriptions than 4 columns */
+  gap: 32px;
+}
+
+.Project-card {
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.Project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 198, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+              0 0 30px rgba(0, 198, 255, 0.08);
+}
+
+.Project-image-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.Project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Project-card:hover img {
+  transform: scale(1.05);
+}
+
+.Project-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 8, 22, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.Project-card:hover .Project-card-overlay {
+  opacity: 1;
+}
+
+.Project-card-overlay-btn {
+  background: linear-gradient(90deg, #4f46e5, #00c6ff);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+  transform: translateY(10px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Project-card:hover .Project-card-overlay-btn {
+  transform: translateY(0);
+}
+
+.Project-copy {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.Project-copy span {
+  color: #60a5fa;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+.Project-copy h3 {
+  font-size: 1.4rem;
+  color: white;
+  margin: 4px 0 8px;
+}
+
+.Project-card-short-desc {
+  color: rgba(231, 235, 255, 0.65);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.Project-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.Project-btn,
+.Project-link {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+}
+
+.Project-btn {
+  background: linear-gradient(90deg, #4f46e5, #00c6ff);
+  color: white;
+}
+.Project-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(0, 198, 255, 0.25);
+}
+
+.Project-link {
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.Project-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.Contact-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 40px;
+}
+
+.Contact-panel h2 {
+  font-size: 2rem;
+  margin-bottom: 18px;
+}
+
+.Contact-panel p {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.Contact-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.Contact-info div {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.Contact-info span {
+  display: block;
+  color: #7c8db8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.Contact-info strong {
+  display: block;
+  color: white;
+  font-size: 1rem;
+}
+
+@media (max-width: 1080px) {
+  .About-card,
+  .Skill-grid,
+  .Project-grid,
+  .Contact-info {
+    grid-template-columns: 1fr;
+  }
+
+  .Hero-content {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 720px) {
+  .Hero {
+    padding: 60px 16px 24px;
+  }
+
+  .Hero-title {
+    font-size: 2.6rem;
+  }
+
+  .Hero-actions,
+  .Project-actions {
+    flex-direction: column;
+  }
+
+  .Hero-btn,
+  .Project-btn,
+  .Project-link,
+  .Skill-demo {
+    width: 100%;
+  }
+}
