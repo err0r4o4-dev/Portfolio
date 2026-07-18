@@ -189,11 +189,25 @@ export default function Home() {
   useEffect(() => {
     const revealElements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const root = document.documentElement;
+
+    const revealHashTarget = () => {
+      if (!window.location.hash) return;
+
+      const target = document.querySelector(window.location.hash);
+      target?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
+        element.classList.add("is-visible");
+      });
+    };
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       revealElements.forEach((element) => element.classList.add("is-visible"));
       return;
     }
+
+    root.classList.add("reveal-enabled");
+    revealHashTarget();
+    window.addEventListener("hashchange", revealHashTarget);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -208,7 +222,11 @@ export default function Home() {
     );
 
     revealElements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("hashchange", revealHashTarget);
+      root.classList.remove("reveal-enabled");
+    };
   }, []);
 
   return (
