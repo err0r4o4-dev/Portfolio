@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import profilePortrait from "../assets/thirawat-portrait.jpg";
+import profileMomentOne from "../assets/profile-moment-01.jpg";
+import profileMomentTwo from "../assets/profile-moment-02.jpg";
+import profileMomentThree from "../assets/profile-moment-03.jpg";
+import profileMomentFour from "../assets/profile-moment-04.jpg";
 import "../styles/Home.css";
+
+const profileMoments = [profileMomentOne, profileMomentTwo, profileMomentThree, profileMomentFour];
 
 const skillGroups = {
   en: [
@@ -107,6 +113,11 @@ const content = {
     profileTitle: "This is where I keep the story behind what I make.",
     profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
     profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
+    momentsLabel: "Profile moments",
+    momentsTitle: "A few frames from life outside the code.",
+    momentsIntro: "Four small snapshots, kept here as part of the person behind the projects.",
+    nextPhoto: "Next photo",
+    momentAlt: "Personal portrait of Thirawat",
     workIndex: "02 / Archive",
     workTitle: "Selected things I’ve made.",
     workIntro: "Coursework, independent builds and competition work across health, hospitality and immersive technology.",
@@ -149,6 +160,11 @@ const content = {
     profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
     profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
     profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
+    momentsLabel: "ภาพของฉัน",
+    momentsTitle: "ช่วงเวลานอกเหนือจากการเขียนโค้ด",
+    momentsIntro: "ภาพเล็ก ๆ สี่ภาพที่บันทึกตัวตนของคนที่อยู่เบื้องหลังทุกโปรเจกต์",
+    nextPhoto: "ภาพถัดไป",
+    momentAlt: "ภาพถ่ายส่วนตัวของธีรวัฒน์",
     workIndex: "02 / คลังผลงาน",
     workTitle: "สิ่งที่ผมเคยสร้าง",
     workIntro: "ผลงานจากการเรียน โปรเจกต์ส่วนตัว และการแข่งขัน ครอบคลุมด้านสุขภาพ โรงแรม และเทคโนโลยีโลกเสมือน",
@@ -182,9 +198,28 @@ const content = {
 export default function Home() {
   const { language } = useLanguage();
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
+  const [profileMomentIndex, setProfileMomentIndex] = useState(0);
+  const [isProfileCarouselPaused, setIsProfileCarouselPaused] = useState(false);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
+  const visibleProfileMoments = Array.from(
+    { length: 3 },
+    (_, offset) => ({
+      image: profileMoments[(profileMomentIndex + offset) % profileMoments.length],
+      number: ((profileMomentIndex + offset) % profileMoments.length) + 1,
+    }),
+  );
+
+  useEffect(() => {
+    if (isProfileCarouselPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = window.setInterval(() => {
+      setProfileMomentIndex((current) => (current + 1) % profileMoments.length);
+    }, 4200);
+
+    return () => window.clearInterval(timer);
+  }, [isProfileCarouselPaused]);
 
   useEffect(() => {
     const revealElements = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -261,6 +296,45 @@ export default function Home() {
         <div className="Intro-grid" data-reveal>
           <h2>{copy.profileTitle}</h2>
           <div className="Intro-copy"><p>{copy.profileOne}</p><p>{copy.profileTwo}</p></div>
+        </div>
+        <div
+          className="Profile-carousel"
+          data-reveal
+          onMouseEnter={() => setIsProfileCarouselPaused(true)}
+          onMouseLeave={() => setIsProfileCarouselPaused(false)}
+          onFocusCapture={() => setIsProfileCarouselPaused(true)}
+          onBlurCapture={() => setIsProfileCarouselPaused(false)}
+        >
+          <div className="Profile-carousel-heading">
+            <div>
+              <p className="Profile-carousel-label">{copy.momentsLabel}</p>
+              <h3>{copy.momentsTitle}</h3>
+              <p>{copy.momentsIntro}</p>
+            </div>
+            <button
+              className="Profile-carousel-next"
+              type="button"
+              onClick={() => setProfileMomentIndex((current) => (current + 1) % profileMoments.length)}
+              aria-label={copy.nextPhoto}
+            >
+              <span>{copy.nextPhoto}</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div className="Profile-carousel-grid">
+            {visibleProfileMoments.map((moment, position) => (
+              <figure className="Profile-moment" key={`${profileMomentIndex}-${moment.number}`}>
+                <img src={moment.image} alt={`${copy.momentAlt} ${moment.number}`} />
+                <figcaption>
+                  <span>0{moment.number}</span>
+                  <span>{position === 0 ? copy.momentsLabel : "Thirawat Duangta"}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="Profile-carousel-progress" aria-hidden="true">
+            {profileMoments.map((_, index) => <span className={index === profileMomentIndex ? "is-active" : ""} key={index} />)}
+          </div>
         </div>
       </section>
 
