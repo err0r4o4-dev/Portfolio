@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
+import ProjectCover from "../components/ProjectCover";
 import profileMomentOne from "../assets/profile-moment-01.jpg";
 import profileMomentTwo from "../assets/profile-moment-02.jpg";
 import profileMomentThree from "../assets/profile-moment-03.jpg";
@@ -29,16 +30,17 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "SugarFulit",
       subtitle: "Android application",
-      image: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "SF",
+      coverNumber: "01",
       description: "An Android application that presents sugar-content information in fruit, helping people with diabetes and anyone who wants to manage their sugar intake.",
       techStack: ["Java", "XML", "Android Studio", "UX/UI"],
       features: ["Designed and implemented the user experience and interface", "Developed the application across the full stack", "Focused the product on clear, accessible nutrition information"],
-      apkUrl: "/downloads/sugar-fruits.apk",
     },
     {
       title: "BrainFit",
       subtitle: "Mobile application",
-      image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "BF",
+      coverNumber: "02",
       description: "A mobile application created to help reduce the risk of Alzheimer's disease through accessible cognitive activities and a simple mobile experience.",
       techStack: ["React Native", "JSX", "Google Sheets API", "UX/UI"],
       features: ["Developed the application with React Native", "Built the backend and supported frontend layout implementation", "Designed the data structure and integrated Google Sheets API"],
@@ -46,7 +48,8 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "Grande Galaxy Hotel",
       subtitle: "Full-stack web application",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "GG",
+      coverNumber: "03",
       description: "A complete hotel booking experience covering room search, reservations, online payments, room availability and an operational management dashboard.",
       techStack: ["Full-stack", "MariaDB", "Database design", "UX/UI"],
       features: ["Contributed to the UX/UI design", "Developed the complete full-stack application", "Designed and implemented the MariaDB database schema"],
@@ -54,7 +57,8 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "SWU Metaverse",
       subtitle: "Competition project · 3rd place",
-      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "SM",
+      coverNumber: "04",
       description: "A virtual Srinakharinwirot University environment developed for the SWU Metaverse Competition, earning 3rd place and an invitation to join Metaverse training workshops.",
       techStack: ["Unity", "C#", "Blender", "3D optimisation"],
       features: ["Developed the player system in Unity with C#", "Modelled university buildings in Blender", "Imported and optimised 3D assets for the Metaverse environment"],
@@ -64,16 +68,17 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "SugarFulit",
       subtitle: "แอปพลิเคชัน Android",
-      image: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "SF",
+      coverNumber: "01",
       description: "แอปพลิเคชันที่ให้ข้อมูลปริมาณน้ำตาลในผลไม้ เพื่อช่วยผู้ป่วยเบาหวานและผู้ที่ต้องการควบคุมปริมาณน้ำตาลในแต่ละวัน",
       techStack: ["Java", "XML", "Android Studio", "UX/UI"],
       features: ["ออกแบบและพัฒนา UX/UI", "รับผิดชอบการพัฒนาแอปพลิเคชันแบบ Full-stack", "ออกแบบการนำเสนอข้อมูลโภชนาการให้ชัดเจนและเข้าถึงง่าย"],
-      apkUrl: "/downloads/sugar-fruits.apk",
     },
     {
       title: "BrainFit",
       subtitle: "โมบายแอปพลิเคชัน",
-      image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "BF",
+      coverNumber: "02",
       description: "แอปพลิเคชันมือถือที่พัฒนาขึ้นเพื่อช่วยลดความเสี่ยงของโรคอัลไซเมอร์ ผ่านกิจกรรมฝึกสมองที่เข้าถึงง่ายและประสบการณ์ใช้งานที่ไม่ซับซ้อน",
       techStack: ["React Native", "JSX", "Google Sheets API", "UX/UI"],
       features: ["พัฒนาแอปพลิเคชันด้วย React Native", "พัฒนาระบบ Backend และสนับสนุนการวาง Layout ฝั่ง Frontend", "ออกแบบโครงสร้างข้อมูลและเชื่อมต่อ Google Sheets API"],
@@ -81,7 +86,8 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "Grande Galaxy Hotel",
       subtitle: "เว็บแอปพลิเคชัน Full-stack",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "GG",
+      coverNumber: "03",
       description: "ระบบจองโรงแรมที่ครอบคลุมการค้นหาห้อง การจอง ชำระเงิน ตรวจสอบห้องว่าง และแดชบอร์ดสำหรับบริหารจัดการโรงแรม",
       techStack: ["Full-stack", "MariaDB", "Database design", "UX/UI"],
       features: ["มีส่วนร่วมในการออกแบบ UX/UI", "รับผิดชอบการพัฒนาเว็บแบบ Full-stack ทั้งระบบ", "ออกแบบและพัฒนาโครงสร้างฐานข้อมูล MariaDB"],
@@ -89,7 +95,8 @@ const projects: Record<"en" | "th", Project[]> = {
     {
       title: "SWU Metaverse",
       subtitle: "ผลงานประกวด · รางวัลอันดับ 3",
-      image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=1200&q=85",
+      coverCode: "SM",
+      coverNumber: "04",
       description: "โลกเสมือนของมหาวิทยาลัยศรีนครินทรวิโรฒสำหรับการแข่งขัน SWU Metaverse ได้รับรางวัลอันดับ 3 และได้รับเชิญให้เข้าร่วมกิจกรรมอบรมด้าน Metaverse",
       techStack: ["Unity", "C#", "Blender", "3D optimisation"],
       features: ["พัฒนาระบบผู้เล่นใน Unity ด้วย C#", "สร้างโมเดลอาคารมหาวิทยาลัยด้วย Blender", "นำเข้าและปรับแต่ง 3D Asset ให้เหมาะกับสภาพแวดล้อม Metaverse"],
@@ -196,6 +203,7 @@ export default function Home() {
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
+  const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
   const visibleProfileMoments = Array.from(
     { length: 3 },
     (_, offset) => ({
@@ -326,7 +334,12 @@ export default function Home() {
           {localizedProjects.map((project, index) => (
             <article key={project.title} className="Project-card" data-reveal>
               <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
-                <img src={project.image} alt="" />
+                <ProjectCover
+                  title={project.title}
+                  subtitle={project.subtitle}
+                  code={project.coverCode}
+                  number={project.coverNumber}
+                />
                 <span className="Project-number">0{index + 1}</span>
                 <span className="Project-open" aria-hidden="true">↗</span>
               </button>
@@ -404,7 +417,7 @@ export default function Home() {
         </div>
       </section>
 
-      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProjectTitle(null)} />}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={closeSelectedProject} />}
     </main>
   );
 }
