@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
+import profilePortrait from "../assets/thirawat-portrait.jpg";
 import "../styles/Home.css";
 
 const skillGroups = {
@@ -98,7 +99,7 @@ const content = {
     heroIntroStart: "I’m",
     heroIntroEnd: "a Computer Engineering student focused on full-stack and mobile development. I turn practical problems into clear, usable products.",
     explore: "Explore my work",
-    download: "Download résumé",
+    download: "Download CV",
     location: "Based in Thailand",
     focus: "Frontend · Backend · Mobile",
     status: "Open to internship opportunities",
@@ -128,7 +129,7 @@ const content = {
     heroIntroStart: "ผมคือ",
     heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สนใจการพัฒนา Full-stack และ Mobile ผมเปลี่ยนปัญหาจริงให้เป็นผลิตภัณฑ์ที่ชัดเจนและใช้งานง่าย",
     explore: "ดูผลงานของฉัน",
-    download: "ดาวน์โหลดเรซูเม่",
+    download: "ดาวน์โหลด CV",
     location: "อยู่ในประเทศไทย",
     focus: "Frontend · Backend · Mobile",
     status: "กำลังมองหาโอกาสฝึกงาน",
@@ -175,7 +176,13 @@ export default function Home() {
             </div>
           </div>
           <aside className="Hero-profile" aria-label="Profile summary">
-            <p className="Hero-monogram" aria-hidden="true">TD</p>
+            <div className="Hero-portrait">
+              <img
+                src={profilePortrait}
+                alt={language === "th" ? "ภาพถ่ายของธีรวัฒน์ ดวงตา" : "Portrait of Thirawat Duangta"}
+              />
+              <span className="Hero-portrait-code" aria-hidden="true">&lt;/&gt;</span>
+            </div>
             <div className="Hero-profile-copy"><span>{copy.location}</span><strong>{copy.focus}</strong></div>
             <div className="Hero-availability"><span aria-hidden="true">●</span><strong>{copy.status}</strong></div>
           </aside>

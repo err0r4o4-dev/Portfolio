@@ -1,7 +1,8 @@
 .Header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); background: rgba(7,16,28,.86); backdrop-filter: blur(18px); }
 .Header-container { width: min(100% - 48px, 1240px); min-height: 4.5rem; margin: auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
 .Header-brand { display: flex; align-items: center; gap: .75rem; font-weight: 650; letter-spacing: -.02em; }
-.Header-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent); color: #06111e; font: 600 .65rem/1 var(--mono); }
+.Header-mark { display: block; width: 2.35rem; height: 2.35rem; overflow: hidden; border: 1px solid rgba(38,151,255,.55); border-radius: .45rem; background: white; box-shadow: 0 0 18px rgba(38,151,255,.2); }
+.Header-mark img { width: 100%; height: 100%; object-fit: cover; }
 .Header-nav { display: flex; gap: 2rem; color: var(--muted); font-size: .8rem; }
 .Header-nav a, .Header-cv { transition: color .2s ease; }
 .Header-nav a:hover, .Header-cv:hover { color: var(--accent); }
