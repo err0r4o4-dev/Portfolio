@@ -2,86 +2,75 @@ import { useState } from "react";
 import "../styles/Home.css";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 
-const skillCards = [
-  {
-    title: "Frontend",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-  },
-  {
-    title: "Backend",
-    items: ["Node.js", "Express", "Spring Boot", "PostgreSQL"],
-  },
-  {
-    title: "Mobile",
-    items: ["React Native", "Flutter", "Android Kotlin"],
-  },
-  {
-    title: "Tools",
-    items: ["Git", "Postman", "Figma", "Docker"],
-  },
+const skillGroups = [
+  { title: "Languages", items: ["JavaScript", "Java", "Python", "C#", "C", "Lua", "Dart", "HTML / CSS", "XML"] },
+  { title: "Frameworks", items: ["React", "React Native", "Next.js", "Express.js", "Flutter", "Bootstrap"] },
+  { title: "Data & tools", items: ["MySQL", "MariaDB", "GitHub", "Android Studio", "Figma"] },
+  { title: "Creative tech", items: ["Unity", "Blender", "UX/UI design", "3D modelling"] },
 ];
 
-const projectCards: Project[] = [
+const projects: Project[] = [
   {
-    title: "Grande Galaxy Hotel",
-    subtitle: "Full-Stack Web App",
-    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
-    description: "ระบบจองห้องพักโรงแรมแบบครบวงจร มีระบบชำระเงิน ตรวจสอบสถานะห้องพักแบบ Real-time และแดชบอร์ดจัดการจองสำหรับผู้ดูแลระบบ",
-    techStack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    title: "SugarFulit",
+    subtitle: "Android application",
+    image: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=1200&q=85",
+    description: "An Android application that presents sugar-content information in fruit, helping people with diabetes and anyone who wants to manage their sugar intake.",
+    techStack: ["Java", "XML", "Android Studio", "UX/UI"],
     features: [
-      "ระบบจองห้องพักและชำระเงินออนไลน์สมบูรณ์แบบ",
-      "ระบบส่งอีเมลแจ้งยืนยันการจองอัตโนมัติ",
-      "แดชบอร์ดสรุปยอดขายและอัตราการเข้าพักสำหรับ Admin",
-      "การดีไซน์แบบ Responsive รองรับการจองผ่านมือถือ"
-    ],
-    webDemoUrl: "https://example.com/grande-galaxy",
-    githubUrl: "https://github.com/example/grande-galaxy-hotel"
-  },
-  {
-    title: "Sugar Fruits",
-    subtitle: "Android App",
-    image: "https://images.unsplash.com/photo-1510627498534-cf7e9002facc?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันมือถือสำหรับสั่งซื้อผลไม้ออร์แกนิกเดลิเวอรี่ พร้อมระบบตรวจสอบความสดใหม่และจำแนกประเภทผลไม้ด้วยกล้อง AI",
-    techStack: ["Kotlin", "Jetpack Compose", "TensorFlow Lite", "Firebase"],
-    features: [
-      "สแกนและวิเคราะห์ความสุกของผลไม้แบบเรียลไทม์ด้วย AI",
-      "ระบบชำระเงินผ่าน Mobile Banking และ QR Code",
-      "ติดตามพิกัดของไรเดอร์ผู้จัดส่งแบบ Real-time บนแผนที่",
-      "ระบบสะสมแต้มสมาชิกเพื่อแลกส่วนลดพิเศษ"
+      "Designed and implemented the user experience and interface",
+      "Developed the application across the full stack",
+      "Focused the product on clear, accessible nutrition information",
     ],
     apkUrl: "/downloads/sugar-fruits.apk",
-    githubUrl: "https://github.com/example/sugar-fruits-android"
   },
   {
     title: "BrainFit",
-    subtitle: "React Native App",
-    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันฝึกสมองและพัฒนาความจำสำหรับผู้สูงอายุ มีมินิเกมด่านต่างๆ ระบบบันทึกคะแนนรายวัน และแบบประเมินสุขภาพสมอง",
-    techStack: ["React Native", "Expo", "Redux Toolkit", "SQLite", "Node.js"],
+    subtitle: "Mobile application",
+    image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85",
+    description: "A mobile application created to help reduce the risk of Alzheimer's disease through accessible cognitive activities and a simple mobile experience.",
+    techStack: ["React Native", "JSX", "Google Sheets API", "UX/UI"],
     features: [
-      "มินิเกมฝึกความจำ ตรรกะ และการคิดคำนวณมากกว่า 10 เกม",
-      "ระบบบันทึกสถิติและคะแนนสะสมรายวันเพื่อดูพัฒนาการ",
-      "ฟังก์ชันตั้งเวลาเตือนทำกิจกรรมฝึกสมองตามกำหนด",
-      "รองรับการใช้งานออฟไลน์ บันทึกข้อมูลลงฐานข้อมูลในเครื่อง"
+      "Developed the application with React Native",
+      "Built the backend and supported frontend layout implementation",
+      "Designed the data structure and integrated Google Sheets API",
     ],
-    apkUrl: "/downloads/brainfit-app.apk",
-    githubUrl: "https://github.com/example/brainfit-app"
   },
   {
-    title: "News24",
-    subtitle: "Flutter App",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันข่าวสารอัจฉริยะที่รวบรวมเนื้อหาจากสำนักข่าวชั้นนำทั่วโลก พร้อมระบบสรุปประเด็นข่าวที่สำคัญด้วย AI สั้นกระชับเข้าใจง่าย",
-    techStack: ["Flutter", "Dart", "OpenAI API", "SQLite", "Bloc Pattern"],
+    title: "Grande Galaxy Hotel",
+    subtitle: "Full-stack web application",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",
+    description: "A complete hotel booking experience covering room search, reservations, online payments, room availability and an operational management dashboard.",
+    techStack: ["Full-stack", "MariaDB", "Database design", "UX/UI"],
     features: [
-      "ระบบย่อยข่าว/สรุปข่าวอัตโนมัติด้วย AI ภายใน 3 บรรทัด",
-      "บุ๊กมาร์กข่าวสารไว้อ่านออฟไลน์ได้โดยไม่ต้องเชื่อมต่อเน็ต",
-      "ระบบกรองและนำเสนอข่าวสารแนะนำตามความสนใจของผู้ใช้",
-      "ระบบแจ้งเตือนแบบ Push Notification ทันทีที่มีข่าวด่วน"
+      "Contributed to the UX/UI design",
+      "Developed the complete full-stack application",
+      "Designed and implemented the MariaDB database schema",
     ],
-    apkUrl: "/downloads/news24-app.apk",
-    webDemoUrl: "https://example.com/news24-web",
-    githubUrl: "https://github.com/example/news24-flutter"
+  },
+  {
+    title: "SWU Metaverse",
+    subtitle: "Competition project · 3rd place",
+    image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=1200&q=85",
+    description: "A virtual Srinakharinwirot University environment developed for the SWU Metaverse Competition, earning 3rd place and an invitation to join Metaverse training workshops.",
+    techStack: ["Unity", "C#", "Blender", "3D optimisation"],
+    features: [
+      "Developed the player system in Unity with C#",
+      "Modelled university buildings in Blender",
+      "Imported and optimised 3D assets for the Metaverse environment",
+    ],
+  },
+];
+
+const experience = [
+  {
+    period: "2025 — Present",
+    title: "FiveM server development",
+    detail: "Developing and maintaining a custom server across Lua scripting, web-based interfaces, debugging and performance optimisation.",
+  },
+  {
+    period: "2024 — Present",
+    title: "Computer Engineering, Srinakharinwirot University",
+    detail: "Second-year student building a strong foundation across frontend, backend and database development. Current GPAX: 3.83 / 4.00.",
   },
 ];
 
@@ -89,138 +78,122 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <main className="Home">
+    <main id="main-content" className="Home">
       <section className="Hero" id="home">
         <div className="Hero-content">
-          <div>
-            <p className="Hero-label">About Me</p>
-            <h1 className="Hero-title">I’m a passionate developer building web and mobile applications.</h1>
-            <p className="Hero-text">
-              I specialize in React, Node.js, and Flutter. Always eager to learn new technologies and solve challenging problems.
+          <div className="Hero-copy">
+            <p className="Eyebrow"><span /> Available for an internship</p>
+            <h1>Building thoughtful software, from interface to infrastructure.</h1>
+            <p className="Hero-intro">
+              I’m <strong>Thirawat Duangta</strong>, a Computer Engineering student focused on full-stack and mobile development. I turn practical problems into clear, usable products.
             </p>
             <div className="Hero-actions">
-              <a href="#projects" className="Hero-btn Hero-btn-primary">View Projects</a>
-              <a href="#contact" className="Hero-btn Hero-btn-outline">Contact Me</a>
+              <a href="#projects" className="Button Button-primary">Explore my work</a>
+              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Text-link">Download résumé <span aria-hidden="true">↘</span></a>
             </div>
+          </div>
+
+          <aside className="Hero-profile" aria-label="Profile summary">
+            <p className="Hero-monogram" aria-hidden="true">TD</p>
+            <div className="Hero-profile-copy">
+              <span>Based in Thailand</span>
+              <strong>Frontend · Backend · Mobile</strong>
+            </div>
+            <div className="Hero-stat">
+              <strong>3.83</strong>
+              <span>GPAX / 4.00</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className="Intro Section" id="about">
+        <div className="Section-index">01 / Profile</div>
+        <div className="Intro-grid">
+          <h2>I care about how a product works—and how it feels to use.</h2>
+          <div className="Intro-copy">
+            <p>I’m seeking an internship where I can contribute to real software while learning from an experienced team.</p>
+            <p>My work spans web, mobile, databases and interactive 3D. I enjoy analysing a problem, proposing a direct solution and carrying it through implementation.</p>
           </div>
         </div>
       </section>
 
-      <section className="About" id="about">
-        <div className="About-card">
-          <div className="About-image" />
-          <div className="About-text">
-            <h2>About Me</h2>
-            <p className="About-description">
-              I’m a passionate developer with experience building web and mobile applications.
-              I specialize in React, Node.js, and Flutter.
-            </p>
-            <p>
-              Always eager to learn new technologies and solve challenging problems.
-            </p>
+      <section className="Projects Section" id="projects">
+        <div className="Section-heading">
+          <div>
+            <div className="Section-index">02 / Selected work</div>
+            <h2>Projects with a clear purpose.</h2>
           </div>
-        </div>
-      </section>
-
-      <section className="Skills" id="skills">
-        <div className="Section-header">
-          <h2>Skills</h2>
-          <p>Strong skill set across frontend, backend, mobile, and developer tools.</p>
+          <p>Coursework and independent builds across health, hospitality and immersive technology.</p>
         </div>
 
-        <div className="Skill-grid">
-          {skillCards.map((card) => (
-            <div key={card.title} className="Skill-card">
-              <h3>{card.title}</h3>
-              <div className="Skill-items">
-                {card.items.map((item) => (
-                  <span key={item} className="Skill-item">{item}</span>
-                ))}
-              </div>
-              <a href="#projects" className="Skill-demo">Live Demo</a>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="Projects" id="projects">
-        <div className="Section-header">
-          <h2>My Projects</h2>
-          <p>Selected projects showcasing web and mobile experiences with modern design.</p>
-        </div>
-
-        <div className="Project-grid">
-          {projectCards.map((project) => (
-            <article 
-              key={project.title} 
-              className="Project-card"
-              onClick={() => setSelectedProject(project)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="Project-image-container">
-                <img src={project.image} alt={project.title} />
-                <div className="Project-card-overlay">
-                  <span className="Project-card-overlay-btn">ดูรายละเอียดผลงาน</span>
-                </div>
-              </div>
+        <div className="Project-list">
+          {projects.map((project, index) => (
+            <article key={project.title} className="Project-card">
+              <button className="Project-visual" onClick={() => setSelectedProject(project)} aria-label={`View ${project.title} details`}>
+                <img src={project.image} alt="" />
+                <span className="Project-number">0{index + 1}</span>
+                <span className="Project-open" aria-hidden="true">↗</span>
+              </button>
               <div className="Project-copy">
-                <span>{project.subtitle}</span>
+                <span className="Project-type">{project.subtitle}</span>
                 <h3>{project.title}</h3>
-                <p className="Project-card-short-desc">
-                  {project.description.slice(0, 75)}...
-                </p>
-                <div className="Project-actions" onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    onClick={() => setSelectedProject(project)} 
-                    className="Project-btn"
-                  >
-                    View Details
-                  </button>
-                  {project.githubUrl && (
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="Project-link"
-                    >
-                      GitHub
-                    </a>
-                  )}
+                <p>{project.description}</p>
+                <div className="Project-tags">
+                  {project.techStack.map((tech) => <span key={tech}>{tech}</span>)}
                 </div>
+                <button className="Text-link Project-detail" onClick={() => setSelectedProject(project)}>View case details <span aria-hidden="true">→</span></button>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="Contact" id="contact">
+      <section className="Skills Section" id="skills">
+        <div className="Section-heading">
+          <div>
+            <div className="Section-index">03 / Capabilities</div>
+            <h2>A broad foundation, applied with focus.</h2>
+          </div>
+        </div>
+        <div className="Skill-list">
+          {skillGroups.map((group, index) => (
+            <article className="Skill-row" key={group.title}>
+              <span>0{index + 1}</span>
+              <h3>{group.title}</h3>
+              <p>{group.items.join(" · ")}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="Experience Section" id="experience">
+        <div className="Section-index">04 / Experience & education</div>
+        <div className="Experience-list">
+          {experience.map((item) => (
+            <article className="Experience-row" key={item.title}>
+              <span>{item.period}</span>
+              <h3>{item.title}</h3>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="Contact Section" id="contact">
         <div className="Contact-panel">
-          <h2>Contact</h2>
-          <p>Ready to work together? Send me a message and I will respond as soon as possible.</p>
-          <div className="Contact-info">
-            <div>
-              <span>Email</span>
-              <strong>youname@email.com</strong>
-            </div>
-            <div>
-              <span>GitHub</span>
-              <strong>github.com/yourname</strong>
-            </div>
-            <div>
-              <span>LinkedIn</span>
-              <strong>linkedin.com/in/yourprofile</strong>
-            </div>
+          <p className="Eyebrow"><span /> Let’s build something useful</p>
+          <h2>Have an internship or project in mind?</h2>
+          <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">title.thirawat.dev@gmail.com <span aria-hidden="true">↗</span></a>
+          <div className="Contact-meta">
+            <a href="tel:+66615071665">+66 61 507 1665</a>
+            <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span>Thailand · ICT (UTC+7)</span>
           </div>
         </div>
       </section>
 
-      {/* Render interactive project detail modal */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </main>
   );
 }
