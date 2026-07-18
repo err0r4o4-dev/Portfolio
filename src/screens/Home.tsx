@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
-import profilePortrait from "../assets/thirawat-portrait.jpg";
 import profileMomentOne from "../assets/profile-moment-01.jpg";
 import profileMomentTwo from "../assets/profile-moment-02.jpg";
 import profileMomentThree from "../assets/profile-moment-03.jpg";
@@ -113,9 +112,6 @@ const content = {
     profileTitle: "This is where I keep the story behind what I make.",
     profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
     profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
-    momentsLabel: "Profile moments",
-    momentsTitle: "A few frames from life outside the code.",
-    momentsIntro: "Four small snapshots, kept here as part of the person behind the projects.",
     nextPhoto: "Next photo",
     momentAlt: "Personal portrait of Thirawat",
     workIndex: "02 / Archive",
@@ -160,9 +156,6 @@ const content = {
     profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
     profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
     profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
-    momentsLabel: "ภาพของฉัน",
-    momentsTitle: "ช่วงเวลานอกเหนือจากการเขียนโค้ด",
-    momentsIntro: "ภาพเล็ก ๆ สี่ภาพที่บันทึกตัวตนของคนที่อยู่เบื้องหลังทุกโปรเจกต์",
     nextPhoto: "ภาพถัดไป",
     momentAlt: "ภาพถ่ายส่วนตัวของธีรวัฒน์",
     workIndex: "02 / คลังผลงาน",
@@ -277,12 +270,37 @@ export default function Home() {
               <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Text-link">{copy.download} <span aria-hidden="true">↘</span></a>
             </div>
           </div>
-          <aside className="Hero-profile" aria-label="Profile summary">
+          <aside
+            className="Hero-profile"
+            aria-label="Profile summary"
+            onMouseEnter={() => setIsProfileCarouselPaused(true)}
+            onMouseLeave={() => setIsProfileCarouselPaused(false)}
+            onFocusCapture={() => setIsProfileCarouselPaused(true)}
+            onBlurCapture={() => setIsProfileCarouselPaused(false)}
+          >
             <div className="Hero-portrait">
-              <img
-                src={profilePortrait}
-                alt={language === "th" ? "ภาพถ่ายของธีรวัฒน์ ดวงตา" : "Portrait of Thirawat Duangta"}
-              />
+              <button
+                className="Hero-photo-stage"
+                type="button"
+                onClick={() => setProfileMomentIndex((current) => (current + 1) % profileMoments.length)}
+                aria-label={copy.nextPhoto}
+              >
+                <img
+                  className="Hero-photo-main"
+                  key={`main-${profileMomentIndex}`}
+                  src={visibleProfileMoments[0].image}
+                  alt={`${copy.momentAlt} ${visibleProfileMoments[0].number}`}
+                />
+                <span className="Hero-photo-previews" aria-hidden="true">
+                  {visibleProfileMoments.slice(1).map((moment) => (
+                    <img key={`${profileMomentIndex}-${moment.number}`} src={moment.image} alt="" />
+                  ))}
+                </span>
+                <span className="Hero-photo-count" aria-hidden="true">
+                  0{visibleProfileMoments[0].number} / 0{profileMoments.length}
+                </span>
+                <span className="Hero-photo-next" aria-hidden="true">→</span>
+              </button>
               <span className="Hero-portrait-code" aria-hidden="true">&lt;/&gt;</span>
             </div>
             <div className="Hero-profile-copy"><span>{copy.location}</span><strong>{copy.focus}</strong></div>
@@ -296,45 +314,6 @@ export default function Home() {
         <div className="Intro-grid" data-reveal>
           <h2>{copy.profileTitle}</h2>
           <div className="Intro-copy"><p>{copy.profileOne}</p><p>{copy.profileTwo}</p></div>
-        </div>
-        <div
-          className="Profile-carousel"
-          data-reveal
-          onMouseEnter={() => setIsProfileCarouselPaused(true)}
-          onMouseLeave={() => setIsProfileCarouselPaused(false)}
-          onFocusCapture={() => setIsProfileCarouselPaused(true)}
-          onBlurCapture={() => setIsProfileCarouselPaused(false)}
-        >
-          <div className="Profile-carousel-heading">
-            <div>
-              <p className="Profile-carousel-label">{copy.momentsLabel}</p>
-              <h3>{copy.momentsTitle}</h3>
-              <p>{copy.momentsIntro}</p>
-            </div>
-            <button
-              className="Profile-carousel-next"
-              type="button"
-              onClick={() => setProfileMomentIndex((current) => (current + 1) % profileMoments.length)}
-              aria-label={copy.nextPhoto}
-            >
-              <span>{copy.nextPhoto}</span>
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <div className="Profile-carousel-grid">
-            {visibleProfileMoments.map((moment, position) => (
-              <figure className="Profile-moment" key={`${profileMomentIndex}-${moment.number}`}>
-                <img src={moment.image} alt={`${copy.momentAlt} ${moment.number}`} />
-                <figcaption>
-                  <span>0{moment.number}</span>
-                  <span>{position === 0 ? copy.momentsLabel : "Thirawat Duangta"}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="Profile-carousel-progress" aria-hidden="true">
-            {profileMoments.map((_, index) => <span className={index === profileMomentIndex ? "is-active" : ""} key={index} />)}
-          </div>
         </div>
       </section>
 
