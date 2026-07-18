@@ -94,63 +94,87 @@ const projects: Record<"en" | "th", Project[]> = {
 
 const content = {
   en: {
-    available: "Available for an internship",
-    heroTitle: "Building thoughtful software, from interface to infrastructure.",
+    available: "Personal archive · 2026",
+    heroTitle: "Things I build, learn, and care about.",
     heroIntroStart: "I’m",
-    heroIntroEnd: "a Computer Engineering student focused on full-stack and mobile development. I turn practical problems into clear, usable products.",
-    explore: "Explore my work",
+    heroIntroEnd: "a Computer Engineering student documenting my work across software, mobile experiences, interactive worlds, and the ideas I pick up along the way.",
+    explore: "Explore the archive",
     download: "Download CV",
     location: "Based in Thailand",
     focus: "Frontend · Backend · Mobile",
-    status: "Open to internship opportunities",
+    status: "Learning, building, documenting",
     profileIndex: "01 / Profile",
-    profileTitle: "I care about how a product works—and how it feels to use.",
-    profileOne: "I’m seeking an internship where I can contribute to real software while learning from an experienced team.",
-    profileTwo: "My work spans web, mobile, databases and interactive 3D. I enjoy analysing a problem, proposing a direct solution and carrying it through implementation.",
-    workIndex: "02 / Selected work",
-    workTitle: "Projects with a clear purpose.",
-    workIntro: "Coursework and independent builds across health, hospitality and immersive technology.",
+    profileTitle: "This is where I keep the story behind what I make.",
+    profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
+    profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
+    workIndex: "02 / Archive",
+    workTitle: "Selected things I’ve made.",
+    workIntro: "Coursework, independent builds and competition work across health, hospitality and immersive technology.",
     viewProject: "View project details",
     viewCase: "View case details",
-    skillsIndex: "03 / Capabilities",
-    skillsTitle: "A broad foundation, applied with focus.",
-    experienceIndex: "04 / Experience & education",
+    skillsIndex: "03 / Toolkit",
+    skillsTitle: "Tools I use to turn ideas into working things.",
+    experienceIndex: "04 / Journey",
     experience: [
       { period: "2025 — Present", title: "FiveM server development", detail: "Developing and maintaining a custom server across Lua scripting, web-based interfaces, debugging and performance optimisation." },
       { period: "2024 — Present", title: "Computer Engineering, Srinakharinwirot University", detail: "Second-year student building a strong foundation across frontend, backend and database development." },
     ],
-    contactLabel: "Let’s build something useful",
-    contactTitle: "Have an internship or project in mind?",
+    nowIndex: "05 / Now",
+    nowTitle: "What I’m exploring right now.",
+    nowIntro: "A living snapshot of the subjects and practices currently holding my attention.",
+    nowItems: [
+      { label: "Building", title: "Personal software projects", detail: "Turning small, practical ideas into complete web and mobile experiences." },
+      { label: "Learning", title: "TypeScript & backend architecture", detail: "Improving how I structure reliable applications and connect their moving parts." },
+      { label: "Exploring", title: "Interactive 3D experiences", detail: "Combining Unity, Blender and code to create spaces people can move through." },
+    ],
+    contactIndex: "06 / Contact",
+    contactTitle: "Let’s connect.",
+    contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
+    phoneLabel: "Phone",
+    githubLabel: "GitHub",
+    locationLabel: "Location",
     timezone: "Thailand · ICT (UTC+7)",
   },
   th: {
-    available: "พร้อมสำหรับโอกาสฝึกงาน",
-    heroTitle: "พัฒนาซอฟต์แวร์ที่ใส่ใจ ตั้งแต่หน้าจอจนถึงระบบเบื้องหลัง",
+    available: "คลังข้อมูลส่วนตัว · 2026",
+    heroTitle: "สิ่งที่ผมสร้าง เรียนรู้ และให้ความสนใจ",
     heroIntroStart: "ผมคือ",
-    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สนใจการพัฒนา Full-stack และ Mobile ผมเปลี่ยนปัญหาจริงให้เป็นผลิตภัณฑ์ที่ชัดเจนและใช้งานง่าย",
-    explore: "ดูผลงานของฉัน",
+    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่บันทึกผลงานด้านซอฟต์แวร์ โมบาย โลกเสมือน และสิ่งใหม่ที่ได้เรียนรู้ระหว่างทาง",
+    explore: "สำรวจคลังผลงาน",
     download: "ดาวน์โหลด CV",
     location: "อยู่ในประเทศไทย",
     focus: "Frontend · Backend · Mobile",
-    status: "กำลังมองหาโอกาสฝึกงาน",
+    status: "กำลังเรียนรู้ สร้าง และบันทึก",
     profileIndex: "01 / เกี่ยวกับฉัน",
-    profileTitle: "ผมใส่ใจทั้งการทำงานของผลิตภัณฑ์ และความรู้สึกของผู้ใช้",
-    profileOne: "ผมกำลังมองหาโอกาสฝึกงานที่ได้ร่วมพัฒนาซอฟต์แวร์จริง พร้อมเรียนรู้จากทีมที่มีประสบการณ์",
-    profileTwo: "ผมมีประสบการณ์ทั้งเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive ชอบวิเคราะห์ปัญหา เสนอแนวทางที่ตรงจุด และพัฒนาให้ใช้งานได้จริง",
-    workIndex: "02 / ผลงานที่คัดเลือก",
-    workTitle: "ทุกโปรเจกต์เริ่มจากเป้าหมายที่ชัดเจน",
-    workIntro: "ผลงานจากการเรียนและโปรเจกต์ส่วนตัว ครอบคลุมด้านสุขภาพ โรงแรม และเทคโนโลยีโลกเสมือน",
+    profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
+    profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
+    profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
+    workIndex: "02 / คลังผลงาน",
+    workTitle: "สิ่งที่ผมเคยสร้าง",
+    workIntro: "ผลงานจากการเรียน โปรเจกต์ส่วนตัว และการแข่งขัน ครอบคลุมด้านสุขภาพ โรงแรม และเทคโนโลยีโลกเสมือน",
     viewProject: "ดูรายละเอียด",
     viewCase: "ดูรายละเอียดโปรเจกต์",
-    skillsIndex: "03 / ความสามารถ",
-    skillsTitle: "พื้นฐานที่หลากหลาย พร้อมนำมาใช้แก้ปัญหาอย่างตรงจุด",
-    experienceIndex: "04 / ประสบการณ์และการศึกษา",
+    skillsIndex: "03 / เครื่องมือ",
+    skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
+    experienceIndex: "04 / เส้นทาง",
     experience: [
       { period: "2025 — ปัจจุบัน", title: "การพัฒนาเซิร์ฟเวอร์ FiveM", detail: "พัฒนาและดูแลเซิร์ฟเวอร์ ตั้งแต่เขียนสคริปต์ Lua สร้าง Web UI แก้ไขข้อผิดพลาด และปรับปรุงประสิทธิภาพระบบ" },
       { period: "2024 — ปัจจุบัน", title: "วิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยศรีนครินทรวิโรฒ", detail: "นักศึกษาชั้นปีที่ 2 ที่กำลังสร้างพื้นฐานด้าน Frontend, Backend และการพัฒนาฐานข้อมูล" },
     ],
-    contactLabel: "มาสร้างสิ่งที่มีประโยชน์ร่วมกัน",
-    contactTitle: "มีตำแหน่งฝึกงานหรือโปรเจกต์ที่เหมาะกับผมไหม?",
+    nowIndex: "05 / ช่วงนี้",
+    nowTitle: "สิ่งที่ผมกำลังสำรวจ",
+    nowIntro: "ภาพรวมของเรื่องที่ผมกำลังให้ความสนใจ เรียนรู้ และลงมือทำในช่วงนี้",
+    nowItems: [
+      { label: "กำลังสร้าง", title: "โปรเจกต์ซอฟต์แวร์ส่วนตัว", detail: "นำไอเดียเล็ก ๆ ที่ใช้งานได้จริงมาพัฒนาเป็นประสบการณ์บนเว็บและโมบายให้สมบูรณ์" },
+      { label: "กำลังเรียนรู้", title: "TypeScript และสถาปัตยกรรม Backend", detail: "พัฒนาวิธีออกแบบแอปพลิเคชันให้ดูแลได้ง่าย เชื่อถือได้ และเชื่อมต่อแต่ละส่วนอย่างเป็นระบบ" },
+      { label: "กำลังสำรวจ", title: "ประสบการณ์ Interactive 3D", detail: "ผสมผสาน Unity, Blender และการเขียนโค้ดเพื่อสร้างพื้นที่ที่ผู้ใช้มีส่วนร่วมได้" },
+    ],
+    contactIndex: "06 / ติดต่อ",
+    contactTitle: "มาพูดคุยกัน",
+    contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
+    phoneLabel: "โทรศัพท์",
+    githubLabel: "GitHub",
+    locationLabel: "สถานที่",
     timezone: "ประเทศไทย · ICT (UTC+7)",
   },
 };
@@ -265,15 +289,46 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="Now Section" id="now">
+        <div className="Section-heading" data-reveal>
+          <div><div className="Section-index">{copy.nowIndex}</div><h2>{copy.nowTitle}</h2></div>
+          <p>{copy.nowIntro}</p>
+        </div>
+        <div className="Now-list">
+          {copy.nowItems.map((item, index) => (
+            <article className="Now-row" key={item.title} data-reveal>
+              <span>0{index + 1}</span>
+              <div><small>{item.label}</small><h3>{item.title}</h3></div>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="Contact Section" id="contact">
         <div className="Contact-panel" data-reveal>
-          <p className="Eyebrow"><span /> {copy.contactLabel}</p>
-          <h2>{copy.contactTitle}</h2>
-          <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">title.thirawat.dev@gmail.com <span aria-hidden="true">↗</span></a>
-          <div className="Contact-meta">
-            <a href="tel:+66615071665">+66 61 507 1665</a>
-            <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span>{copy.timezone}</span>
+          <div className="Contact-heading">
+            <p className="Section-index">{copy.contactIndex}</p>
+            <h2>{copy.contactTitle}</h2>
+            <p>{copy.contactIntro}</p>
+          </div>
+          <div className="Contact-details">
+            <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">
+              <span className="Contact-email-arrow" aria-hidden="true">→</span>
+              <strong>title.thirawat.dev@gmail.com</strong>
+            </a>
+            <div className="Contact-row">
+              <span>{copy.phoneLabel}</span>
+              <a href="tel:+66615071665">+66 61 507 1665</a>
+            </div>
+            <div className="Contact-row">
+              <span>{copy.githubLabel}</span>
+              <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">err0r4o4-dev ↗</a>
+            </div>
+            <div className="Contact-row">
+              <span>{copy.locationLabel}</span>
+              <strong>{copy.timezone}</strong>
+            </div>
           </div>
         </div>
       </section>

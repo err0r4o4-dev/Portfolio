@@ -5,7 +5,7 @@
 .Header-mark img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform .35s cubic-bezier(.16,1,.3,1); }
 .Header-brand:hover .Header-mark img { transform: scale(1.16) rotate(-4deg); }
 .Header-brand:active .Header-mark img { transform: scale(1.09) rotate(0); }
-.Header-nav { display: flex; gap: 2rem; color: var(--muted); font-size: .8rem; }
+.Header-nav { display: flex; gap: 1.5rem; color: var(--muted); font-size: .8rem; }
 .Header-nav a, .Header-cv { transition: color .2s ease; }
 .Header-nav a:hover, .Header-cv:hover { color: var(--accent); }
 .Header-actions { justify-self: end; display: flex; align-items: center; gap: 1rem; }

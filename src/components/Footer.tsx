@@ -4,8 +4,8 @@ import "../styles/Footer.css";
 export default function Footer() {
   const { language } = useLanguage();
   const description = language === "th"
-    ? "นักศึกษาวิศวกรรมคอมพิวเตอร์และนักพัฒนาซอฟต์แวร์"
-    : "Computer Engineering student & software developer.";
+    ? "พื้นที่รวบรวมผลงาน การเรียนรู้ และสิ่งที่ผมสนใจ"
+    : "A personal archive of things I build, learn, and care about.";
 
   return (
     <footer className="Footer">

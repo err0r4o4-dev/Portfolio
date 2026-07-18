@@ -3,8 +3,8 @@ import brandLogo from "../assets/thirawat-logo.png";
 import "../styles/Header.css";
 
 const navigation = {
-  en: { profile: "Profile", work: "Work", skills: "Skills", contact: "Contact", resume: "CV", skip: "Skip to content" },
-  th: { profile: "เกี่ยวกับฉัน", work: "ผลงาน", skills: "ทักษะ", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา" },
+  en: { profile: "About", work: "Archive", skills: "Toolkit", journey: "Journey", contact: "Contact", resume: "CV", skip: "Skip to content" },
+  th: { profile: "เกี่ยวกับฉัน", work: "คลังผลงาน", skills: "เครื่องมือ", journey: "เส้นทาง", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา" },
 };
 
 export default function Header() {
@@ -23,6 +23,7 @@ export default function Header() {
           <a href="#about">{copy.profile}</a>
           <a href="#projects">{copy.work}</a>
           <a href="#skills">{copy.skills}</a>
+          <a href="#experience">{copy.journey}</a>
           <a href="#contact">{copy.contact}</a>
         </nav>
         <div className="Header-actions">
