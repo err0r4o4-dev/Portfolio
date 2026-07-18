@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import profilePortrait from "../assets/thirawat-portrait.jpg";
@@ -162,6 +162,31 @@ export default function Home() {
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
 
+  useEffect(() => {
+    const revealElements = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main id="main-content" className="Home">
       <section className="Hero" id="home">
@@ -191,20 +216,20 @@ export default function Home() {
 
       <section className="Intro Section" id="about">
         <div className="Section-index">{copy.profileIndex}</div>
-        <div className="Intro-grid">
+        <div className="Intro-grid" data-reveal>
           <h2>{copy.profileTitle}</h2>
           <div className="Intro-copy"><p>{copy.profileOne}</p><p>{copy.profileTwo}</p></div>
         </div>
       </section>
 
       <section className="Projects Section" id="projects">
-        <div className="Section-heading">
+        <div className="Section-heading" data-reveal>
           <div><div className="Section-index">{copy.workIndex}</div><h2>{copy.workTitle}</h2></div>
           <p>{copy.workIntro}</p>
         </div>
         <div className="Project-list">
           {localizedProjects.map((project, index) => (
-            <article key={project.title} className="Project-card">
+            <article key={project.title} className="Project-card" data-reveal>
               <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
                 <img src={project.image} alt="" />
                 <span className="Project-number">0{index + 1}</span>
@@ -223,10 +248,10 @@ export default function Home() {
       </section>
 
       <section className="Skills Section" id="skills">
-        <div className="Section-heading"><div><div className="Section-index">{copy.skillsIndex}</div><h2>{copy.skillsTitle}</h2></div></div>
+        <div className="Section-heading" data-reveal><div><div className="Section-index">{copy.skillsIndex}</div><h2>{copy.skillsTitle}</h2></div></div>
         <div className="Skill-list">
           {skillGroups[language].map((group, index) => (
-            <article className="Skill-row" key={group.title}><span>0{index + 1}</span><h3>{group.title}</h3><p>{group.items.join(" · ")}</p></article>
+            <article className="Skill-row" key={group.title} data-reveal><span>0{index + 1}</span><h3>{group.title}</h3><p>{group.items.join(" · ")}</p></article>
           ))}
         </div>
       </section>
@@ -235,13 +260,13 @@ export default function Home() {
         <div className="Section-index">{copy.experienceIndex}</div>
         <div className="Experience-list">
           {copy.experience.map((item) => (
-            <article className="Experience-row" key={item.title}><span>{item.period}</span><h3>{item.title}</h3><p>{item.detail}</p></article>
+            <article className="Experience-row" key={item.title} data-reveal><span>{item.period}</span><h3>{item.title}</h3><p>{item.detail}</p></article>
           ))}
         </div>
       </section>
 
       <section className="Contact Section" id="contact">
-        <div className="Contact-panel">
+        <div className="Contact-panel" data-reveal>
           <p className="Eyebrow"><span /> {copy.contactLabel}</p>
           <h2>{copy.contactTitle}</h2>
           <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">title.thirawat.dev@gmail.com <span aria-hidden="true">↗</span></a>
