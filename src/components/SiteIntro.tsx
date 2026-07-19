@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import "../styles/SiteIntro.css";
 
 interface SiteIntroProps {
   onComplete: () => void;
 }
 
-const INTRO_EXIT_DELAY = 2300;
-const INTRO_COMPLETE_DELAY = 3200;
+const WELCOME_TEXT = "WELCOME TO MY";
+const PORTFOLIO_TEXT = "PORTFOLIO WEBSITE";
+const LOADING_TEXT = "THIRAWAT.DEV";
+const INTRO_EXIT_DELAY = 5500;
+const INTRO_COMPLETE_DELAY = 6400;
+
+const renderCharacters = (text: string, keyPrefix: string, stepMilliseconds: number) => (
+  Array.from(text).map((character, index) => (
+    <span
+      className="SiteIntro-character"
+      key={keyPrefix + index}
+      style={{ "--character-delay": index * stepMilliseconds + "ms" } as CSSProperties}
+    >
+      {character === " " ? " " : character}
+    </span>
+  ))
+);
 
 export default function SiteIntro({ onComplete }: SiteIntroProps) {
   const [isLeaving, setIsLeaving] = useState(false);
@@ -27,6 +43,13 @@ export default function SiteIntro({ onComplete }: SiteIntroProps) {
 
   return (
     <div className={"SiteIntro" + (isLeaving ? " is-leaving" : "")} aria-label="Opening Thirawat's portfolio">
+      <div className="SiteIntro-backdrop" aria-hidden="true">
+        <span className="SiteIntro-orbits" />
+        <span className="SiteIntro-axis" />
+        <span className="SiteIntro-dots SiteIntro-dots-left" />
+        <span className="SiteIntro-dots SiteIntro-dots-right" />
+      </div>
+
       <main className="SiteIntro-content">
         <div className="SiteIntro-icons" aria-hidden="true">
           <span>
@@ -48,17 +71,18 @@ export default function SiteIntro({ onComplete }: SiteIntroProps) {
           </span>
         </div>
 
-        <h1>
-          <span>Welcome to my</span>
-          <span className="SiteIntro-title-accent">Portfolio Website</span>
+        <h1 aria-label="Welcome to my Portfolio Website">
+          <span className="SiteIntro-line SiteIntro-welcome" aria-hidden="true">
+            {renderCharacters(WELCOME_TEXT, "welcome-", 42)}
+          </span>
+          <span className="SiteIntro-line SiteIntro-title-accent" aria-hidden="true">
+            {renderCharacters(PORTFOLIO_TEXT, "portfolio-", 38)}
+          </span>
         </h1>
 
-        <p className="SiteIntro-address">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9" />
-          </svg>
-          github.com/err0r4o4-dev
+        <p className="SiteIntro-loading" aria-label="Loading Thirawat dot dev">
+          <span aria-hidden="true">{renderCharacters(LOADING_TEXT, "loading-", 85)}</span>
+          <i aria-hidden="true" />
         </p>
       </main>
     </div>
