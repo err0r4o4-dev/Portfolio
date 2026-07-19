@@ -146,8 +146,6 @@ const content = {
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
     phoneLabel: "Phone",
     githubLabel: "GitHub",
-    locationLabel: "Location",
-    timezone: "Thailand · ICT (UTC+7)",
   },
   th: {
     available: "คลังข้อมูลส่วนตัว · 2026",
@@ -190,8 +188,6 @@ const content = {
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
     phoneLabel: "โทรศัพท์",
     githubLabel: "GitHub",
-    locationLabel: "สถานที่",
-    timezone: "ประเทศไทย · ICT (UTC+7)",
   },
 };
 
@@ -408,10 +404,6 @@ export default function Home() {
             <div className="Contact-row">
               <span>{copy.githubLabel}</span>
               <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">err0r4o4-dev ↗</a>
-            </div>
-            <div className="Contact-row">
-              <span>{copy.locationLabel}</span>
-              <strong>{copy.timezone}</strong>
             </div>
           </div>
         </div>
