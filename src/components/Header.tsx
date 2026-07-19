@@ -4,27 +4,27 @@ import brandLogo from "../assets/thirawat-logo.png";
 import "../styles/Header.css";
 
 const navigation = {
-  en: { profile: "About", work: "Archive", skills: "Toolkit", journey: "Journey", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mobileNote: "Personal archive · Thailand" },
-  th: { profile: "เกี่ยวกับฉัน", work: "คลังผลงาน", skills: "เครื่องมือ", journey: "เส้นทาง", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mobileNote: "คลังข้อมูลส่วนตัว · ประเทศไทย" },
+  en: { home: "Home", profile: "About", portfolio: "Portfolio", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mobileNote: "Personal archive · Thailand" },
+  th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mobileNote: "คลังข้อมูลส่วนตัว · ประเทศไทย" },
 };
 
-const sectionIds = ["about", "projects", "skills", "experience", "contact"];
+const sectionIds = ["home", "about", "portfolio", "contact"];
 
 export default function Header() {
   const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isScrolled, setIsScrolled] = useState(false);
   const copy = navigation[language];
   const links = [
+    { href: "#home", label: copy.home },
     { href: "#about", label: copy.profile },
-    { href: "#projects", label: copy.work },
-    { href: "#skills", label: copy.skills },
-    { href: "#experience", label: copy.journey },
+    { href: "#portfolio", label: copy.portfolio },
     { href: "#contact", label: copy.contact },
   ];
 
   useEffect(() => {
-    const sections = [document.getElementById("home"), ...sectionIds.map((id) => document.getElementById(id))].filter(Boolean) as HTMLElement[];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(
       (entries) => {
         const visibleEntry = entries
@@ -37,6 +37,13 @@ export default function Header() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const updateHeader = () => setIsScrolled(window.scrollY > 24);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
   }, []);
 
   useEffect(() => {
@@ -56,7 +63,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className="Header">
+    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home">

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
+import AchievementStats, { type AchievementStat } from "../components/AchievementStats";
 import profileMomentOne from "../assets/profile-moment-01.jpg";
 import profileMomentTwo from "../assets/profile-moment-02.jpg";
 import profileMomentThree from "../assets/profile-moment-03.jpg";
@@ -9,6 +10,9 @@ import profileMomentFour from "../assets/profile-moment-04.jpg";
 import "../styles/Home.css";
 
 const profileMoments = [profileMomentOne, profileMomentTwo, profileMomentThree, profileMomentFour];
+const portfolioTabs = ["projects", "certificates", "stack"] as const;
+type PortfolioTab = (typeof portfolioTabs)[number];
+const getTechMark = (name: string) => name.split(/[\s/+.]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
 const skillGroups = {
   en: [
@@ -111,12 +115,16 @@ const content = {
     heroIntroStart: "I’m",
     heroIntroEnd: "a Computer Engineering student documenting my work across software, mobile experiences, interactive worlds, and the ideas I pick up along the way.",
     explore: "Explore the archive",
+    contactMe: "Contact me",
     download: "Download CV",
+    heroRoles: ["Frontend development", "Backend systems", "Mobile experiences"],
+    heroSkills: ["React", "React Native", "Flutter", "Unity"],
     location: "Based in Thailand",
     focus: "Frontend · Backend · Mobile",
     status: "Learning, building, documenting",
     profileIndex: "01 / Profile",
     profileTitle: "This is where I keep the story behind what I make.",
+    profileSubtitle: "A closer look at the person, process, and curiosity behind the work.",
     profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
     profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
     nextPhoto: "Next photo",
@@ -126,14 +134,29 @@ const content = {
     workIntro: "Coursework, independent builds and competition work across health, hospitality and immersive technology.",
     viewProject: "View project details",
     viewCase: "View case details",
+    statsLabel: "Portfolio highlights",
+    stats: [
+      { value: 4, label: "Project builds", note: "Completed work across web, mobile, and interactive technology.", symbol: "PR" },
+      { value: 1, label: "Competition award", note: "3rd place in the SWU Metaverse Competition.", symbol: "AW" },
+      { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
+      { value: 2, label: "Current paths", note: "Computer Engineering studies and FiveM server development.", symbol: "NW" },
+    ] satisfies AchievementStat[],
+    portfolioIndex: "02 / Portfolio showcase",
+    portfolioTitle: "Work, credentials, and the tools behind them.",
+    portfolioIntro: "Explore selected builds and the technology I use. Certificate records will appear here when they are added.",
+    tabProjects: "Projects",
+    tabCertificates: "Certificates",
+    tabStack: "Tech stack",
+    certificatesEmpty: "No certificate records added yet.",
+    certificatesEmptyDetail: "This area is ready for verified certificate images, organisations, dates, and links.",
     skillsIndex: "03 / Toolkit",
     skillsTitle: "Tools I use to turn ideas into working things.",
-    experienceIndex: "04 / Journey",
+    experienceIndex: "03 / Journey",
     experience: [
       { period: "2025 — Present", title: "FiveM server development", detail: "Developing and maintaining a custom server across Lua scripting, web-based interfaces, debugging and performance optimisation." },
       { period: "2024 — Present", title: "Computer Engineering, Srinakharinwirot University", detail: "Second-year student building a strong foundation across frontend, backend and database development." },
     ],
-    nowIndex: "05 / Now",
+    nowIndex: "04 / Now",
     nowTitle: "What I’m exploring right now.",
     nowIntro: "A living snapshot of the subjects and practices currently holding my attention.",
     nowItems: [
@@ -141,7 +164,7 @@ const content = {
       { label: "Learning", title: "TypeScript & backend architecture", detail: "Improving how I structure reliable applications and connect their moving parts." },
       { label: "Exploring", title: "Interactive 3D experiences", detail: "Combining Unity, Blender and code to create spaces people can move through." },
     ],
-    contactIndex: "06 / Contact",
+    contactIndex: "05 / Contact",
     contactTitle: "Let’s connect.",
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
     phoneLabel: "Phone",
@@ -153,12 +176,16 @@ const content = {
     heroIntroStart: "ผมคือ",
     heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่บันทึกผลงานด้านซอฟต์แวร์ โมบาย โลกเสมือน และสิ่งใหม่ที่ได้เรียนรู้ระหว่างทาง",
     explore: "สำรวจคลังผลงาน",
+    contactMe: "ติดต่อฉัน",
     download: "ดาวน์โหลด CV",
+    heroRoles: ["พัฒนา Frontend", "ออกแบบระบบ Backend", "สร้างประสบการณ์ Mobile"],
+    heroSkills: ["React", "React Native", "Flutter", "Unity"],
     location: "อยู่ในประเทศไทย",
     focus: "Frontend · Backend · Mobile",
     status: "กำลังเรียนรู้ สร้าง และบันทึก",
     profileIndex: "01 / เกี่ยวกับฉัน",
     profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
+    profileSubtitle: "ทำความรู้จักตัวตน กระบวนการ และความสนใจที่อยู่เบื้องหลังผลงาน",
     profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
     profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
     nextPhoto: "ภาพถัดไป",
@@ -168,14 +195,29 @@ const content = {
     workIntro: "ผลงานจากการเรียน โปรเจกต์ส่วนตัว และการแข่งขัน ครอบคลุมด้านสุขภาพ โรงแรม และเทคโนโลยีโลกเสมือน",
     viewProject: "ดูรายละเอียด",
     viewCase: "ดูรายละเอียดโปรเจกต์",
+    statsLabel: "ภาพรวมผลงาน",
+    stats: [
+      { value: 4, label: "โปรเจกต์", note: "ผลงานด้านเว็บ โมบาย และเทคโนโลยี Interactive ที่ทำเสร็จแล้ว", symbol: "PR" },
+      { value: 1, label: "รางวัลการแข่งขัน", note: "รางวัลอันดับ 3 จากการแข่งขัน SWU Metaverse", symbol: "AW" },
+      { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
+      { value: 2, label: "เส้นทางปัจจุบัน", note: "วิศวกรรมคอมพิวเตอร์และการพัฒนาเซิร์ฟเวอร์ FiveM", symbol: "NW" },
+    ] satisfies AchievementStat[],
+    portfolioIndex: "02 / พอร์ตโฟลิโอ",
+    portfolioTitle: "ผลงาน หลักฐาน และเครื่องมือเบื้องหลัง",
+    portfolioIntro: "สำรวจโปรเจกต์และเทคโนโลยีที่ผมใช้ ส่วนใบรับรองจะแสดงเมื่อมีการเพิ่มข้อมูลจริง",
+    tabProjects: "โปรเจกต์",
+    tabCertificates: "ใบรับรอง",
+    tabStack: "เทคโนโลยี",
+    certificatesEmpty: "ยังไม่ได้เพิ่มข้อมูลใบรับรอง",
+    certificatesEmptyDetail: "พื้นที่นี้พร้อมสำหรับภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ที่ตรวจสอบได้",
     skillsIndex: "03 / เครื่องมือ",
     skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
-    experienceIndex: "04 / เส้นทาง",
+    experienceIndex: "03 / เส้นทาง",
     experience: [
       { period: "2025 — ปัจจุบัน", title: "การพัฒนาเซิร์ฟเวอร์ FiveM", detail: "พัฒนาและดูแลเซิร์ฟเวอร์ ตั้งแต่เขียนสคริปต์ Lua สร้าง Web UI แก้ไขข้อผิดพลาด และปรับปรุงประสิทธิภาพระบบ" },
       { period: "2024 — ปัจจุบัน", title: "วิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยศรีนครินทรวิโรฒ", detail: "นักศึกษาชั้นปีที่ 2 ที่กำลังสร้างพื้นฐานด้าน Frontend, Backend และการพัฒนาฐานข้อมูล" },
     ],
-    nowIndex: "05 / ช่วงนี้",
+    nowIndex: "04 / ช่วงนี้",
     nowTitle: "สิ่งที่ผมกำลังสำรวจ",
     nowIntro: "ภาพรวมของเรื่องที่ผมกำลังให้ความสนใจ เรียนรู้ และลงมือทำในช่วงนี้",
     nowItems: [
@@ -183,7 +225,7 @@ const content = {
       { label: "กำลังเรียนรู้", title: "TypeScript และสถาปัตยกรรม Backend", detail: "พัฒนาวิธีออกแบบแอปพลิเคชันให้ดูแลได้ง่าย เชื่อถือได้ และเชื่อมต่อแต่ละส่วนอย่างเป็นระบบ" },
       { label: "กำลังสำรวจ", title: "ประสบการณ์ Interactive 3D", detail: "ผสมผสาน Unity, Blender และการเขียนโค้ดเพื่อสร้างพื้นที่ที่ผู้ใช้มีส่วนร่วมได้" },
     ],
-    contactIndex: "06 / ติดต่อ",
+    contactIndex: "05 / ติดต่อ",
     contactTitle: "มาพูดคุยกัน",
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
     phoneLabel: "โทรศัพท์",
@@ -196,6 +238,8 @@ export default function Home() {
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [profileMomentIndex, setProfileMomentIndex] = useState(0);
   const [isProfileCarouselPaused, setIsProfileCarouselPaused] = useState(false);
+  const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
+  const [heroRoleIndex, setHeroRoleIndex] = useState(0);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
@@ -207,6 +251,24 @@ export default function Home() {
       number: ((profileMomentIndex + offset) % profileMoments.length) + 1,
     }),
   );
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setHeroRoleIndex((current) => (current + 1) % copy.heroRoles.length);
+    }, 2400);
+    return () => window.clearInterval(timer);
+  }, [copy.heroRoles.length, language]);
+
+  const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const currentIndex = portfolioTabs.indexOf(currentTab);
+    const nextTab = portfolioTabs[(currentIndex + direction + portfolioTabs.length) % portfolioTabs.length];
+    setActivePortfolioTab(nextTab);
+    document.getElementById(`portfolio-tab-${nextTab}`)?.focus();
+  };
 
   useEffect(() => {
     if (isProfileCarouselPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -268,10 +330,19 @@ export default function Home() {
           <div className="Hero-copy">
             <p className="Eyebrow"><span /> {copy.available}</p>
             <h1>{copy.heroTitle}</h1>
+            <p className="Hero-role"><span aria-hidden="true">~/focus</span><strong key={`${language}-${heroRoleIndex}`}>{copy.heroRoles[heroRoleIndex]}</strong></p>
             <p className="Hero-intro">{copy.heroIntroStart} <strong>Thirawat Duangta</strong>, {copy.heroIntroEnd}</p>
+            <div className="Hero-skill-tags" aria-label={language === "th" ? "เทคโนโลยีที่สนใจ" : "Featured technologies"}>
+              {copy.heroSkills.map((skill) => <span key={skill}>{skill}</span>)}
+            </div>
             <div className="Hero-actions">
-              <a href="#projects" className="Button Button-primary">{copy.explore}</a>
+              <a href="#portfolio" className="Button Button-primary">{copy.explore}</a>
+              <a href="#contact" className="Button Button-secondary">{copy.contactMe}</a>
               <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Text-link">{copy.download} <span aria-hidden="true">↘</span></a>
+            </div>
+            <div className="Hero-socials">
+              <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GH <span aria-hidden="true">↗</span></a>
+              <a href="mailto:title.thirawat.dev@gmail.com" aria-label="Email">EM <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <aside
@@ -314,49 +385,104 @@ export default function Home() {
       </section>
 
       <section className="Intro Section" id="about">
-        <div className="Section-index">{copy.profileIndex}</div>
-        <div className="Intro-grid" data-reveal>
+        <div className="Section-heading-centered" data-reveal>
+          <div className="Section-index">{copy.profileIndex}</div>
           <h2>{copy.profileTitle}</h2>
-          <div className="Intro-copy"><p>{copy.profileOne}</p><p>{copy.profileTwo}</p></div>
+          <p>{copy.profileSubtitle}</p>
         </div>
+        <div className="Intro-grid">
+          <div className="Intro-visual" data-reveal>
+            <div className="Intro-image-frame">
+              <img src={profileMomentTwo} alt={copy.momentAlt} loading="lazy" />
+              <span aria-hidden="true">THIRAWAT / 2026</span>
+            </div>
+          </div>
+          <div className="Intro-copy" data-reveal>
+            <p>{copy.profileOne}</p>
+            <p>{copy.profileTwo}</p>
+            <div className="Intro-actions">
+              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
+              <a href="#portfolio" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+        <AchievementStats stats={copy.stats} ariaLabel={copy.statsLabel} />
       </section>
 
-      <section className="Projects Section" id="projects">
-        <div className="Section-heading" data-reveal>
-          <div><div className="Section-index">{copy.workIndex}</div><h2>{copy.workTitle}</h2></div>
-          <p>{copy.workIntro}</p>
+      <section className="Portfolio Section" id="portfolio">
+        <div className="Section-heading-centered" data-reveal>
+          <div className="Section-index">{copy.portfolioIndex}</div>
+          <h2>{copy.portfolioTitle}</h2>
+          <p>{copy.portfolioIntro}</p>
         </div>
-        <div className="Project-list">
-          {localizedProjects.map((project, index) => (
-            <article key={project.title} className="Project-card" data-reveal>
-              <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
-                <ProjectCover
-                  title={project.title}
-                  subtitle={project.subtitle}
-                  code={project.coverCode}
-                  number={project.coverNumber}
-                />
-                <span className="Project-number">0{index + 1}</span>
-                <span className="Project-open" aria-hidden="true">↗</span>
+        <div className="Portfolio-tabs" role="tablist" aria-label={copy.portfolioTitle}>
+          {portfolioTabs.map((tab) => {
+            const label = tab === "projects" ? copy.tabProjects : tab === "certificates" ? copy.tabCertificates : copy.tabStack;
+            return (
+              <button
+                id={`portfolio-tab-${tab}`}
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activePortfolioTab === tab}
+                aria-controls={`portfolio-panel-${tab}`}
+                tabIndex={activePortfolioTab === tab ? 0 : -1}
+                onClick={() => setActivePortfolioTab(tab)}
+                onKeyDown={(event) => changePortfolioTabWithKeyboard(event, tab)}
+              >
+                <span>0{portfolioTabs.indexOf(tab) + 1}</span>{label}
               </button>
-              <div className="Project-copy">
-                <span className="Project-type">{project.subtitle}</span>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <div className="Project-tags">{project.techStack.map((tech) => <span key={tech}>{tech}</span>)}</div>
-                <button className="Text-link Project-detail" onClick={() => setSelectedProjectTitle(project.title)}>{copy.viewCase} <span aria-hidden="true">→</span></button>
-              </div>
-            </article>
-          ))}
+            );
+          })}
         </div>
-      </section>
 
-      <section className="Skills Section" id="skills">
-        <div className="Section-heading" data-reveal><div><div className="Section-index">{copy.skillsIndex}</div><h2>{copy.skillsTitle}</h2></div></div>
-        <div className="Skill-list">
-          {skillGroups[language].map((group, index) => (
-            <article className="Skill-row" key={group.title} data-reveal><span>0{index + 1}</span><h3>{group.title}</h3><p>{group.items.join(" · ")}</p></article>
-          ))}
+        <div className="Portfolio-content">
+          {activePortfolioTab === "projects" && (
+            <div className="Portfolio-panel Project-list" id="portfolio-panel-projects" role="tabpanel" aria-labelledby="portfolio-tab-projects" key="projects">
+              {localizedProjects.map((project) => (
+                <article key={project.title} className="Project-card">
+                  <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
+                    <ProjectCover title={project.title} subtitle={project.subtitle} code={project.coverCode} number={project.coverNumber} />
+                    <span className="Project-open" aria-hidden="true">↗</span>
+                  </button>
+                  <div className="Project-copy">
+                    <span className="Project-type">{project.subtitle}</span>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="Project-tags">{project.techStack.slice(0, 4).map((tech) => <span key={tech}>{tech}</span>)}</div>
+                    <button className="Text-link Project-detail" onClick={() => setSelectedProjectTitle(project.title)}>{copy.viewCase} <span aria-hidden="true">→</span></button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {activePortfolioTab === "certificates" && (
+            <div className="Portfolio-panel Certificates-empty" id="portfolio-panel-certificates" role="tabpanel" aria-labelledby="portfolio-tab-certificates" key="certificates">
+              <span aria-hidden="true">00 / CERT</span>
+              <h3>{copy.certificatesEmpty}</h3>
+              <p>{copy.certificatesEmptyDetail}</p>
+            </div>
+          )}
+
+          {activePortfolioTab === "stack" && (
+            <div className="Portfolio-panel Tech-groups" id="portfolio-panel-stack" role="tabpanel" aria-labelledby="portfolio-tab-stack" key="stack">
+              {skillGroups[language].map((group, groupIndex) => (
+                <section className="Tech-group" key={group.title}>
+                  <div className="Tech-group-heading"><span>0{groupIndex + 1}</span><h3>{group.title}</h3></div>
+                  <div className="Tech-grid">
+                    {group.items.map((item) => (
+                      <article className="Tech-card" key={item}>
+                        <span aria-hidden="true">{getTechMark(item)}</span>
+                        <strong>{item}</strong>
+                        <small>{group.title}</small>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

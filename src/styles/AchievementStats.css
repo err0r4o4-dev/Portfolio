@@ -1,0 +1,28 @@
+.Achievement-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 5rem; border: 1px solid var(--border); background: var(--border); }
+.Achievement-card { position: relative; min-height: 16rem; padding: 1.5rem; overflow: hidden; background: rgba(9,22,37,.94); opacity: 0; transform: translate3d(0, 1.5rem, 0); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), background .25s ease; }
+.Achievement-grid.is-visible .Achievement-card { opacity: 1; transform: translate3d(0,0,0); }
+.Achievement-grid.is-visible .Achievement-card:nth-child(2) { transition-delay: .07s; }
+.Achievement-grid.is-visible .Achievement-card:nth-child(3) { transition-delay: .14s; }
+.Achievement-grid.is-visible .Achievement-card:nth-child(4) { transition-delay: .21s; }
+.Achievement-card::after { content: ""; position: absolute; right: -35%; bottom: -60%; width: 10rem; aspect-ratio: 1; border: 1px solid rgba(38,151,255,.25); border-radius: 50%; box-shadow: 0 0 0 2rem rgba(38,151,255,.025), 0 0 0 4rem rgba(38,151,255,.018); transition: transform .5s cubic-bezier(.16,1,.3,1); }
+.Achievement-card:hover { background: rgba(12,29,48,.98); transform: translate3d(0,-.25rem,0); }
+.Achievement-card:hover::after { transform: translate3d(-.6rem,-.6rem,0) scale(1.06); }
+.Achievement-symbol { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; margin-bottom: 2.25rem; border: 1px solid rgba(38,151,255,.4); color: var(--accent); font: 500 .7rem/1 var(--mono); }
+.Achievement-card > strong { display: block; font-size: clamp(2.5rem,4vw,4.2rem); line-height: 1; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+.Achievement-card h3 { margin-top: .75rem; font-size: 1rem; }
+.Achievement-card p { max-width: 18rem; margin-top: .6rem; color: var(--muted); font-size: .8rem; line-height: 1.55; }
+.Achievement-index { position: absolute; right: 1.25rem; top: 1.25rem; color: var(--muted); font: 500 .62rem/1 var(--mono); }
+
+@media (max-width: 900px) {
+  .Achievement-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 540px) {
+  .Achievement-grid { grid-template-columns: 1fr; margin-top: 3.5rem; }
+  .Achievement-card { min-height: 13.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Achievement-card { opacity: 1; transform: none; transition: none; }
+  .Achievement-card::after { transition: none; }
+}
