@@ -45,6 +45,7 @@ export default function SiteIntro({ onComplete }: SiteIntroProps) {
     <div className={"SiteIntro" + (isLeaving ? " is-leaving" : "")} aria-label="Opening Thirawat's portfolio">
       <div className="SiteIntro-backdrop" aria-hidden="true">
         <span className="SiteIntro-orbits" />
+        <span className="SiteIntro-axis" />
         <span className="SiteIntro-dots SiteIntro-dots-left" />
         <span className="SiteIntro-dots SiteIntro-dots-right" />
       </div>

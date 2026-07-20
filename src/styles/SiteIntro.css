@@ -74,6 +74,32 @@
   );
 }
 
+.SiteIntro-axis {
+  position: absolute;
+  top: 50%;
+  left: 3.5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18rem, 42vw, 38rem);
+  width: 93%;
+  transform: translateY(-50%);
+}
+
+.SiteIntro-axis::before,
+.SiteIntro-axis::after {
+  content: "";
+  height: 1px;
+  box-shadow: 0 0 1.25rem rgba(50, 118, 246, .14);
+}
+
+.SiteIntro-axis::before {
+  background: linear-gradient(90deg, transparent, rgba(52, 119, 218, .18) 22%, rgba(91, 162, 255, .48));
+}
+
+.SiteIntro-axis::after {
+  background: linear-gradient(90deg, rgba(91, 162, 255, .48), rgba(52, 119, 218, .18) 78%, transparent);
+}
+
 .SiteIntro-dots {
   position: absolute;
   top: 50%;
