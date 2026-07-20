@@ -7,7 +7,7 @@
   overflow: hidden;
   min-width: 320px;
   background:
-    radial-gradient(circle at 50% 50%, rgba(20, 78, 166, .1), transparent 32rem),
+    radial-gradient(circle at 50% 50%, rgba(27, 91, 201, .18), rgba(10, 38, 88, .07) 21rem, transparent 36rem),
     #020a16;
   color: var(--text);
   isolation: isolate;
@@ -65,60 +65,29 @@
   background: radial-gradient(
     circle at center,
     transparent 0 21.8%,
-    rgba(61, 127, 224, .09) 21.9%,
+    rgba(74, 145, 248, .15) 21.9%,
     transparent 22.08% 39.5%,
-    rgba(61, 127, 224, .085) 39.6%,
+    rgba(66, 137, 237, .12) 39.6%,
     transparent 39.78% 57.2%,
-    rgba(61, 127, 224, .075) 57.3%,
+    rgba(61, 127, 224, .09) 57.3%,
     transparent 57.48%
   );
 }
 
-.SiteIntro-axis {
+.SiteIntro-dots {
   position: absolute;
   top: 50%;
-  left: 3.5%;
-  width: 93%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(52, 119, 218, .12) 12%, rgba(52, 119, 218, .3) 50%, rgba(52, 119, 218, .12) 88%, transparent);
-}
-
-.SiteIntro-axis::before,
-.SiteIntro-axis::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  border-radius: 50%;
+  width: clamp(9.5rem, 12vw, 12rem);
+  height: clamp(7rem, 9vw, 9rem);
+  opacity: .52;
+  background-image: radial-gradient(circle, rgba(112, 173, 255, .88) 1.35px, transparent 1.9px);
+  background-size: .95rem .95rem;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 76%);
   transform: translateY(-50%);
 }
 
-.SiteIntro-axis::before {
-  left: 50%;
-  width: .32rem;
-  height: .32rem;
-  background: #d5ecff;
-  box-shadow: 0 0 .7rem #5baaff, 0 0 2.2rem #3276f6;
-}
-
-.SiteIntro-axis::after {
-  left: 8%;
-  width: .18rem;
-  height: .18rem;
-  background: rgba(63, 137, 244, .7);
-  box-shadow: 77vw 0 0 rgba(63, 137, 244, .7);
-}
-
-.SiteIntro-dots {
-  position: absolute;
-  width: 5.8rem;
-  height: 4.4rem;
-  opacity: .3;
-  background-image: radial-gradient(circle, rgba(88, 143, 222, .72) 1px, transparent 1.4px);
-  background-size: .8rem .8rem;
-}
-
-.SiteIntro-dots-left { top: 35%; left: 5%; }
-.SiteIntro-dots-right { right: 5%; bottom: 30%; }
+.SiteIntro-dots-left { left: 4.5%; }
+.SiteIntro-dots-right { right: 4.5%; }
 
 .SiteIntro-content {
   display: grid;
@@ -207,7 +176,9 @@
   position: relative;
   color: #3276f6;
   letter-spacing: .028em;
-  text-shadow: 0 0 1.6rem rgba(50, 118, 246, .14);
+  text-shadow:
+    0 0 1.2rem rgba(72, 145, 255, .24),
+    0 0 3.6rem rgba(50, 118, 246, .16);
 }
 
 .SiteIntro-title-accent .SiteIntro-character {
