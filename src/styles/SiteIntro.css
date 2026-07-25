@@ -170,9 +170,9 @@
   margin-top: 1.65rem;
   color: #f4f1ed;
   font-family: "Montserrat", var(--heading);
-  font-size: clamp(2.65rem, 4.65vw, 5rem);
-  font-weight: 800;
-  line-height: 1.02;
+  font-size: clamp(2.4rem, 4.15vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.04;
   text-transform: uppercase;
 }
 
@@ -190,7 +190,7 @@
 
 .SiteIntro-welcome {
   font-size: 1.035em;
-  letter-spacing: .075em;
+  letter-spacing: .045em;
 }
 
 .SiteIntro-welcome .SiteIntro-character {
@@ -201,7 +201,7 @@
 .SiteIntro-title-accent {
   position: relative;
   color: #3276f6;
-  letter-spacing: .028em;
+  letter-spacing: .012em;
   text-shadow:
     0 0 1.2rem rgba(72, 145, 255, .24),
     0 0 3.6rem rgba(50, 118, 246, .16);
@@ -313,10 +313,10 @@
     width: 100%;
     min-width: 0;
     margin-top: 1.4rem;
-    font-size: clamp(1.25rem, 6.2vw, 2.95rem);
+    font-size: clamp(1.2rem, 5.75vw, 2.7rem);
   }
-  .SiteIntro-welcome { letter-spacing: .045em; }
-  .SiteIntro-title-accent { letter-spacing: .012em; }
+  .SiteIntro-welcome { letter-spacing: .03em; }
+  .SiteIntro-title-accent { letter-spacing: .006em; }
   .SiteIntro-loading { margin-top: 2.25rem; letter-spacing: .4em; }
 }
 
