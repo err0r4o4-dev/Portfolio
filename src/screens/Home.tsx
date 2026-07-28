@@ -3,13 +3,9 @@ import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
 import AchievementStats, { type AchievementStat } from "../components/AchievementStats";
-import profileMomentOne from "../assets/profile-moment-01.jpg";
 import profileMomentTwo from "../assets/profile-moment-02.jpg";
-import profileMomentThree from "../assets/profile-moment-03.jpg";
-import profileMomentFour from "../assets/profile-moment-04.jpg";
 import "../styles/Home.css";
 
-const profileMoments = [profileMomentOne, profileMomentTwo, profileMomentThree, profileMomentFour];
 const portfolioTabs = ["projects", "certificates", "stack"] as const;
 type PortfolioTab = (typeof portfolioTabs)[number];
 const getTechMark = (name: string) => name.split(/[\s/+.]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -110,18 +106,21 @@ const projects: Record<"en" | "th", Project[]> = {
 
 const content = {
   en: {
-    available: "Personal archive · 2026",
-    heroTitle: "Things I build, learn, and care about.",
+    available: "Currently building & learning",
+    heroKicker: "Computer Engineering · Software Development",
+    heroTitleLines: ["I build digital", "products that feel", "effortless."],
     heroIntroStart: "I’m",
-    heroIntroEnd: "a Computer Engineering student documenting my work across software, mobile experiences, interactive worlds, and the ideas I pick up along the way.",
-    explore: "Explore the archive",
+    heroIntroEnd: "a Computer Engineering student building thoughtful web experiences and reliable systems that solve real problems.",
+    explore: "Explore my work",
     contactMe: "Contact me",
     download: "Download CV",
-    heroRoles: ["Frontend development", "Backend systems", "Mobile experiences"],
-    heroSkills: ["React", "React Native", "Flutter", "Unity"],
-    location: "Based in Thailand",
-    focus: "Frontend · Backend · Mobile",
-    status: "Learning, building, documenting",
+    heroSkills: ["React", "TypeScript", "Node.js", "MongoDB"],
+    heroCodeAria: "Developer profile shown as TypeScript code",
+    heroFocusLabel: "Current focus",
+    heroFocusValue: "Full-stack",
+    heroProjectLabel: "Project status",
+    heroProjectValue: "Building ideas",
+    heroScroll: "Scroll to explore",
     profileIndex: "01 / Profile",
     profileTitle: "This is where I keep the story behind what I make.",
     profileSubtitle: "A closer look at the person, process, and curiosity behind the work.",
@@ -171,18 +170,21 @@ const content = {
     githubLabel: "GitHub",
   },
   th: {
-    available: "คลังข้อมูลส่วนตัว · 2026",
-    heroTitle: "สิ่งที่ผมสร้าง เรียนรู้ และให้ความสนใจ",
+    available: "กำลังสร้างและเรียนรู้",
+    heroKicker: "วิศวกรรมคอมพิวเตอร์ · การพัฒนาซอฟต์แวร์",
+    heroTitleLines: ["ผมสร้างผลิตภัณฑ์", "ดิจิทัลที่ใช้งาน", "ได้อย่างลื่นไหล"],
     heroIntroStart: "ผมคือ",
-    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่บันทึกผลงานด้านซอฟต์แวร์ โมบาย โลกเสมือน และสิ่งใหม่ที่ได้เรียนรู้ระหว่างทาง",
-    explore: "สำรวจคลังผลงาน",
+    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สร้างประสบการณ์บนเว็บและระบบที่เชื่อถือได้ เพื่อแก้ปัญหาที่เกิดขึ้นจริง",
+    explore: "ดูผลงานของฉัน",
     contactMe: "ติดต่อฉัน",
     download: "ดาวน์โหลด CV",
-    heroRoles: ["พัฒนา Frontend", "ออกแบบระบบ Backend", "สร้างประสบการณ์ Mobile"],
-    heroSkills: ["React", "React Native", "Flutter", "Unity"],
-    location: "อยู่ในประเทศไทย",
-    focus: "Frontend · Backend · Mobile",
-    status: "กำลังเรียนรู้ สร้าง และบันทึก",
+    heroSkills: ["React", "TypeScript", "Node.js", "MongoDB"],
+    heroCodeAria: "ข้อมูลนักพัฒนาในรูปแบบโค้ด TypeScript",
+    heroFocusLabel: "สิ่งที่โฟกัส",
+    heroFocusValue: "Full-stack",
+    heroProjectLabel: "สถานะโปรเจกต์",
+    heroProjectValue: "กำลังสร้างไอเดีย",
+    heroScroll: "เลื่อนเพื่อสำรวจ",
     profileIndex: "01 / เกี่ยวกับฉัน",
     profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
     profileSubtitle: "ทำความรู้จักตัวตน กระบวนการ และความสนใจที่อยู่เบื้องหลังผลงาน",
@@ -236,30 +238,11 @@ const content = {
 export default function Home() {
   const { language } = useLanguage();
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
-  const [profileMomentIndex, setProfileMomentIndex] = useState(0);
-  const [isProfileCarouselPaused, setIsProfileCarouselPaused] = useState(false);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
-  const [heroRoleIndex, setHeroRoleIndex] = useState(0);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
   const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
-  const visibleProfileMoments = Array.from(
-    { length: 3 },
-    (_, offset) => ({
-      image: profileMoments[(profileMomentIndex + offset) % profileMoments.length],
-      number: ((profileMomentIndex + offset) % profileMoments.length) + 1,
-    }),
-  );
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      setHeroRoleIndex((current) => (current + 1) % copy.heroRoles.length);
-    }, 2400);
-    return () => window.clearInterval(timer);
-  }, [copy.heroRoles.length, language]);
-
   const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
@@ -269,16 +252,6 @@ export default function Home() {
     setActivePortfolioTab(nextTab);
     document.getElementById(`portfolio-tab-${nextTab}`)?.focus();
   };
-
-  useEffect(() => {
-    if (isProfileCarouselPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const timer = window.setInterval(() => {
-      setProfileMomentIndex((current) => (current + 1) % profileMoments.length);
-    }, 4200);
-
-    return () => window.clearInterval(timer);
-  }, [isProfileCarouselPaused]);
 
   useEffect(() => {
     const revealElements = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -328,60 +301,53 @@ export default function Home() {
       <section className="Hero" id="home">
         <div className="Hero-content">
           <div className="Hero-copy">
-            <p className="Eyebrow"><span /> {copy.available}</p>
-            <h1>{copy.heroTitle}</h1>
-            <p className="Hero-role"><span aria-hidden="true">~/focus</span><strong key={`${language}-${heroRoleIndex}`}>{copy.heroRoles[heroRoleIndex]}</strong></p>
+            <p className="Hero-status"><span aria-hidden="true" /> {copy.available}</p>
+            <p className="Hero-kicker">{copy.heroKicker}</p>
+            <h1>
+              {copy.heroTitleLines.map((line, index) => (
+                <span className={index > 0 ? "is-accent" : undefined} key={line}>{line}</span>
+              ))}
+            </h1>
             <p className="Hero-intro">{copy.heroIntroStart} <strong>Thirawat Duangta</strong>, {copy.heroIntroEnd}</p>
-            <div className="Hero-skill-tags" aria-label={language === "th" ? "เทคโนโลยีที่สนใจ" : "Featured technologies"}>
+            <div className="Hero-actions">
+              <a href="#portfolio" className="Button Button-primary">{copy.explore}<span aria-hidden="true">↗</span></a>
+              <a href="#contact" className="Button Button-secondary">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" /></svg>
+                {copy.contactMe}
+              </a>
+            </div>
+            <div className="Hero-tech" aria-label={language === "th" ? "เทคโนโลยีหลัก" : "Core technologies"}>
               {copy.heroSkills.map((skill) => <span key={skill}>{skill}</span>)}
             </div>
-            <div className="Hero-actions">
-              <a href="#portfolio" className="Button Button-primary">{copy.explore}</a>
-              <a href="#contact" className="Button Button-secondary">{copy.contactMe}</a>
-              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Text-link">{copy.download} <span aria-hidden="true">↘</span></a>
-            </div>
-            <div className="Hero-socials">
-              <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GH <span aria-hidden="true">↗</span></a>
-              <a href="mailto:title.thirawat.dev@gmail.com" aria-label="Email">EM <span aria-hidden="true">↗</span></a>
-            </div>
           </div>
-          <aside
-            className="Hero-profile"
-            aria-label="Profile summary"
-            onMouseEnter={() => setIsProfileCarouselPaused(true)}
-            onMouseLeave={() => setIsProfileCarouselPaused(false)}
-            onFocusCapture={() => setIsProfileCarouselPaused(true)}
-            onBlurCapture={() => setIsProfileCarouselPaused(false)}
-          >
-            <div className="Hero-portrait">
-              <button
-                className="Hero-photo-stage"
-                type="button"
-                onClick={() => setProfileMomentIndex((current) => (current + 1) % profileMoments.length)}
-                aria-label={copy.nextPhoto}
-              >
-                <img
-                  className="Hero-photo-main"
-                  key={`main-${profileMomentIndex}`}
-                  src={visibleProfileMoments[0].image}
-                  alt={`${copy.momentAlt} ${visibleProfileMoments[0].number}`}
-                />
-                <span className="Hero-photo-previews" aria-hidden="true">
-                  {visibleProfileMoments.slice(1).map((moment) => (
-                    <img key={`${profileMomentIndex}-${moment.number}`} src={moment.image} alt="" />
-                  ))}
-                </span>
-                <span className="Hero-photo-count" aria-hidden="true">
-                  0{visibleProfileMoments[0].number} / 0{profileMoments.length}
-                </span>
-                <span className="Hero-photo-next" aria-hidden="true">→</span>
-              </button>
-              <span className="Hero-portrait-code" aria-hidden="true">&lt;/&gt;</span>
+          <figure className="Hero-code-visual" aria-label={copy.heroCodeAria}>
+            <span className="Hero-code-orbit" aria-hidden="true" />
+            <div className="Hero-code-window">
+              <div className="Hero-code-toolbar" aria-hidden="true">
+                <span className="is-red" /><span className="is-yellow" /><span className="is-green" />
+                <strong>portfolio.tsx</strong>
+              </div>
+              <ol className="Hero-code-lines">
+                <li><code><span className="Code-keyword">const</span> developer = &#123;</code></li>
+                <li><code>name: <span className="Code-string">&quot;Thirawat Duangta&quot;</span>,</code></li>
+                <li><code>focus: <span className="Code-string">&quot;Full-stack&quot;</span>,</code></li>
+                <li><code>crafts: <span className="Code-string">&quot;Useful digital products&quot;</span>,</code></li>
+                <li><code>status: <span className="Code-string">&quot;Always learning&quot;</span></code></li>
+                <li><code>&#125;</code></li>
+              </ol>
+              <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
             </div>
-            <div className="Hero-profile-copy"><span>{copy.location}</span><strong>{copy.focus}</strong></div>
-            <div className="Hero-availability"><span aria-hidden="true">●</span><strong>{copy.status}</strong></div>
-          </aside>
+            <div className="Hero-callout Hero-callout-focus">
+              <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
+              <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
+            </div>
+            <div className="Hero-callout Hero-callout-status">
+              <span className="Hero-callout-dot" aria-hidden="true" />
+              <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
+            </div>
+          </figure>
         </div>
+        <a className="Hero-scroll" href="#about"><span>{copy.heroScroll}</span><i aria-hidden="true">↓</i></a>
       </section>
 
       <section className="Intro Section" id="about">

@@ -14,7 +14,11 @@ export default function App() {
   return (
     <>
       {isIntroVisible && <SiteIntro onComplete={completeIntro} />}
-      <div inert={isIntroVisible ? true : undefined} aria-hidden={isIntroVisible || undefined}>
+      <div
+        className={`App-shell ${isIntroVisible ? "is-intro-active" : "is-ready"}`}
+        inert={isIntroVisible ? true : undefined}
+        aria-hidden={isIntroVisible || undefined}
+      >
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
