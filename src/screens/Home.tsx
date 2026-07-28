@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
@@ -237,12 +237,96 @@ const content = {
 
 export default function Home() {
   const { language } = useLanguage();
+  const heroRef = useRef<HTMLElement>(null);
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
   const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const interactiveMotion = window.matchMedia(
+      "(min-width: 901px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    );
+    let animationFrame: number | null = null;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
+
+    const renderMotion = () => {
+      const stiffness = 0.095;
+      const damping = 0.72;
+      velocityX = (velocityX + (targetX - currentX) * stiffness) * damping;
+      velocityY = (velocityY + (targetY - currentY) * stiffness) * damping;
+      currentX += velocityX;
+      currentY += velocityY;
+
+      hero.style.setProperty("--hero-editor-rotate-x", `${2 - currentY * 3}deg`);
+      hero.style.setProperty("--hero-editor-rotate-y", `${-4 + currentX * 3}deg`);
+      hero.style.setProperty("--hero-editor-shift-x", `${currentX * 6}px`);
+      hero.style.setProperty("--hero-editor-shift-y", `${currentY * 4}px`);
+      hero.style.setProperty("--hero-card-shift-x", `${currentX * 14}px`);
+      hero.style.setProperty("--hero-card-shift-y", `${currentY * 10}px`);
+      hero.style.setProperty("--hero-bg-shift-x", `${currentX * 3}px`);
+      hero.style.setProperty("--hero-bg-shift-y", `${currentY * 2}px`);
+      hero.style.setProperty("--hero-light-x", `${50 + currentX * 28}%`);
+      hero.style.setProperty("--hero-light-y", `${50 + currentY * 24}%`);
+
+      const isSettled = Math.abs(targetX - currentX) < 0.001
+        && Math.abs(targetY - currentY) < 0.001
+        && Math.abs(velocityX) < 0.001
+        && Math.abs(velocityY) < 0.001;
+
+      if (isSettled) {
+        animationFrame = null;
+        return;
+      }
+      animationFrame = window.requestAnimationFrame(renderMotion);
+    };
+
+    const scheduleMotion = () => {
+      if (animationFrame === null) animationFrame = window.requestAnimationFrame(renderMotion);
+    };
+
+    const resetMotion = () => {
+      targetX = 0;
+      targetY = 0;
+      scheduleMotion();
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!interactiveMotion.matches) return;
+      const bounds = hero.getBoundingClientRect();
+      targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1));
+      targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height) * 2 - 1));
+      scheduleMotion();
+    };
+
+    const handleMotionPreference = () => resetMotion();
+    hero.addEventListener("pointermove", handlePointerMove, { passive: true });
+    hero.addEventListener("pointerleave", resetMotion);
+    interactiveMotion.addEventListener("change", handleMotionPreference);
+
+    return () => {
+      if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
+      hero.removeEventListener("pointermove", handlePointerMove);
+      hero.removeEventListener("pointerleave", resetMotion);
+      interactiveMotion.removeEventListener("change", handleMotionPreference);
+      [
+        "--hero-editor-rotate-x", "--hero-editor-rotate-y", "--hero-editor-shift-x", "--hero-editor-shift-y",
+        "--hero-card-shift-x", "--hero-card-shift-y", "--hero-bg-shift-x", "--hero-bg-shift-y",
+        "--hero-light-x", "--hero-light-y",
+      ].forEach((property) => hero.style.removeProperty(property));
+    };
+  }, []);
+
   const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
@@ -298,7 +382,8 @@ export default function Home() {
 
   return (
     <main id="main-content" className="Home">
-      <section className="Hero" id="home">
+      <section className="Hero" id="home" ref={heroRef}>
+        <span className="Hero-lighting" aria-hidden="true" />
         <div className="Hero-content">
           <div className="Hero-copy">
             <p className="Hero-status"><span aria-hidden="true" /> {copy.available}</p>
@@ -322,28 +407,36 @@ export default function Home() {
           </div>
           <figure className="Hero-code-visual" aria-label={copy.heroCodeAria}>
             <span className="Hero-code-orbit" aria-hidden="true" />
-            <div className="Hero-code-window">
-              <div className="Hero-code-toolbar" aria-hidden="true">
-                <span className="is-red" /><span className="is-yellow" /><span className="is-green" />
-                <strong>portfolio.tsx</strong>
+            <div className="Hero-code-entry">
+              <div className="Hero-code-float">
+                <div className="Hero-code-window">
+                  <div className="Hero-code-toolbar" aria-hidden="true">
+                    <span className="is-red" /><span className="is-yellow" /><span className="is-green" />
+                    <strong>portfolio.tsx</strong>
+                  </div>
+                  <ol className="Hero-code-lines">
+                    <li><code><span className="Code-keyword">const</span> developer = &#123;</code></li>
+                    <li><code>name: <span className="Code-string">&quot;Thirawat Duangta&quot;</span>,</code></li>
+                    <li><code>focus: <span className="Code-string">&quot;Full-stack&quot;</span>,</code></li>
+                    <li><code>crafts: <span className="Code-string">&quot;Useful digital products&quot;</span>,</code></li>
+                    <li><code>status: <span className="Code-string">&quot;Always learning&quot;</span></code></li>
+                    <li><code>&#125;</code></li>
+                  </ol>
+                  <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
+                </div>
               </div>
-              <ol className="Hero-code-lines">
-                <li><code><span className="Code-keyword">const</span> developer = &#123;</code></li>
-                <li><code>name: <span className="Code-string">&quot;Thirawat Duangta&quot;</span>,</code></li>
-                <li><code>focus: <span className="Code-string">&quot;Full-stack&quot;</span>,</code></li>
-                <li><code>crafts: <span className="Code-string">&quot;Useful digital products&quot;</span>,</code></li>
-                <li><code>status: <span className="Code-string">&quot;Always learning&quot;</span></code></li>
-                <li><code>&#125;</code></li>
-              </ol>
-              <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
             </div>
             <div className="Hero-callout Hero-callout-focus">
-              <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
-              <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
+              <div className="Hero-callout-surface">
+                <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
+                <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
+              </div>
             </div>
             <div className="Hero-callout Hero-callout-status">
-              <span className="Hero-callout-dot" aria-hidden="true" />
-              <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
+              <div className="Hero-callout-surface">
+                <span className="Hero-callout-dot" aria-hidden="true" />
+                <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
+              </div>
             </div>
           </figure>
         </div>
