@@ -309,12 +309,12 @@ export default function Home() {
     let targetScroll = window.scrollY;
 
     const renderAmbientMotion = () => {
-      currentScroll += (targetScroll - currentScroll) * 0.075;
+      currentScroll += (targetScroll - currentScroll) * 0.095;
 
       const motionScale = window.innerWidth <= 640 ? 0.5 : 1;
-      const bluePhase = currentScroll / 860;
-      const cyanPhase = currentScroll / 1040;
-      const indigoPhase = currentScroll / 1260;
+      const bluePhase = currentScroll / 780;
+      const cyanPhase = currentScroll / 940;
+      const indigoPhase = currentScroll / 1140;
 
       ambientLayer.style.setProperty(
         "--ambient-blue-transform",

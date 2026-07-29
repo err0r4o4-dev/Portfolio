@@ -526,36 +526,36 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  filter: blur(8rem);
+  filter: blur(7rem);
   mix-blend-mode: screen;
-  opacity: .2;
+  opacity: .18;
   will-change: transform,opacity;
   animation: ambientBreathe 9s ease-in-out infinite alternate;
 }
 .Home-ambient-orb-blue {
-  left: -18rem;
-  top: 4%;
-  width: min(58vw,52rem);
+  left: -11rem;
+  top: 5%;
+  width: min(54vw,48rem);
   aspect-ratio: 1;
-  background: rgba(24,84,205,.5);
+  background: radial-gradient(circle,rgba(29,89,218,.44) 0%,rgba(25,74,184,.22) 38%,transparent 72%);
   transform: var(--ambient-blue-transform);
 }
 .Home-ambient-orb-cyan {
-  right: -20rem;
-  top: 37%;
-  width: min(55vw,48rem);
+  right: -13rem;
+  top: 35%;
+  width: min(52vw,46rem);
   aspect-ratio: 1;
-  background: rgba(25,139,225,.42);
+  background: radial-gradient(circle,rgba(29,147,224,.38) 0%,rgba(20,104,183,.18) 40%,transparent 73%);
   transform: var(--ambient-cyan-transform);
   animation-duration: 11.5s;
   animation-delay: -3.4s;
 }
 .Home-ambient-orb-indigo {
-  left: 31%;
-  bottom: -22rem;
-  width: min(48vw,42rem);
+  left: 32%;
+  bottom: -15rem;
+  width: min(46vw,40rem);
   aspect-ratio: 1;
-  background: rgba(49,78,196,.34);
+  background: radial-gradient(circle,rgba(61,78,190,.34) 0%,rgba(47,61,157,.16) 42%,transparent 74%);
   transform: var(--ambient-indigo-transform);
   animation-duration: 13s;
   animation-delay: -7s;
@@ -685,8 +685,8 @@
 }
 @media (max-width: 420px) { .Tech-grid { grid-template-columns: 1fr; } }
 @keyframes ambientBreathe {
-  from { opacity: .15; filter: blur(8.5rem) saturate(.92); }
-  to { opacity: .24; filter: blur(7.5rem) saturate(1.08); }
+  from { opacity: .14; filter: blur(7.5rem) saturate(.92); }
+  to { opacity: .21; filter: blur(6.5rem) saturate(1.04); }
 }
 @media (prefers-reduced-motion: reduce) {
   .Home-ambient-orb { animation: none; will-change: auto; }
