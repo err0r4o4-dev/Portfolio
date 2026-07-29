@@ -349,3 +349,21 @@
     transition: none;
   }
 }
+
+/* Hero theme alignment */
+.SiteIntro {
+  background: radial-gradient(ellipse at 50% 46%,rgba(30,98,204,.16),transparent 32rem),linear-gradient(115deg,#020813 0%,#030b18 52%,#041020 100%);
+}
+.SiteIntro::before { opacity: .1; }
+.SiteIntro-backdrop::before {
+  inset: 4% 8%;
+  opacity: .24;
+  background-image: linear-gradient(rgba(107,184,255,.065) 1px,transparent 1px),linear-gradient(90deg,rgba(107,184,255,.065) 1px,transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center,#000 0,rgba(0,0,0,.72) 42%,transparent 78%);
+}
+.SiteIntro-icons > span { border-color: rgba(104,178,245,.58); background: rgba(3,12,25,.88); box-shadow: inset 0 1px rgba(255,255,255,.05),0 0 1.6rem rgba(38,151,255,.12); }
+.SiteIntro-welcome .SiteIntro-character { background: linear-gradient(180deg,#fff 5%,#eff6ff 52%,#a9c5e2 100%); background-clip: text; -webkit-background-clip: text; }
+.SiteIntro-title-accent .SiteIntro-character { background: linear-gradient(180deg,#83c7ff 0%,#3298f5 45%,#1e64d8 100%); background-clip: text; -webkit-background-clip: text; }
+.SiteIntro-loading { color: #7897b8; }
+@media (max-width: 640px) { .SiteIntro-backdrop::before { inset: 10% 0; background-size: 48px 48px; } }
