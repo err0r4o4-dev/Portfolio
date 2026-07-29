@@ -18,6 +18,7 @@
 .reveal-enabled .Project-card[data-reveal]:nth-child(2).is-visible { animation-delay: .1s; }
 .reveal-enabled .Project-card[data-reveal]:nth-child(3).is-visible { animation-delay: .2s; }
 .reveal-enabled .Project-card[data-reveal]:nth-child(4).is-visible { animation-delay: .3s; }
+.reveal-enabled .Project-card[data-reveal]:nth-child(5).is-visible { animation-delay: .4s; }
 .reveal-enabled .Project-card[data-reveal].is-visible:hover { transform: translate3d(0,-.4rem,0) scale(1); }
 @keyframes projectCardReveal {
   from { opacity: 0; filter: blur(.7rem); transform: translate3d(0,3.5rem,0) scale(.985); }
@@ -619,8 +620,6 @@
 .Tech-card:hover { border-color: var(--border-strong); box-shadow: inset 0 1px rgba(255,255,255,.055),0 1.2rem 3rem rgba(0,24,57,.22); transform: translate3d(0,-.25rem,0); }
 .Tech-card > span { border-radius: .48rem; background: rgba(32,95,191,.12); }
 .Experience,.Now,.Contact { border-top: 0; }
-.Work-journey { margin-top: clamp(6rem,9vw,9rem); padding-top: clamp(2rem,4vw,3.5rem); }
-.Work-journey > .Section-index { margin-bottom: 2.25rem; }
 .Experience-list { position: relative; margin-left: clamp(5rem,16vw,14rem); border-top: 0; }
 .Experience-list::before { content: ""; position: absolute; left: -2.25rem; top: .4rem; bottom: .4rem; width: 1px; background: linear-gradient(to bottom,var(--accent),rgba(38,151,255,.08)); }
 .Experience-row { position: relative; grid-template-columns: minmax(8rem,10rem) minmax(12rem,.65fr) minmax(0,1fr); gap: clamp(1.5rem,3vw,3rem); padding: 2.3rem 1.4rem; border: 0; border-top: 1px solid var(--border); transition: background .4s var(--ease-out),transform .4s var(--ease-out); }
@@ -682,7 +681,6 @@
   .Portfolio-tabs button { min-width: 0; padding-inline: .55rem; }
   .Portfolio-tabs button span { display: none; }
   .Tech-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .Work-journey { margin-top: 4.5rem; padding-top: 1rem; }
   .Experience-list,.Now-list { margin-left: 1rem; }
   .Experience-list::before { left: -.75rem; }
   .Experience-row { grid-template-columns: 1fr; gap: .65rem; padding: 1.7rem .75rem; }

@@ -63,6 +63,15 @@ const projects: Record<"en" | "th", Project[]> = {
       techStack: ["Unity", "C#", "Blender", "3D optimisation"],
       features: ["Developed the player system in Unity with C#", "Modelled university buildings in Blender", "Imported and optimised 3D assets for the Metaverse environment"],
     },
+    {
+      title: "FiveM Server Development",
+      subtitle: "Custom multiplayer server",
+      coverCode: "FM",
+      coverNumber: "05",
+      description: "A custom FiveM server developed and maintained across gameplay systems, Lua scripting, web-based interfaces, debugging and performance optimisation.",
+      techStack: ["FiveM", "Lua", "JavaScript", "MySQL"],
+      features: ["Developed custom server-side gameplay systems with Lua", "Built and integrated web-based interfaces", "Debugged systems and improved server performance"],
+    },
   ],
   th: [
     {
@@ -101,6 +110,15 @@ const projects: Record<"en" | "th", Project[]> = {
       techStack: ["Unity", "C#", "Blender", "3D optimisation"],
       features: ["พัฒนาระบบผู้เล่นใน Unity ด้วย C#", "สร้างโมเดลอาคารมหาวิทยาลัยด้วย Blender", "นำเข้าและปรับแต่ง 3D Asset ให้เหมาะกับสภาพแวดล้อม Metaverse"],
     },
+    {
+      title: "FiveM Server Development",
+      subtitle: "เซิร์ฟเวอร์ Multiplayer แบบกำหนดเอง",
+      coverCode: "FM",
+      coverNumber: "05",
+      description: "พัฒนาและดูแลเซิร์ฟเวอร์ FiveM แบบกำหนดเอง ครอบคลุมระบบ Gameplay การเขียน Lua ระบบอินเทอร์เฟซบนเว็บ การแก้ข้อผิดพลาด และการปรับประสิทธิภาพ",
+      techStack: ["FiveM", "Lua", "JavaScript", "MySQL"],
+      features: ["พัฒนาระบบ Gameplay ฝั่งเซิร์ฟเวอร์ด้วย Lua", "สร้างและเชื่อมต่ออินเทอร์เฟซบนเว็บ", "แก้ไขข้อผิดพลาดและปรับปรุงประสิทธิภาพของเซิร์ฟเวอร์"],
+    },
   ],
 };
 
@@ -135,7 +153,7 @@ const content = {
     viewCase: "View case details",
     statsLabel: "Portfolio highlights",
     stats: [
-      { value: 4, label: "Project builds", note: "Completed work across web, mobile, and interactive technology.", symbol: "PR" },
+      { value: 5, label: "Project builds", note: "Completed work across web, mobile, and interactive technology.", symbol: "PR" },
       { value: 1, label: "Competition award", note: "3rd place in the SWU Metaverse Competition.", symbol: "AW" },
       { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
       { value: 2, label: "Current paths", note: "Computer Engineering studies and FiveM server development.", symbol: "NW" },
@@ -150,11 +168,6 @@ const content = {
     certificatesEmptyDetail: "This area is ready for verified certificate images, organisations, dates, and links.",
     skillsIndex: "03 / Toolkit",
     skillsTitle: "Tools I use to turn ideas into working things.",
-    experienceIndex: "About / Journey",
-    experience: [
-      { period: "2025 — Present", title: "FiveM server development", detail: "Developing and maintaining a custom server across Lua scripting, web-based interfaces, debugging and performance optimisation." },
-      { period: "2024 — Present", title: "Computer Engineering, Srinakharinwirot University", detail: "Second-year student building a strong foundation across frontend, backend and database development." },
-    ],
     contactIndex: "04 / Contact",
     contactTitle: "Let’s connect.",
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
@@ -191,7 +204,7 @@ const content = {
     viewCase: "ดูรายละเอียดโปรเจกต์",
     statsLabel: "ภาพรวมผลงาน",
     stats: [
-      { value: 4, label: "โปรเจกต์", note: "ผลงานด้านเว็บ โมบาย และเทคโนโลยี Interactive ที่ทำเสร็จแล้ว", symbol: "PR" },
+      { value: 5, label: "โปรเจกต์", note: "ผลงานด้านเว็บ โมบาย และเทคโนโลยี Interactive ที่ทำเสร็จแล้ว", symbol: "PR" },
       { value: 1, label: "รางวัลการแข่งขัน", note: "รางวัลอันดับ 3 จากการแข่งขัน SWU Metaverse", symbol: "AW" },
       { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
       { value: 2, label: "เส้นทางปัจจุบัน", note: "วิศวกรรมคอมพิวเตอร์และการพัฒนาเซิร์ฟเวอร์ FiveM", symbol: "NW" },
@@ -206,11 +219,6 @@ const content = {
     certificatesEmptyDetail: "พื้นที่นี้พร้อมสำหรับภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ที่ตรวจสอบได้",
     skillsIndex: "03 / เครื่องมือ",
     skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
-    experienceIndex: "เกี่ยวกับ / เส้นทาง",
-    experience: [
-      { period: "2025 — ปัจจุบัน", title: "การพัฒนาเซิร์ฟเวอร์ FiveM", detail: "พัฒนาและดูแลเซิร์ฟเวอร์ ตั้งแต่เขียนสคริปต์ Lua สร้าง Web UI แก้ไขข้อผิดพลาด และปรับปรุงประสิทธิภาพระบบ" },
-      { period: "2024 — ปัจจุบัน", title: "วิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยศรีนครินทรวิโรฒ", detail: "นักศึกษาชั้นปีที่ 2 ที่กำลังสร้างพื้นฐานด้าน Frontend, Backend และการพัฒนาฐานข้อมูล" },
-    ],
     contactIndex: "04 / ติดต่อ",
     contactTitle: "มาพูดคุยกัน",
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
@@ -505,15 +513,6 @@ export default function Home() {
             </div>
           )}
         </div>
-        <section className="Experience Work-journey" id="experience">
-          <div className="Section-index">{copy.experienceIndex}</div>
-          <div className="Experience-list">
-            {copy.experience.map((item) => (
-              <article className="Experience-row" key={item.title} data-reveal><span>{item.period}</span><h3>{item.title}</h3><p>{item.detail}</p></article>
-            ))}
-          </div>
-        </section>
-
       </section>
 
       <section className="Contact Section" id="contact">
