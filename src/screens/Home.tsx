@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
@@ -239,6 +239,7 @@ export default function Home() {
   const { language } = useLanguage();
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
+  const codeSceneRef = useRef<HTMLElement>(null);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
@@ -298,6 +299,54 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const codeScene = codeSceneRef.current;
+    const codeWindow = codeScene?.querySelector<HTMLElement>(".Hero-code-window");
+    const canTrackPointer = window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine)");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!codeScene || !codeWindow || !canTrackPointer.matches || prefersReducedMotion.matches) return;
+
+    let animationFrameId = 0;
+    let pendingRotateY = 0;
+
+    const applyTilt = () => {
+      codeWindow.style.setProperty("--hero-pointer-rotate-y", `${pendingRotateY.toFixed(2)}deg`);
+      animationFrameId = 0;
+    };
+
+    const scheduleTilt = () => {
+      if (!animationFrameId) animationFrameId = window.requestAnimationFrame(applyTilt);
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const bounds = codeScene.getBoundingClientRect();
+      const horizontalProgress = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      const clampedHorizontal = Math.max(-1, Math.min(1, horizontalProgress));
+
+      pendingRotateY = clampedHorizontal * 1.25;
+      codeScene.classList.add("is-pointer-active");
+      scheduleTilt();
+    };
+
+    const handlePointerLeave = () => {
+      pendingRotateY = 0;
+      codeScene.classList.remove("is-pointer-active");
+      scheduleTilt();
+    };
+
+    codeScene.addEventListener("pointermove", handlePointerMove);
+    codeScene.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      codeScene.removeEventListener("pointermove", handlePointerMove);
+      codeScene.removeEventListener("pointerleave", handlePointerLeave);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+      codeScene.classList.remove("is-pointer-active");
+      codeWindow.style.removeProperty("--hero-pointer-rotate-y");
+    };
+  }, []);
+
   return (
     <main id="main-content" className="Home">
       <section className="Hero" id="home">
@@ -323,7 +372,7 @@ export default function Home() {
               {copy.heroSkills.map((skill) => <span key={skill}>{skill}</span>)}
             </div>
           </div>
-          <figure className="Hero-code-visual" aria-label={copy.heroCodeAria}>
+          <figure className="Hero-code-visual" aria-label={copy.heroCodeAria} ref={codeSceneRef}>
             <span className="Hero-code-orbit" aria-hidden="true" />
             <div className="Hero-code-entry">
               <div className="Hero-code-float">
