@@ -343,17 +343,17 @@ export default function Home() {
                   </ol>
                   <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
                 </div>
-                <div className="Hero-callout Hero-callout-focus">
-                  <div className="Hero-callout-surface">
-                    <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
-                    <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
-                  </div>
+              </div>
+              <div className="Hero-callout Hero-callout-focus">
+                <div className="Hero-callout-surface">
+                  <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
+                  <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
                 </div>
-                <div className="Hero-callout Hero-callout-status">
-                  <div className="Hero-callout-surface">
-                    <span className="Hero-callout-dot" aria-hidden="true" />
-                    <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
-                  </div>
+              </div>
+              <div className="Hero-callout Hero-callout-status">
+                <div className="Hero-callout-surface">
+                  <span className="Hero-callout-dot" aria-hidden="true" />
+                  <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
                 </div>
               </div>
             </div>
