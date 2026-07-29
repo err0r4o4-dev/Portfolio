@@ -289,7 +289,7 @@ export default function Home() {
       window.removeEventListener("hashchange", revealHashTarget);
       root.classList.remove("reveal-enabled");
     };
-  }, []);
+  }, [activePortfolioTab]);
 
   useEffect(() => {
     const ambientLayer = ambientLayerRef.current;
