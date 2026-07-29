@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
@@ -237,6 +237,7 @@ const content = {
 
 export default function Home() {
   const { language } = useLanguage();
+  const ambientLayerRef = useRef<HTMLDivElement>(null);
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
   const copy = content[language];
@@ -298,8 +299,67 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const ambientLayer = ambientLayerRef.current;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!ambientLayer || reducedMotionQuery.matches) return;
+
+    let animationFrameId = 0;
+    let currentScroll = window.scrollY;
+    let targetScroll = window.scrollY;
+
+    const renderAmbientMotion = () => {
+      currentScroll += (targetScroll - currentScroll) * 0.075;
+
+      const motionScale = window.innerWidth <= 640 ? 0.5 : 1;
+      const bluePhase = currentScroll / 860;
+      const cyanPhase = currentScroll / 1040;
+      const indigoPhase = currentScroll / 1260;
+
+      ambientLayer.style.setProperty(
+        "--ambient-blue-transform",
+        `translate3d(${Math.sin(bluePhase) * 210 * motionScale}px, ${Math.cos(bluePhase * 0.72) * 82 * motionScale}px, 0) scale(${1 + Math.sin(bluePhase * 0.54) * 0.06})`,
+      );
+      ambientLayer.style.setProperty(
+        "--ambient-cyan-transform",
+        `translate3d(${Math.cos(cyanPhase + 0.8) * 165 * motionScale}px, ${Math.sin(cyanPhase * 0.9) * 108 * motionScale}px, 0) scale(${1 + Math.cos(cyanPhase * 0.61) * 0.07})`,
+      );
+      ambientLayer.style.setProperty(
+        "--ambient-indigo-transform",
+        `translate3d(${Math.sin(indigoPhase + 2.1) * 135 * motionScale}px, ${Math.cos(indigoPhase * 1.08) * 76 * motionScale}px, 0) scale(${1 + Math.sin(indigoPhase * 0.66) * 0.05})`,
+      );
+
+      if (Math.abs(targetScroll - currentScroll) > 0.1) {
+        animationFrameId = window.requestAnimationFrame(renderAmbientMotion);
+      } else {
+        currentScroll = targetScroll;
+        animationFrameId = 0;
+      }
+    };
+
+    const queueAmbientMotion = () => {
+      targetScroll = window.scrollY;
+      if (!animationFrameId) {
+        animationFrameId = window.requestAnimationFrame(renderAmbientMotion);
+      }
+    };
+
+    renderAmbientMotion();
+    window.addEventListener("scroll", queueAmbientMotion, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", queueAmbientMotion);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   return (
     <main id="main-content" className="Home">
+      <div className="Home-ambient" ref={ambientLayerRef} aria-hidden="true">
+        <span className="Home-ambient-orb Home-ambient-orb-blue" />
+        <span className="Home-ambient-orb Home-ambient-orb-cyan" />
+        <span className="Home-ambient-orb Home-ambient-orb-indigo" />
+      </div>
       <section className="Hero" id="home">
         <span className="Hero-lighting" aria-hidden="true" />
         <div className="Hero-content">
