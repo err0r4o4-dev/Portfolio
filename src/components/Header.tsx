@@ -4,11 +4,11 @@ import brandLogo from "../assets/thirawat-logo.png";
 import "../styles/Header.css";
 
 const navigation = {
-  en: { home: "Home", profile: "About", portfolio: "Portfolio", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mobileNote: "Personal archive · Thailand" },
+  en: { home: "Home", profile: "About", portfolio: "Work", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mobileNote: "Personal archive · Thailand" },
   th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mobileNote: "คลังข้อมูลส่วนตัว · ประเทศไทย" },
 };
 
-const sectionIds = ["home", "about", "portfolio", "contact"];
+const sectionIds = ["home", "about", "work", "contact"];
 
 export default function Header() {
   const { language, setLanguage } = useLanguage();
@@ -19,7 +19,7 @@ export default function Header() {
   const links = [
     { href: "#home", label: copy.home },
     { href: "#about", label: copy.profile },
-    { href: "#portfolio", label: copy.portfolio },
+    { href: "#work", label: copy.portfolio },
     { href: "#contact", label: copy.contact },
   ];
 

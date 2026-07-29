@@ -121,7 +121,7 @@ const content = {
     heroProjectLabel: "Project status",
     heroProjectValue: "Building ideas",
     heroScroll: "Scroll to explore",
-    profileIndex: "01 / Profile",
+    profileIndex: "02 / About",
     profileTitle: "This is where I keep the story behind what I make.",
     profileSubtitle: "A closer look at the person, process, and curiosity behind the work.",
     profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
@@ -140,30 +140,22 @@ const content = {
       { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
       { value: 2, label: "Current paths", note: "Computer Engineering studies and FiveM server development.", symbol: "NW" },
     ] satisfies AchievementStat[],
-    portfolioIndex: "02 / Portfolio showcase",
+    portfolioIndex: "03 / Selected work",
     portfolioTitle: "Work, credentials, and the tools behind them.",
-    portfolioIntro: "Explore selected builds and the technology I use. Certificate records will appear here when they are added.",
+    portfolioIntro: "A collection of applications and interactive experiences built through code, design, and practical problem-solving.",
     tabProjects: "Projects",
-    tabCertificates: "Certificates",
-    tabStack: "Tech stack",
+    tabCertificates: "Credentials",
+    tabStack: "Toolkit",
     certificatesEmpty: "No certificate records added yet.",
     certificatesEmptyDetail: "This area is ready for verified certificate images, organisations, dates, and links.",
     skillsIndex: "03 / Toolkit",
     skillsTitle: "Tools I use to turn ideas into working things.",
-    experienceIndex: "03 / Journey",
+    experienceIndex: "About / Journey",
     experience: [
       { period: "2025 — Present", title: "FiveM server development", detail: "Developing and maintaining a custom server across Lua scripting, web-based interfaces, debugging and performance optimisation." },
       { period: "2024 — Present", title: "Computer Engineering, Srinakharinwirot University", detail: "Second-year student building a strong foundation across frontend, backend and database development." },
     ],
-    nowIndex: "04 / Now",
-    nowTitle: "What I’m exploring right now.",
-    nowIntro: "A living snapshot of the subjects and practices currently holding my attention.",
-    nowItems: [
-      { label: "Building", title: "Personal software projects", detail: "Turning small, practical ideas into complete web and mobile experiences." },
-      { label: "Learning", title: "TypeScript & backend architecture", detail: "Improving how I structure reliable applications and connect their moving parts." },
-      { label: "Exploring", title: "Interactive 3D experiences", detail: "Combining Unity, Blender and code to create spaces people can move through." },
-    ],
-    contactIndex: "05 / Contact",
+    contactIndex: "04 / Contact",
     contactTitle: "Let’s connect.",
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
     phoneLabel: "Phone",
@@ -185,7 +177,7 @@ const content = {
     heroProjectLabel: "สถานะโปรเจกต์",
     heroProjectValue: "กำลังสร้างไอเดีย",
     heroScroll: "เลื่อนเพื่อสำรวจ",
-    profileIndex: "01 / เกี่ยวกับฉัน",
+    profileIndex: "02 / เกี่ยวกับ",
     profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
     profileSubtitle: "ทำความรู้จักตัวตน กระบวนการ และความสนใจที่อยู่เบื้องหลังผลงาน",
     profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
@@ -204,30 +196,22 @@ const content = {
       { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
       { value: 2, label: "เส้นทางปัจจุบัน", note: "วิศวกรรมคอมพิวเตอร์และการพัฒนาเซิร์ฟเวอร์ FiveM", symbol: "NW" },
     ] satisfies AchievementStat[],
-    portfolioIndex: "02 / พอร์ตโฟลิโอ",
+    portfolioIndex: "03 / ผลงานที่คัดเลือก",
     portfolioTitle: "ผลงาน หลักฐาน และเครื่องมือเบื้องหลัง",
-    portfolioIntro: "สำรวจโปรเจกต์และเทคโนโลยีที่ผมใช้ ส่วนใบรับรองจะแสดงเมื่อมีการเพิ่มข้อมูลจริง",
+    portfolioIntro: "รวมผลงานแอปพลิเคชันและประสบการณ์อินเทอร์แอกทีฟที่พัฒนาผ่านการเขียนโค้ด การออกแบบ และการแก้ปัญหาที่ใช้งานได้จริง",
     tabProjects: "โปรเจกต์",
     tabCertificates: "ใบรับรอง",
-    tabStack: "เทคโนโลยี",
+    tabStack: "เครื่องมือ",
     certificatesEmpty: "ยังไม่ได้เพิ่มข้อมูลใบรับรอง",
     certificatesEmptyDetail: "พื้นที่นี้พร้อมสำหรับภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ที่ตรวจสอบได้",
     skillsIndex: "03 / เครื่องมือ",
     skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
-    experienceIndex: "03 / เส้นทาง",
+    experienceIndex: "เกี่ยวกับ / เส้นทาง",
     experience: [
       { period: "2025 — ปัจจุบัน", title: "การพัฒนาเซิร์ฟเวอร์ FiveM", detail: "พัฒนาและดูแลเซิร์ฟเวอร์ ตั้งแต่เขียนสคริปต์ Lua สร้าง Web UI แก้ไขข้อผิดพลาด และปรับปรุงประสิทธิภาพระบบ" },
       { period: "2024 — ปัจจุบัน", title: "วิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยศรีนครินทรวิโรฒ", detail: "นักศึกษาชั้นปีที่ 2 ที่กำลังสร้างพื้นฐานด้าน Frontend, Backend และการพัฒนาฐานข้อมูล" },
     ],
-    nowIndex: "04 / ช่วงนี้",
-    nowTitle: "สิ่งที่ผมกำลังสำรวจ",
-    nowIntro: "ภาพรวมของเรื่องที่ผมกำลังให้ความสนใจ เรียนรู้ และลงมือทำในช่วงนี้",
-    nowItems: [
-      { label: "กำลังสร้าง", title: "โปรเจกต์ซอฟต์แวร์ส่วนตัว", detail: "นำไอเดียเล็ก ๆ ที่ใช้งานได้จริงมาพัฒนาเป็นประสบการณ์บนเว็บและโมบายให้สมบูรณ์" },
-      { label: "กำลังเรียนรู้", title: "TypeScript และสถาปัตยกรรม Backend", detail: "พัฒนาวิธีออกแบบแอปพลิเคชันให้ดูแลได้ง่าย เชื่อถือได้ และเชื่อมต่อแต่ละส่วนอย่างเป็นระบบ" },
-      { label: "กำลังสำรวจ", title: "ประสบการณ์ Interactive 3D", detail: "ผสมผสาน Unity, Blender และการเขียนโค้ดเพื่อสร้างพื้นที่ที่ผู้ใช้มีส่วนร่วมได้" },
-    ],
-    contactIndex: "05 / ติดต่อ",
+    contactIndex: "04 / ติดต่อ",
     contactTitle: "มาพูดคุยกัน",
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
     phoneLabel: "โทรศัพท์",
@@ -373,7 +357,7 @@ export default function Home() {
             </h1>
             <p className="Hero-intro">{copy.heroIntroStart} <strong>Thirawat Duangta</strong>, {copy.heroIntroEnd}</p>
             <div className="Hero-actions">
-              <a href="#portfolio" className="Button Button-primary">{copy.explore}<span aria-hidden="true">↗</span></a>
+              <a href="#work" className="Button Button-primary">{copy.explore}<span aria-hidden="true">↗</span></a>
               <a href="#contact" className="Button Button-secondary">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" /></svg>
                 {copy.contactMe}
@@ -439,20 +423,20 @@ export default function Home() {
             <p>{copy.profileTwo}</p>
             <div className="Intro-actions">
               <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
-              <a href="#portfolio" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
+              <a href="#work" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </div>
         <AchievementStats stats={copy.stats} ariaLabel={copy.statsLabel} />
       </section>
 
-      <section className="Portfolio Section" id="portfolio">
+      <section className="Portfolio Section" id="work">
         <div className="Section-heading-centered" data-reveal>
           <div className="Section-index">{copy.portfolioIndex}</div>
           <h2>{copy.portfolioTitle}</h2>
           <p>{copy.portfolioIntro}</p>
         </div>
-        <div className="Portfolio-tabs" role="tablist" aria-label={copy.portfolioTitle}>
+        <div className="Portfolio-tabs" role="tablist" aria-label={copy.portfolioTitle} data-reveal>
           {portfolioTabs.map((tab) => {
             const label = tab === "projects" ? copy.tabProjects : tab === "certificates" ? copy.tabCertificates : copy.tabStack;
             return (
@@ -477,7 +461,7 @@ export default function Home() {
           {activePortfolioTab === "projects" && (
             <div className="Portfolio-panel Project-list" id="portfolio-panel-projects" role="tabpanel" aria-labelledby="portfolio-tab-projects" key="projects">
               {localizedProjects.map((project) => (
-                <article key={project.title} className="Project-card">
+                <article key={project.title} className="Project-card" data-reveal>
                   <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
                     <ProjectCover title={project.title} subtitle={project.subtitle} code={project.coverCode} number={project.coverNumber} />
                     <span className="Project-open" aria-hidden="true">↗</span>
@@ -521,31 +505,15 @@ export default function Home() {
             </div>
           )}
         </div>
-      </section>
+        <section className="Experience Work-journey" id="experience">
+          <div className="Section-index">{copy.experienceIndex}</div>
+          <div className="Experience-list">
+            {copy.experience.map((item) => (
+              <article className="Experience-row" key={item.title} data-reveal><span>{item.period}</span><h3>{item.title}</h3><p>{item.detail}</p></article>
+            ))}
+          </div>
+        </section>
 
-      <section className="Experience Section" id="experience">
-        <div className="Section-index">{copy.experienceIndex}</div>
-        <div className="Experience-list">
-          {copy.experience.map((item) => (
-            <article className="Experience-row" key={item.title} data-reveal><span>{item.period}</span><h3>{item.title}</h3><p>{item.detail}</p></article>
-          ))}
-        </div>
-      </section>
-
-      <section className="Now Section" id="now">
-        <div className="Section-heading" data-reveal>
-          <div><div className="Section-index">{copy.nowIndex}</div><h2>{copy.nowTitle}</h2></div>
-          <p>{copy.nowIntro}</p>
-        </div>
-        <div className="Now-list">
-          {copy.nowItems.map((item, index) => (
-            <article className="Now-row" key={item.title} data-reveal>
-              <span>0{index + 1}</span>
-              <div><small>{item.label}</small><h3>{item.title}</h3></div>
-              <p>{item.detail}</p>
-            </article>
-          ))}
-        </div>
       </section>
 
       <section className="Contact Section" id="contact">
