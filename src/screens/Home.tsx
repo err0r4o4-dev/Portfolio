@@ -434,9 +434,11 @@ export default function Home() {
             </div>
           </div>
           <div className="Intro-visual" data-reveal>
-            <div className="Intro-image-frame">
-              <img src={profileMomentTwo} alt={copy.momentAlt} loading="lazy" />
-              <span aria-hidden="true">THIRAWAT / 2026</span>
+            <div className="Intro-image-float">
+              <div className="Intro-image-frame">
+                <img src={profileMomentTwo} alt={copy.momentAlt} loading="lazy" />
+                <span aria-hidden="true">THIRAWAT / 2026</span>
+              </div>
             </div>
           </div>
         </div>
