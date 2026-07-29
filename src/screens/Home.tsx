@@ -139,9 +139,11 @@ const content = {
     heroProjectLabel: "Project status",
     heroProjectValue: "Building ideas",
     heroScroll: "Scroll to explore",
-    profileIndex: "02 / About",
-    profileTitle: "This is where I keep the story behind what I make.",
-    profileSubtitle: "A closer look at the person, process, and curiosity behind the work.",
+    profileTitle: "About Me",
+    profileSubtitle: "Turning ideas into useful digital experiences.",
+    profileGreeting: "Hello, I’m",
+    profileName: "Thirawat Duangta",
+    profileQuote: "I use code to turn practical ideas into experiences people can actually use.",
     profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
     profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
     nextPhoto: "Next photo",
@@ -190,9 +192,11 @@ const content = {
     heroProjectLabel: "สถานะโปรเจกต์",
     heroProjectValue: "กำลังสร้างไอเดีย",
     heroScroll: "เลื่อนเพื่อสำรวจ",
-    profileIndex: "02 / เกี่ยวกับ",
-    profileTitle: "พื้นที่รวบรวมเรื่องราวเบื้องหลังสิ่งที่ผมสร้าง",
-    profileSubtitle: "ทำความรู้จักตัวตน กระบวนการ และความสนใจที่อยู่เบื้องหลังผลงาน",
+    profileTitle: "เกี่ยวกับฉัน",
+    profileSubtitle: "เปลี่ยนไอเดียให้เป็นประสบการณ์ดิจิทัลที่ใช้งานได้จริง",
+    profileGreeting: "สวัสดี ผมคือ",
+    profileName: "ธีรวัฒน์ ดวงตา",
+    profileQuote: "ผมใช้โค้ดเปลี่ยนไอเดียที่ใช้งานได้จริง ให้กลายเป็นประสบการณ์ที่ผู้คนเข้าถึงได้",
     profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
     profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
     nextPhoto: "ภาพถัดไป",
@@ -415,23 +419,24 @@ export default function Home() {
 
       <section className="Intro Section" id="about">
         <div className="Section-heading-centered" data-reveal>
-          <div className="Section-index">{copy.profileIndex}</div>
           <h2>{copy.profileTitle}</h2>
           <p>{copy.profileSubtitle}</p>
         </div>
         <div className="Intro-grid">
+          <div className="Intro-copy" data-reveal>
+            <h3><span>{copy.profileGreeting}</span><strong>{copy.profileName}</strong></h3>
+            <p>{copy.profileOne}</p>
+            <p>{copy.profileTwo}</p>
+            <blockquote>“{copy.profileQuote}”</blockquote>
+            <div className="Intro-actions">
+              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
+              <a href="#work" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
           <div className="Intro-visual" data-reveal>
             <div className="Intro-image-frame">
               <img src={profileMomentTwo} alt={copy.momentAlt} loading="lazy" />
               <span aria-hidden="true">THIRAWAT / 2026</span>
-            </div>
-          </div>
-          <div className="Intro-copy" data-reveal>
-            <p>{copy.profileOne}</p>
-            <p>{copy.profileTwo}</p>
-            <div className="Intro-actions">
-              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
-              <a href="#work" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </div>
