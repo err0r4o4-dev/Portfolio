@@ -419,7 +419,6 @@ export default function Home() {
             </div>
           </figure>
         </div>
-        <a className="Hero-scroll" href="#about"><span>{copy.heroScroll}</span><i aria-hidden="true">↓</i></a>
       </section>
 
       <section className="Intro Section" id="about">
