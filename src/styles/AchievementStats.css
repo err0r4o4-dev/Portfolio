@@ -1,6 +1,6 @@
 .Achievement-grid {
   display: grid;
-  grid-template-columns: 1.18fr .92fr 1fr .9fr;
+  grid-template-columns: repeat(3,minmax(0,1fr));
   gap: .8rem;
   margin-top: 5rem;
 }
@@ -20,7 +20,6 @@
 .Achievement-grid.is-visible .Achievement-card { opacity: 1; transform: translate3d(0,0,0); }
 .Achievement-grid.is-visible .Achievement-card:nth-child(2) { transition-delay: .07s; }
 .Achievement-grid.is-visible .Achievement-card:nth-child(3) { transition-delay: .14s; }
-.Achievement-grid.is-visible .Achievement-card:nth-child(4) { transition-delay: .21s; }
 .Achievement-card::before {
   content: "";
   position: absolute;
@@ -51,10 +50,17 @@
 .Achievement-card h3 { margin-top: .8rem; font-size: .96rem; font-weight: 600; }
 .Achievement-card p { max-width: 18rem; margin-top: .55rem; color: var(--muted); font-size: .78rem; line-height: 1.6; }
 .Achievement-index { position: absolute; right: 1.25rem; top: 1.25rem; color: #698199; font: 500 .6rem/1 var(--mono); }
-@media (max-width: 1000px) { .Achievement-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 1000px) {
+  .Achievement-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .Achievement-card:nth-child(3) { grid-column: 1 / -1; width: calc(50% - .4rem); justify-self: center; }
+}
+@media (max-width: 700px) {
+  .Achievement-grid { grid-template-columns: 1fr; }
+  .Achievement-card:nth-child(3) { grid-column: auto; width: auto; justify-self: stretch; }
+}
 @media (max-width: 540px) {
   .Achievement-grid { grid-template-columns: 1fr; gap: .7rem; margin-top: 3.5rem; }
-  .Achievement-card { min-height: 13.5rem; }
+  .Achievement-card { min-height: 15.6rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .Achievement-card { opacity: 1; transform: none; transition: none; }

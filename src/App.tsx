@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
@@ -9,7 +9,18 @@ export default function App() {
   const [isIntroVisible, setIsIntroVisible] = useState(
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
-  const completeIntro = useCallback(() => setIsIntroVisible(false), []);
+  const completeIntro = useCallback(() => {
+    setIsIntroVisible(false);
+    window.requestAnimationFrame(() => window.scrollTo(0, 0));
+  }, []);
+
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    if (window.location.hash) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
