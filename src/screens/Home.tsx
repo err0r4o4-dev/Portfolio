@@ -159,7 +159,7 @@ const content = {
       { value: 1, label: "Competition award", note: "3rd place in the SWU Metaverse Competition.", symbol: "AW" },
       { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
     ] satisfies AchievementStat[],
-    portfolioIndex: "03 / Selected work",
+
     portfolioTitle: "Work, credentials, and the tools behind them.",
     portfolioIntro: "A collection of applications and interactive experiences built through code, design, and practical problem-solving.",
     tabProjects: "Projects",
@@ -169,7 +169,7 @@ const content = {
     certificatesEmptyDetail: "This area is ready for verified certificate images, organisations, dates, and links.",
     skillsIndex: "03 / Toolkit",
     skillsTitle: "Tools I use to turn ideas into working things.",
-    contactIndex: "04 / Contact",
+
     contactTitle: "Let’s connect.",
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
     phoneLabel: "Phone",
@@ -211,7 +211,7 @@ const content = {
       { value: 1, label: "รางวัลการแข่งขัน", note: "รางวัลอันดับ 3 จากการแข่งขัน SWU Metaverse", symbol: "AW" },
       { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
     ] satisfies AchievementStat[],
-    portfolioIndex: "03 / ผลงานที่คัดเลือก",
+
     portfolioTitle: "ผลงาน หลักฐาน และเครื่องมือเบื้องหลัง",
     portfolioIntro: "รวมผลงานแอปพลิเคชันและประสบการณ์อินเทอร์แอกทีฟที่พัฒนาผ่านการเขียนโค้ด การออกแบบ และการแก้ปัญหาที่ใช้งานได้จริง",
     tabProjects: "โปรเจกต์",
@@ -221,7 +221,7 @@ const content = {
     certificatesEmptyDetail: "พื้นที่นี้พร้อมสำหรับภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ที่ตรวจสอบได้",
     skillsIndex: "03 / เครื่องมือ",
     skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
-    contactIndex: "04 / ติดต่อ",
+
     contactTitle: "มาพูดคุยกัน",
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
     phoneLabel: "โทรศัพท์",
@@ -445,7 +445,7 @@ export default function Home() {
 
       <section className="Portfolio Section" id="work">
         <div className="Section-heading-centered" data-reveal>
-          <div className="Section-index">{copy.portfolioIndex}</div>
+
           <h2>{copy.portfolioTitle}</h2>
           <p>{copy.portfolioIntro}</p>
         </div>
@@ -521,12 +521,11 @@ export default function Home() {
       </section>
 
       <section className="Contact Section" id="contact">
+        <div className="Contact-heading Section-heading-centered" data-reveal>
+          <h2>{copy.contactTitle}</h2>
+          <p>{copy.contactIntro}</p>
+        </div>
         <div className="Contact-panel" data-reveal>
-          <div className="Contact-heading">
-            <p className="Section-index">{copy.contactIndex}</p>
-            <h2>{copy.contactTitle}</h2>
-            <p>{copy.contactIntro}</p>
-          </div>
           <div className="Contact-details">
             <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">
               <span className="Contact-email-arrow" aria-hidden="true">→</span>
