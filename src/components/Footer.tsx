@@ -3,15 +3,9 @@ import "../styles/Footer.css";
 
 export default function Footer() {
   const { language } = useLanguage();
-  const description = language === "th"
-    ? "พื้นที่รวบรวมผลงาน การเรียนรู้ และสิ่งที่ผมสนใจ"
-    : "A personal archive of things I build, learn, and care about.";
-
   return (
     <footer className="Footer">
       <div className="Footer-container">
-        <a className="Footer-brand" href="#home">Thirawat Duangta <span>↟</span></a>
-        <p>{description}</p>
         <div className="Footer-bottom">
           <span>© 2026 Thirawat Duangta</span>
           <a href="mailto:title.thirawat.dev@gmail.com">{language === "th" ? "อีเมล" : "Email"}</a>

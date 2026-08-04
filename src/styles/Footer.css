@@ -1,42 +1,15 @@
 .Footer {
   position: relative;
+  z-index: 1;
   isolation: isolate;
-  overflow: hidden;
-  border-top: 0;
-  background: #020813;
+  background: #01050d;
 }
-.Footer::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  opacity: .18;
-  pointer-events: none;
-  background-image: linear-gradient(rgba(107,184,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(107,184,255,.055) 1px,transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom,transparent,black 24%,transparent 88%);
-}
-.Footer-container { width: var(--container); margin: auto; padding: clamp(4rem,7vw,6rem) 0 2rem; }
-.Footer-brand {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2rem;
-  font-size: clamp(2.4rem,5vw,5rem);
-  font-weight: 600;
-  line-height: .92;
-  letter-spacing: -.065em;
-}
-.Footer-brand span { color: var(--accent); font: 500 clamp(1rem,2vw,1.5rem)/1 var(--mono); transition: transform .4s var(--ease-out); }
-.Footer-brand:hover span { transform: translate3d(0,-.35rem,0); }
-.Footer-container > p { max-width: 38rem; margin-top: 1.25rem; color: var(--muted); text-wrap: pretty; }
+.Footer-container { display: flex; align-items: center; width: var(--container); min-height: 4.5rem; margin: auto; }
 .Footer-bottom {
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-top: clamp(3.5rem,7vw,6rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+  width: 100%;
   color: #748ba3;
   font: 500 .67rem/1.5 var(--mono);
   letter-spacing: .035em;
@@ -46,11 +19,10 @@
 .Footer-bottom a { transition: color .3s var(--ease-out),transform .3s var(--ease-out); }
 .Footer-bottom a:hover { color: #bfe2ff; transform: translate3d(0,-.12rem,0); }
 @media (max-width: 640px) {
-  .Footer-container { width: min(100% - 32px,1440px); padding-top: 3.5rem; }
-  .Footer-brand { align-items: flex-start; font-size: clamp(2rem,11vw,3.4rem); }
-  .Footer-bottom { flex-wrap: wrap; gap: 1rem 1.5rem; }
+  .Footer-container { width: min(100% - 32px,1440px); min-height: 5rem; }
+  .Footer-bottom { flex-wrap: wrap; gap: .5rem 1.25rem; padding-block: 1rem; }
   .Footer-bottom span { width: calc(100% - 1.5rem); margin-right: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .Footer-brand span, .Footer-bottom a { transition: none; }
+  .Footer-bottom a { transition: none; }
 }

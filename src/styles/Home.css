@@ -502,7 +502,7 @@
   --ambient-indigo-transform: translate3d(0,0,0) scale(1);
   position: relative;
   overflow-x: clip;
-  background: #020813;
+  background: #01050d;
   isolation: isolate;
 }
 .Home-ambient {
@@ -511,14 +511,18 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(118deg,#020813 0%,#030b18 48%,#041020 100%);
+  background:
+    radial-gradient(circle at 8% 6%,rgba(20,92,181,.14),transparent 31rem),
+    radial-gradient(circle at 92% 30%,rgba(22,131,182,.09),transparent 35rem),
+    radial-gradient(circle at 36% 92%,rgba(57,71,158,.09),transparent 38rem),
+    linear-gradient(125deg,#01050d 0%,#020817 44%,#03101f 74%,#01050d 100%);
 }
 .Home-ambient::before {
   content: "";
   position: absolute;
   inset: -64px;
-  opacity: .25;
-  background-image: linear-gradient(rgba(107,184,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(107,184,255,.055) 1px,transparent 1px);
+  opacity: .32;
+  background-image: linear-gradient(rgba(91,153,211,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(91,153,211,.06) 1px,transparent 1px);
   background-position: center;
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom,black,rgba(0,0,0,.78) 72%,transparent);
@@ -527,8 +531,8 @@
   content: "";
   position: absolute;
   inset: 0;
-  opacity: .14;
-  background-image: radial-gradient(circle,rgba(181,220,255,.32) .55px,transparent .7px);
+  opacity: .1;
+  background-image: radial-gradient(circle,rgba(139,190,232,.28) .55px,transparent .7px);
   background-size: 5px 5px;
   mix-blend-mode: soft-light;
 }
@@ -536,9 +540,9 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  filter: blur(7rem);
+  filter: blur(6rem) saturate(.94);
   mix-blend-mode: screen;
-  opacity: .18;
+  opacity: .22;
   will-change: transform,opacity;
   animation: ambientBreathe 9s ease-in-out infinite alternate;
 }
@@ -547,7 +551,7 @@
   top: 5%;
   width: min(54vw,48rem);
   aspect-ratio: 1;
-  background: radial-gradient(circle,rgba(29,89,218,.44) 0%,rgba(25,74,184,.22) 38%,transparent 72%);
+  background: radial-gradient(circle,rgba(32,104,198,.56) 0%,rgba(18,75,157,.3) 34%,rgba(7,36,91,.11) 56%,transparent 72%);
   transform: var(--ambient-blue-transform);
 }
 .Home-ambient-orb-cyan {
@@ -555,7 +559,7 @@
   top: 35%;
   width: min(52vw,46rem);
   aspect-ratio: 1;
-  background: radial-gradient(circle,rgba(29,147,224,.38) 0%,rgba(20,104,183,.18) 40%,transparent 73%);
+  background: radial-gradient(circle,rgba(33,145,190,.45) 0%,rgba(20,104,154,.25) 35%,rgba(8,55,105,.09) 58%,transparent 73%);
   transform: var(--ambient-cyan-transform);
   animation-duration: 11.5s;
   animation-delay: -3.4s;
@@ -565,7 +569,7 @@
   bottom: -15rem;
   width: min(46vw,40rem);
   aspect-ratio: 1;
-  background: radial-gradient(circle,rgba(61,78,190,.34) 0%,rgba(47,61,157,.16) 42%,transparent 74%);
+  background: radial-gradient(circle,rgba(69,78,168,.42) 0%,rgba(45,54,133,.24) 38%,rgba(23,28,78,.09) 60%,transparent 74%);
   transform: var(--ambient-indigo-transform);
   animation-duration: 13s;
   animation-delay: -7s;
@@ -760,8 +764,8 @@
 }
 @media (max-width: 420px) { .Tech-grid { grid-template-columns: 1fr; } }
 @keyframes ambientBreathe {
-  from { opacity: .14; filter: blur(7.5rem) saturate(.92); }
-  to { opacity: .21; filter: blur(6.5rem) saturate(1.04); }
+  from { opacity: .16; filter: blur(6.4rem) saturate(.88); }
+  to { opacity: .24; filter: blur(5.6rem) saturate(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .Home-ambient-orb { animation: none; will-change: auto; }
