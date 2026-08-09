@@ -8,7 +8,48 @@ import "../styles/Home.css";
 
 const portfolioTabs = ["projects", "certificates", "stack"] as const;
 type PortfolioTab = (typeof portfolioTabs)[number];
+type GuestbookEntry = {
+  id: string;
+  name: string;
+  message: string;
+  createdAt: string;
+  avatarDataUrl?: string;
+};
+
+const GUESTBOOK_STORAGE_KEY = "portfolio-guestbook";
+const MAX_GUESTBOOK_ENTRIES = 12;
+const MAX_AVATAR_BYTES = 300 * 1024;
 const getTechMark = (name: string) => name.split(/[\s/+.]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+
+const readFileAsDataUrl = (file: File) => new Promise<string>((resolve, reject) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => resolve(String(reader.result)));
+  reader.addEventListener("error", () => reject(reader.error));
+  reader.readAsDataURL(file);
+});
+
+const isGuestbookEntry = (value: unknown): value is GuestbookEntry => {
+  if (!value || typeof value !== "object") return false;
+  const entry = value as Record<string, unknown>;
+  return typeof entry.id === "string"
+    && typeof entry.name === "string"
+    && typeof entry.message === "string"
+    && typeof entry.createdAt === "string"
+    && (entry.avatarDataUrl === undefined || typeof entry.avatarDataUrl === "string");
+};
+
+const loadGuestbookEntries = () => {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const savedEntries = window.localStorage.getItem(GUESTBOOK_STORAGE_KEY);
+    if (!savedEntries) return [];
+    const parsedEntries: unknown = JSON.parse(savedEntries);
+    return Array.isArray(parsedEntries) ? parsedEntries.filter(isGuestbookEntry) : [];
+  } catch {
+    return [];
+  }
+};
 
 const skillGroups = {
   en: [
@@ -172,8 +213,44 @@ const content = {
 
     contactTitle: "Let’s connect.",
     contactIntro: "Interested in my work, want to exchange ideas, or build something together? Feel free to reach out.",
+    privateTitle: "Contact",
+    privateIntro: "Have something in mind? Send a private message and let’s talk.",
+    emailLabel: "Email",
     phoneLabel: "Phone",
     githubLabel: "GitHub",
+    nameLabel: "Name",
+    namePlaceholder: "Your name",
+    replyEmailLabel: "Email",
+    emailPlaceholder: "Your email",
+    messageLabel: "Message",
+    messagePlaceholder: "Tell me about your idea, timeline, or question…",
+    submitLabel: "Send private message",
+    submitHint: "Your email app will open with this message ready to review.",
+    connectTitle: "Connect with me",
+    guestbookTitle: "Guestbook",
+    guestbookIntro: "Leave a public note, question, or quick hello.",
+    localPreview: "Local preview",
+    guestNameLabel: "Display name",
+    guestNamePlaceholder: "Name shown with your note",
+    guestMessageLabel: "Public message",
+    guestMessagePlaceholder: "Write your message here…",
+    photoLabel: "Profile photo",
+    optionalLabel: "optional",
+    choosePhoto: "Choose a profile photo",
+    photoHint: "JPG, PNG, or WebP · up to 300 KB",
+    postLabel: "Post to guestbook",
+    pinnedLabel: "Pinned note",
+    ownerLabel: "Owner",
+    ownerMessage: "Thanks for visiting. You can leave a question here or contact me privately by email.",
+    ownerAvatarAlt: "Thirawat Duangta",
+    emptyTitle: "The guestbook is ready.",
+    emptyMessage: "Be the first person to leave a note in this browser.",
+    localStorageNote: "Guestbook notes are stored only in this browser until a public backend is connected.",
+    guestRequiredError: "Enter your name and a message before posting.",
+    photoTypeError: "Choose a JPG, PNG, or WebP image.",
+    photoSizeError: "The profile photo must be smaller than 300 KB.",
+    storageError: "This browser could not save the note. Try a smaller image.",
+    postedMessage: "Your note was added to the guestbook.",
   },
   th: {
     available: "กำลังสร้างและเรียนรู้",
@@ -224,8 +301,44 @@ const content = {
 
     contactTitle: "มาพูดคุยกัน",
     contactIntro: "สนใจผลงาน อยากแลกเปลี่ยนไอเดีย หรือสร้างอะไรบางอย่างร่วมกัน ติดต่อผมได้เสมอ",
+    privateTitle: "ติดต่อ",
+    privateIntro: "มีเรื่องอยากพูดคุย ส่งข้อความส่วนตัวมาได้ แล้วมาคุยกัน",
+    emailLabel: "อีเมล",
     phoneLabel: "โทรศัพท์",
     githubLabel: "GitHub",
+    nameLabel: "ชื่อ",
+    namePlaceholder: "ชื่อของคุณ",
+    replyEmailLabel: "อีเมล",
+    emailPlaceholder: "อีเมลของคุณ",
+    messageLabel: "ข้อความ",
+    messagePlaceholder: "เล่าไอเดีย ระยะเวลา หรือคำถามที่อยากพูดคุย…",
+    submitLabel: "ส่งข้อความส่วนตัว",
+    submitHint: "ระบบจะเปิดแอปอีเมลพร้อมข้อความนี้ให้คุณตรวจสอบก่อนส่ง",
+    connectTitle: "ช่องทางติดต่อ",
+    guestbookTitle: "สมุดเยี่ยม",
+    guestbookIntro: "ฝากข้อความ คำถาม หรือคำทักทายสั้น ๆ ไว้บนหน้านี้",
+    localPreview: "ตัวอย่างในเครื่อง",
+    guestNameLabel: "ชื่อที่แสดง",
+    guestNamePlaceholder: "ชื่อที่จะแสดงพร้อมข้อความ",
+    guestMessageLabel: "ข้อความสาธารณะ",
+    guestMessagePlaceholder: "เขียนข้อความของคุณที่นี่…",
+    photoLabel: "รูปโปรไฟล์",
+    optionalLabel: "ไม่บังคับ",
+    choosePhoto: "เลือกรูปโปรไฟล์",
+    photoHint: "JPG, PNG หรือ WebP · ไม่เกิน 300 KB",
+    postLabel: "โพสต์ลงสมุดเยี่ยม",
+    pinnedLabel: "ข้อความปักหมุด",
+    ownerLabel: "เจ้าของเว็บไซต์",
+    ownerMessage: "ขอบคุณที่เข้ามาเยี่ยมชม ฝากคำถามไว้ที่นี่หรือติดต่อผมเป็นการส่วนตัวผ่านอีเมลได้เสมอ",
+    ownerAvatarAlt: "ธีรวัฒน์ ดวงตา",
+    emptyTitle: "สมุดเยี่ยมพร้อมแล้ว",
+    emptyMessage: "ฝากข้อความแรกจากเบราว์เซอร์นี้ได้เลย",
+    localStorageNote: "ข้อความจะถูกเก็บไว้เฉพาะในเบราว์เซอร์นี้ จนกว่าจะเชื่อมต่อระบบหลังบ้านสำหรับการเผยแพร่จริง",
+    guestRequiredError: "กรุณากรอกชื่อและข้อความก่อนโพสต์",
+    photoTypeError: "กรุณาเลือกไฟล์ JPG, PNG หรือ WebP",
+    photoSizeError: "รูปโปรไฟล์ต้องมีขนาดไม่เกิน 300 KB",
+    storageError: "เบราว์เซอร์ไม่สามารถบันทึกข้อความได้ ลองใช้รูปที่เล็กลง",
+    postedMessage: "เพิ่มข้อความลงในสมุดเยี่ยมแล้ว",
   },
 };
 
@@ -234,10 +347,103 @@ export default function Home() {
   const ambientLayerRef = useRef<HTMLDivElement>(null);
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
+  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(loadGuestbookEntries);
+  const [guestbookError, setGuestbookError] = useState("");
+  const [guestbookStatus, setGuestbookStatus] = useState("");
+  const [selectedAvatarName, setSelectedAvatarName] = useState("");
+  const avatarInputRef = useRef<HTMLInputElement>(null);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
   const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
+
+  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+    const subject = language === "th" ? `ติดต่อผ่าน Portfolio — ${name}` : `Portfolio enquiry — ${name}`;
+    const body = language === "th"
+      ? `ชื่อ: ${name}\nอีเมล: ${email}\n\nข้อความ:\n${message}`
+      : `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+
+    window.location.href = `mailto:title.thirawat.dev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setGuestbookError("");
+    setGuestbookStatus("");
+
+    if (!file) {
+      setSelectedAvatarName("");
+      return;
+    }
+
+    if (!file.type.match(/^image\/(jpeg|png|webp)$/)) {
+      event.target.value = "";
+      setSelectedAvatarName("");
+      setGuestbookError(copy.photoTypeError);
+      return;
+    }
+
+    if (file.size > MAX_AVATAR_BYTES) {
+      event.target.value = "";
+      setSelectedAvatarName("");
+      setGuestbookError(copy.photoSizeError);
+      return;
+    }
+
+    setSelectedAvatarName(file.name);
+  };
+
+  const handleGuestbookSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setGuestbookError("");
+    setGuestbookStatus("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get("guestName") ?? "").trim();
+    const message = String(formData.get("guestMessage") ?? "").trim();
+    const avatarFile = avatarInputRef.current?.files?.[0];
+
+    if (!name || !message) {
+      setGuestbookError(copy.guestRequiredError);
+      return;
+    }
+
+    let avatarDataUrl: string | undefined;
+    try {
+      if (avatarFile) avatarDataUrl = await readFileAsDataUrl(avatarFile);
+
+      const nextEntries = [{
+        id: crypto.randomUUID(),
+        name,
+        message,
+        createdAt: new Date().toISOString(),
+        avatarDataUrl,
+      }, ...guestbookEntries].slice(0, MAX_GUESTBOOK_ENTRIES);
+
+      window.localStorage.setItem(GUESTBOOK_STORAGE_KEY, JSON.stringify(nextEntries));
+      setGuestbookEntries(nextEntries);
+      setGuestbookStatus(copy.postedMessage);
+      setSelectedAvatarName("");
+      form.reset();
+    } catch {
+      setGuestbookError(copy.storageError);
+    }
+  };
+
+  const formatGuestbookDate = (createdAt: string) => {
+    return new Intl.DateTimeFormat(language === "th" ? "th-TH" : "en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(createdAt));
+  };
 
 
   const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
@@ -525,21 +731,130 @@ export default function Home() {
           <h2>{copy.contactTitle}</h2>
           <p>{copy.contactIntro}</p>
         </div>
-        <div className="Contact-panel" data-reveal>
-          <div className="Contact-details">
-            <a className="Contact-email" href="mailto:title.thirawat.dev@gmail.com">
-              <span className="Contact-email-arrow" aria-hidden="true">→</span>
-              <strong>title.thirawat.dev@gmail.com</strong>
-            </a>
-            <div className="Contact-row">
-              <span>{copy.phoneLabel}</span>
-              <a href="tel:+66615071665">+66 61 507 1665</a>
+        <div className="Contact-board" data-reveal>
+          <aside className="Contact-sidebar">
+            <form className="Contact-private-form" onSubmit={handleContactSubmit}>
+              <header className="Contact-card-heading">
+                <span className="Contact-heading-mark" aria-hidden="true">↗</span>
+                <div>
+                  <h3>{copy.privateTitle}</h3>
+                  <p>{copy.privateIntro}</p>
+                </div>
+              </header>
+
+              <label>
+                <span>{copy.nameLabel}</span>
+                <input name="name" type="text" autoComplete="name" placeholder={copy.namePlaceholder} required />
+              </label>
+              <label>
+                <span>{copy.replyEmailLabel}</span>
+                <input name="email" type="email" autoComplete="email" placeholder={copy.emailPlaceholder} required />
+              </label>
+              <label>
+                <span>{copy.messageLabel}</span>
+                <textarea name="message" rows={6} minLength={10} placeholder={copy.messagePlaceholder} required />
+              </label>
+              <button className="Contact-primary-action" type="submit">
+                <span>{copy.submitLabel}</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p className="Contact-form-note">{copy.submitHint}</p>
+            </form>
+
+            <section className="Contact-socials" aria-labelledby="contact-socials-title">
+              <h3 id="contact-socials-title"><span aria-hidden="true" />{copy.connectTitle}</h3>
+              <nav className="Contact-social-grid" aria-label={copy.connectTitle}>
+                <a className="Contact-social-link Contact-social-link-wide" href="mailto:title.thirawat.dev@gmail.com">
+                  <span className="Contact-social-icon" aria-hidden="true">@</span>
+                  <span><strong>{copy.emailLabel}</strong><small>title.thirawat.dev@gmail.com</small></span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a className="Contact-social-link" href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">
+                  <span className="Contact-social-icon" aria-hidden="true">GH</span>
+                  <span><strong>{copy.githubLabel}</strong><small>err0r4o4-dev</small></span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a className="Contact-social-link" href="tel:+66615071665">
+                  <span className="Contact-social-icon" aria-hidden="true">TEL</span>
+                  <span><strong>{copy.phoneLabel}</strong><small>+66 61 507 1665</small></span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </nav>
+            </section>
+          </aside>
+
+          <section className="Guestbook" aria-labelledby="guestbook-title">
+            <header className="Guestbook-toolbar">
+              <div>
+                <span className="Guestbook-mark" aria-hidden="true">//</span>
+                <h3 id="guestbook-title">{copy.guestbookTitle} <span>({guestbookEntries.length + 1})</span></h3>
+              </div>
+              <small>{copy.localPreview}</small>
+            </header>
+
+            <form className="Guestbook-form" onSubmit={handleGuestbookSubmit}>
+              <div className="Guestbook-field-grid">
+                <label>
+                  <span>{copy.guestNameLabel}<b aria-hidden="true"> *</b></span>
+                  <input name="guestName" type="text" autoComplete="name" maxLength={48} placeholder={copy.guestNamePlaceholder} required />
+                </label>
+                <label>
+                  <span>{copy.guestMessageLabel}<b aria-hidden="true"> *</b></span>
+                  <textarea name="guestMessage" rows={5} minLength={2} maxLength={500} placeholder={copy.guestMessagePlaceholder} required />
+                </label>
+              </div>
+
+              <div className="Guestbook-upload-field">
+                <span>{copy.photoLabel} <small>({copy.optionalLabel})</small></span>
+                <label className="Guestbook-upload">
+                  <input ref={avatarInputRef} name="guestAvatar" type="file" accept="image/jpeg,image/png,image/webp" onChange={handleAvatarChange} />
+                  <span className="Guestbook-upload-icon" aria-hidden="true">IMG</span>
+                  <strong>{selectedAvatarName || copy.choosePhoto}</strong>
+                </label>
+                <small>{copy.photoHint}</small>
+              </div>
+
+              <button className="Guestbook-submit" type="submit">
+                <span>{copy.postLabel}</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p className="Guestbook-storage-note">{copy.localStorageNote}</p>
+              {guestbookError && <p className="Guestbook-feedback is-error" role="alert">{guestbookError}</p>}
+              {guestbookStatus && <p className="Guestbook-feedback is-success" role="status">{guestbookStatus}</p>}
+            </form>
+
+            <div className="Guestbook-feed" aria-live="polite">
+              <article className="Guestbook-entry Guestbook-entry-pinned">
+                <div className="Guestbook-pin"><span aria-hidden="true">⌁</span>{copy.pinnedLabel}</div>
+                <div className="Guestbook-entry-body">
+                  <img src={profileMomentTwo} alt={copy.ownerAvatarAlt} />
+                  <div>
+                    <header><strong>Thirawat</strong><span>{copy.ownerLabel}</span></header>
+                    <p>{copy.ownerMessage}</p>
+                  </div>
+                </div>
+              </article>
+
+              {guestbookEntries.length === 0 ? (
+                <div className="Guestbook-empty">
+                  <span aria-hidden="true">01</span>
+                  <div><strong>{copy.emptyTitle}</strong><p>{copy.emptyMessage}</p></div>
+                </div>
+              ) : guestbookEntries.map((entry) => (
+                <article className="Guestbook-entry" key={entry.id}>
+                  <div className="Guestbook-entry-body">
+                    {entry.avatarDataUrl
+                      ? <img src={entry.avatarDataUrl} alt={entry.name} />
+                      : <span className="Guestbook-avatar" aria-hidden="true">{entry.name.slice(0, 2).toUpperCase()}</span>}
+                    <div>
+                      <header><strong>{entry.name}</strong><time dateTime={entry.createdAt}>{formatGuestbookDate(entry.createdAt)}</time></header>
+                      <p>{entry.message}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
-            <div className="Contact-row">
-              <span>{copy.githubLabel}</span>
-              <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">err0r4o4-dev ↗</a>
-            </div>
-          </div>
+          </section>
         </div>
       </section>
 
