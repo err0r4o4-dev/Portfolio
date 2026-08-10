@@ -19,7 +19,37 @@ type GuestbookEntry = {
 const GUESTBOOK_STORAGE_KEY = "portfolio-guestbook";
 const MAX_GUESTBOOK_ENTRIES = 12;
 const MAX_AVATAR_BYTES = 300 * 1024;
-const getTechMark = (name: string) => name.split(/[\s/+.]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+const THE_SVG_CDN = "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons";
+const techLogoPaths: Record<string, string> = {
+  JavaScript: "javascript/default",
+  Java: "java/default",
+  Python: "python/default",
+  "C#": "c-sharp/default",
+  C: "c/default",
+  Lua: "lua/default",
+  Dart: "dart/default",
+  "HTML / CSS": "html5/default",
+  XML: "xml/default",
+  React: "react/default",
+  "React Native": "react/default",
+  "Next.js": "nextdotjs/default",
+  "Express.js": "expressdotjs/light",
+  Flutter: "flutter/default",
+  Bootstrap: "bootstrap/default",
+  MySQL: "mysql/default",
+  MariaDB: "mariadb/default",
+  GitHub: "github/light",
+  "Android Studio": "android-studio/default",
+  Figma: "figma/default",
+  Unity: "unity/light",
+  Blender: "blender/default",
+  "UX/UI design": "figma/default",
+  "ออกแบบ UX/UI": "figma/default",
+  "3D modelling": "blender/default",
+  "สร้างโมเดล 3D": "blender/default",
+};
+
+const getTechLogo = (name: string) => `${THE_SVG_CDN}/${techLogoPaths[name]}.svg`;
 
 const readFileAsDataUrl = (file: File) => new Promise<string>((resolve, reject) => {
   const reader = new FileReader();
@@ -713,7 +743,7 @@ export default function Home() {
                   <div className="Tech-grid">
                     {group.items.map((item) => (
                       <article className="Tech-card" key={item}>
-                        <span aria-hidden="true">{getTechMark(item)}</span>
+                        <span aria-hidden="true"><img src={getTechLogo(item)} alt="" loading="lazy" /></span>
                         <strong>{item}</strong>
                         <small>{group.title}</small>
                       </article>
