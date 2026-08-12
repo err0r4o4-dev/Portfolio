@@ -112,17 +112,7 @@ export default function Header() {
   useEffect(() => {
     if (!isMenuOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
     const previouslyFocused = document.activeElement as HTMLElement | null;
-    const pageRegions = [
-      document.getElementById("main-content"),
-      document.querySelector<HTMLElement>(".Footer"),
-    ].filter(Boolean) as HTMLElement[];
-    const previousRegionStates = pageRegions.map((region) => ({
-      region,
-      inert: region.inert,
-      ariaHidden: region.getAttribute("aria-hidden"),
-    }));
     const focusFirstMenuLink = () => {
       mobileMenuRef.current?.querySelector<HTMLElement>("a")?.focus();
     };
@@ -132,54 +122,22 @@ export default function Header() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
-        return;
-      }
-
-      if (event.key !== "Tab" || !headerRef.current) return;
-
-      const focusableElements = Array.from(
-        headerRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
-      ).filter((element) => (
-        !element.closest('[aria-hidden="true"]')
-        && window.getComputedStyle(element).visibility !== "hidden"
-        && window.getComputedStyle(element).display !== "none"
-      ));
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (!firstElement || !lastElement) return;
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault();
-        lastElement.focus();
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
       }
     };
 
-    pageRegions.forEach((region) => {
-      region.inert = true;
-      region.setAttribute("aria-hidden", "true");
-    });
-    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.clearTimeout(focusTimer);
-      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
-      previousRegionStates.forEach(({ region, inert, ariaHidden }) => {
-        region.inert = inert;
-        if (ariaHidden === null) region.removeAttribute("aria-hidden");
-        else region.setAttribute("aria-hidden", ariaHidden);
-      });
       previouslyFocused?.focus({ preventScroll: true });
     };
   }, [isMenuOpen]);
 
   return (
-    <header ref={headerRef} className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}`}>
-      <a className="Skip-link" href="#main-content">{copy.skip}</a>
-      <div className="Header-container">
+    <>
+      <header ref={headerRef} className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}`}>
+        <a className="Skip-link" href="#main-content">{copy.skip}</a>
+        <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label={copy.brandHome} onClick={() => selectSection("home")}>
           <span className="Header-mark"><img src={brandLogo} alt="" /></span>
           <span>Taitunnn</span>
@@ -217,11 +175,12 @@ export default function Header() {
           <span />
           <span />
         </button>
-      </div>
+        </div>
+      </header>
       <div
         ref={mobileMenuRef}
         id="mobile-navigation"
-        className={`Mobile-menu${isMenuOpen ? " is-open" : ""}`}
+        className={`Mobile-menu${isMenuOpen ? " is-open" : ""}${isScrolled || isMenuOpen ? " is-header-scrolled" : ""}`}
         aria-hidden={!isMenuOpen}
         onClick={(event) => {
           if (event.target === event.currentTarget) setIsMenuOpen(false);
@@ -238,6 +197,6 @@ export default function Header() {
           </nav>
         </div>
       </div>
-    </header>
+    </>
   );
 }
