@@ -4,11 +4,15 @@ import ProjectModal, { type Project } from "../components/ProjectModal";
 import ProjectCover from "../components/ProjectCover";
 import AchievementStats, { type AchievementStat } from "../components/AchievementStats";
 import ConnectSection from "../components/connect/ConnectSection";
+import profileMomentOne from "../assets/profile-moment-01.jpg";
 import profileMomentTwo from "../assets/profile-moment-02.jpg";
+import profileMomentThree from "../assets/profile-moment-03.jpg";
 import "../styles/Home.css";
 
 const portfolioTabs = ["projects", "certificates", "stack"] as const;
 type PortfolioTab = (typeof portfolioTabs)[number];
+const profileMoments = [profileMomentTwo, profileMomentThree, profileMomentOne];
+const PROFILE_MOMENT_INTERVAL_MS = 5_000;
 const THE_SVG_CDN = "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons";
 const techLogoPaths: Record<string, string> = {
   JavaScript: "javascript/default",
@@ -257,10 +261,27 @@ export default function Home() {
   const ambientLayerRef = useRef<HTMLDivElement>(null);
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
+  const [activeProfileMoment, setActiveProfileMoment] = useState(0);
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
   const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
+  const nextProfileMoment = profileMoments[(activeProfileMoment + 1) % profileMoments.length];
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    profileMoments.forEach((source) => {
+      const image = new Image();
+      image.src = source;
+    });
+
+    const intervalId = window.setInterval(() => {
+      setActiveProfileMoment((current) => (current + 1) % profileMoments.length);
+    }, PROFILE_MOMENT_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -448,6 +469,24 @@ export default function Home() {
           <p>{copy.profileSubtitle}</p>
         </div>
         <div className="Intro-grid">
+          <div className="Intro-visual" data-reveal>
+            <div className="Intro-image-float">
+              <div className="Intro-image-frame">
+                <img
+                  key={profileMoments[activeProfileMoment]}
+                  src={profileMoments[activeProfileMoment]}
+                  alt={copy.momentAlt}
+                  loading="lazy"
+                />
+                <div className="Intro-image-meta" aria-hidden="true">
+                  <div className="Intro-image-next">
+                    <img key={nextProfileMoment} src={nextProfileMoment} alt="" />
+                  </div>
+                  <span>THIRAWAT / 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="Intro-copy" data-reveal>
             <h3><span>{copy.profileGreeting}</span><strong>{copy.profileName}</strong></h3>
             <p>{copy.profileOne}</p>
@@ -456,14 +495,6 @@ export default function Home() {
             <div className="Intro-actions">
               <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
               <a href="#work" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
-            </div>
-          </div>
-          <div className="Intro-visual" data-reveal>
-            <div className="Intro-image-float">
-              <div className="Intro-image-frame">
-                <img src={profileMomentTwo} alt={copy.momentAlt} loading="lazy" />
-                <span aria-hidden="true">THIRAWAT / 2026</span>
-              </div>
             </div>
           </div>
         </div>

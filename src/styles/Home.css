@@ -108,9 +108,8 @@
 .Intro-visual { display: grid; place-items: center; }
 .Intro-image-frame { position: relative; width: min(100%,25rem); aspect-ratio: 4/5; padding: .65rem; border: 1px solid rgba(38,151,255,.4); border-radius: 1.5rem; background: rgba(13,26,42,.62); box-shadow: 0 2rem 5rem rgba(0,54,120,.2); }
 .Intro-image-frame::before { content: ""; position: absolute; z-index: -1; inset: 10% -10% -8% 12%; border-radius: 50%; background: rgba(38,151,255,.16); filter: blur(3rem); }
-.Intro-image-frame img { width: 100%; height: 100%; border-radius: 1.1rem; object-fit: cover; object-position: center 24%; filter: saturate(.9); transition: transform .6s cubic-bezier(.16,1,.3,1), filter .3s ease; }
-.Intro-image-frame:hover img { transform: scale(1.018); filter: saturate(1); }
-.Intro-image-frame > span { position: absolute; right: 1.3rem; bottom: 1.3rem; padding: .65rem .8rem; border: 1px solid rgba(38,151,255,.35); background: rgba(7,16,28,.76); color: var(--accent); font: 500 .62rem/1 var(--mono); backdrop-filter: blur(8px); }
+.Intro-image-frame > img { width: 100%; height: 100%; border-radius: 1.1rem; object-fit: cover; object-position: center 24%; filter: saturate(.9); transition: transform .6s cubic-bezier(.16,1,.3,1), filter .3s ease; }
+.Intro-image-frame:hover > img { transform: scale(1.018); filter: saturate(1); }
 .Intro-copy { display: grid; gap: 1.5rem; color: var(--muted); font-size: 1.05rem; }
 .Intro-actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 1rem; }
 .Portfolio { border-top: 1px solid var(--border); }
@@ -602,8 +601,8 @@
 .Contact .Section-heading-centered h2 { max-width: none; font-size: clamp(2.9rem,4.5vw,4.5rem); }
 .Portfolio .Section-heading-centered > p,
 .Contact .Section-heading-centered > p:last-child { max-width: 36rem; }
-.Intro-grid { grid-template-columns: minmax(0,1.12fr) minmax(20rem,.88fr); gap: clamp(4rem,8vw,9rem); align-items: center; }
-.Intro-visual { justify-items: end; perspective: 1200px; }
+.Intro-grid { grid-template-columns: 1fr; gap: clamp(3.5rem,6vw,5rem); align-items: center; }
+.Intro-visual { justify-items: center; perspective: 1200px; }
 .Intro-image-frame {
   isolation: isolate;
   width: min(100%,25rem);
@@ -620,9 +619,12 @@
 .Intro-image-frame::before { z-index: -1; inset: -1.15rem; border: 1px solid rgba(65,145,231,.18); border-radius: 50%; background: radial-gradient(circle at 65% 25%,rgba(38,151,255,.16),transparent 58%); filter: none; }
 .Intro-image-frame::after { content: ""; position: absolute; z-index: -2; inset: -12%; border-radius: 50%; background: conic-gradient(from 90deg,transparent 0 28%,rgba(38,151,255,.24) 40%,transparent 52% 78%,rgba(69,205,255,.16) 88%,transparent); filter: blur(.2rem); animation: introHaloSpin 18s linear infinite; }
 .Intro-image-frame:hover { border-color: rgba(119,190,255,.58); box-shadow: 0 2.7rem 6.5rem rgba(0,24,57,.5),0 0 5rem rgba(38,151,255,.18),inset 0 1px rgba(255,255,255,.1); transform: translate3d(0,-.35rem,0) scale(1.015); }
-.Intro-image-frame img { border-radius: 50%; }
-.Intro-image-frame > span { right: 1rem; bottom: 1.75rem; border-radius: .45rem; background: rgba(3,12,25,.86); }
-.Intro-copy { position: relative; gap: 1.2rem; max-width: 43rem; padding: 0; border: 0; background: transparent; box-shadow: none; font-size: 1.02rem; line-height: 1.8; }
+.Intro-image-frame > img { border-radius: 50%; animation: introPortraitSwap .7s var(--ease-out) both; }
+.Intro-image-meta { position: absolute; z-index: 2; right: 1rem; bottom: 1.75rem; display: flex; flex-direction: column; align-items: flex-end; gap: .65rem; }
+.Intro-image-next { width: clamp(3.5rem,18vw,4.5rem); aspect-ratio: 1; padding: .24rem; overflow: hidden; border: 1px solid rgba(126,196,255,.62); border-radius: .85rem; background: rgba(3,12,25,.9); box-shadow: 0 .9rem 2.2rem rgba(0,7,20,.42),0 0 1.5rem rgba(38,151,255,.16),inset 0 1px rgba(255,255,255,.1); transform: rotate(3deg); }
+.Intro-image-next img { width: 100%; height: 100%; border-radius: .62rem; object-fit: cover; object-position: center 24%; filter: saturate(.88); animation: introPortraitSwap .7s var(--ease-out) both; }
+.Intro-image-meta > span { padding: .65rem .8rem; border: 1px solid rgba(38,151,255,.35); border-radius: .45rem; background: rgba(3,12,25,.86); color: var(--accent); font: 500 .62rem/1 var(--mono); backdrop-filter: blur(8px); }
+.Intro-copy { position: relative; gap: 1.2rem; width: min(100%,43rem); margin-inline: auto; padding: 0; border: 0; background: transparent; box-shadow: none; font-size: 1.02rem; line-height: 1.8; }
 .Intro-copy::before { content: none; }
 .Intro-copy h3 { display: grid; gap: .35rem; margin-bottom: .55rem; }
 .Intro-copy h3 span { color: #76baff; font: 500 .82rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
@@ -631,6 +633,10 @@
 .Intro-copy blockquote::before { content: "“"; position: absolute; left: 1rem; top: .65rem; color: var(--accent); font: 600 2rem/1 var(--heading); }
 .Intro-actions { padding-top: .8rem; border-top: 0; }
 @keyframes introHaloSpin { to { transform: rotate(1turn); } }
+@keyframes introPortraitSwap {
+  from { opacity: .35; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
 .Intro .Section-heading-centered h2 {
   background: linear-gradient(100deg,#68baff 0%,#d9f2ff 38%,#42d8ff 52%,#3d8cff 72%,#68baff 100%);
   background-size: 240% 100%;
@@ -781,6 +787,9 @@
   .Section-heading-centered { margin-bottom: 3rem; }
   .Intro-grid { gap: 2.5rem; }
   .Intro-image-frame { width: min(82vw,20rem); transform: none; }
+  .Intro-image-meta { right: .85rem; bottom: 1.35rem; gap: .5rem; }
+  .Intro-image-next { width: 3.5rem; }
+  .Intro-image-meta > span { padding: .55rem .65rem; font-size: .56rem; }
   .Intro-copy { padding: 0; }
   .Intro-copy::before { display: none; }
   .Portfolio-tabs { width: 100%; }
@@ -806,7 +815,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .Home-ambient-orb { animation: none; will-change: auto; }
-  .Intro .Section-heading-centered.is-visible h2,.Portfolio .Section-heading-centered.is-visible h2,.Contact .Section-heading-centered.is-visible h2,.Intro-image-float { animation: none; }
+  .Intro .Section-heading-centered.is-visible h2,.Portfolio .Section-heading-centered.is-visible h2,.Contact .Section-heading-centered.is-visible h2,.Intro-image-float,.Intro-image-frame img { animation: none; }
   .Intro-image-frame,.Tech-card,.Experience-row,.Now-row,.Now-row::after,.Contact-email-arrow,.Contact-row a { transition: none; }
   .Intro-image-frame::after { animation: none; }
   .Intro-image-frame,.Intro-image-frame:hover,.Tech-card:hover,.Experience-row:hover,.Now-row:hover,.Contact-email:hover .Contact-email-arrow { transform: none; }

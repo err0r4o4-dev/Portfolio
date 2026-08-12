@@ -24,6 +24,7 @@
   box-shadow: 0 1rem 3.5rem rgba(0, 7, 20, .3), inset 0 -1px rgba(120, 183, 241, .025);
   backdrop-filter: blur(20px) saturate(120%);
 }
+.Header.is-menu-open { backdrop-filter: none; }
 .Header.is-scrolled::before { opacity: .2; }
 .Header-container {
   display: grid;
@@ -122,17 +123,26 @@
     position: fixed;
     z-index: 40;
     inset: 4.5rem 0 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2rem 16px 1.5rem;
-    background-color: rgba(2,8,19,.975);
-    background-image: linear-gradient(rgba(107,184,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(107,184,255,.055) 1px,transparent 1px);
-    background-size: 48px 48px;
+    display: block;
+    background: transparent;
     opacity: 0;
     visibility: hidden;
     transform: translate3d(0,-1rem,0);
     transition: opacity .42s var(--ease-out),transform .55s var(--ease-out),visibility .42s;
+  }
+  .Mobile-menu-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 100%;
+    padding: 2rem 16px 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-bottom: 1px solid var(--border);
+    background-color: rgba(2,8,19,.975);
+    background-image: linear-gradient(rgba(107,184,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(107,184,255,.055) 1px,transparent 1px);
+    background-size: 48px 48px;
+    box-shadow: 0 1.5rem 3.5rem rgba(0,7,20,.38);
   }
   .Mobile-menu.is-open { opacity: 1; visibility: visible; transform: translate3d(0,0,0); }
   .Mobile-menu nav { border-top: 1px solid var(--border); }

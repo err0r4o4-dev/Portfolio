@@ -63,7 +63,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}`}>
+    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home">
@@ -103,19 +103,26 @@ export default function Header() {
           <span />
         </button>
       </div>
-      <div id="mobile-navigation" className={`Mobile-menu${isMenuOpen ? " is-open" : ""}`} aria-hidden={!isMenuOpen}>
-        <nav aria-label="Mobile navigation">
-          {links.map((link, index) => (
-            <a href={link.href} key={link.href} onClick={() => setIsMenuOpen(false)} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>
-              <span>0{index + 1}</span>
-              <strong>{link.label}</strong>
-              <span aria-hidden="true">↘</span>
-            </a>
-          ))}
-        </nav>
-        <div className="Mobile-menu-footer">
-          <span>{copy.mobileNote}</span>
-          <a href="/downloads/Thirawat-Duangta-CV.pdf" download onClick={() => setIsMenuOpen(false)}>{copy.resume} <span aria-hidden="true">↓</span></a>
+      <div
+        id="mobile-navigation"
+        className={`Mobile-menu${isMenuOpen ? " is-open" : ""}`}
+        aria-hidden={!isMenuOpen}
+        onClick={() => setIsMenuOpen(false)}
+      >
+        <div className="Mobile-menu-panel">
+          <nav aria-label="Mobile navigation">
+            {links.map((link, index) => (
+              <a href={link.href} key={link.href} onClick={() => setIsMenuOpen(false)} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>
+                <span>0{index + 1}</span>
+                <strong>{link.label}</strong>
+                <span aria-hidden="true">↘</span>
+              </a>
+            ))}
+          </nav>
+          <div className="Mobile-menu-footer">
+            <span>{copy.mobileNote}</span>
+            <a href="/downloads/Thirawat-Duangta-CV.pdf" download onClick={() => setIsMenuOpen(false)}>{copy.resume} <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
       </div>
     </header>
