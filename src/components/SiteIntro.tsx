@@ -9,8 +9,8 @@ interface SiteIntroProps {
 const WELCOME_TEXT = "WELCOME TO MY";
 const PORTFOLIO_TEXT = "PORTFOLIO WEBSITE";
 const LOADING_TEXT = "THIRAWAT.DEV";
-const INTRO_EXIT_DELAY = 5500;
-const INTRO_COMPLETE_DELAY = 6400;
+const INTRO_EXIT_DELAY = 4600;
+const INTRO_COMPLETE_DELAY = 5500;
 
 const renderCharacters = (text: string, keyPrefix: string, stepMilliseconds: number) => (
   Array.from(text).map((character, index) => (

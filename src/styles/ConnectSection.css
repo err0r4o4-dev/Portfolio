@@ -48,16 +48,16 @@
   transition: border-color .3s ease, box-shadow .3s ease, transform .3s var(--ease-out);
 }
 
-.reveal-enabled .Connect-card[data-reveal]:nth-child(2) {
+.reveal-enabled .Connect-card[data-reveal]:nth-child(2).is-visible {
   transition-delay: .08s;
 }
 
-.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(2) {
+.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(2).is-visible {
   transition-delay: .12s;
 }
 
-.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(3),
-.reveal-enabled .Connect-status-strip[data-reveal] {
+.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(3).is-visible,
+.reveal-enabled .Connect-status-strip[data-reveal].is-visible {
   transition-delay: .2s;
 }
 

@@ -303,6 +303,7 @@ export default function Home() {
 
       const target = document.querySelector(window.location.hash);
       target?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
+        element.classList.remove("is-reveal-from-top");
         element.classList.add("is-visible");
       });
     };
@@ -319,9 +320,15 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+          const isAboveViewportCenter = entry.boundingClientRect.top < window.innerHeight / 2;
+
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
+            element.classList.toggle("is-reveal-from-top", isAboveViewportCenter);
+            element.classList.add("is-visible");
+          } else {
+            element.classList.toggle("is-reveal-from-top", isAboveViewportCenter);
+            element.classList.remove("is-visible");
           }
         });
       },

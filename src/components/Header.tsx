@@ -9,12 +9,15 @@ const navigation = {
 };
 
 const sectionIds = ["home", "about", "work", "contact"];
+const HEADER_SCROLL_THRESHOLD = 24;
+const HEADER_DIRECTION_DELTA = 6;
 
 export default function Header() {
   const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const navigationTargetRef = useRef<{ id: string; expiresAt: number } | null>(null);
   const copy = navigation[language];
   const links = [
@@ -27,6 +30,7 @@ export default function Header() {
   const selectSection = (sectionId: string) => {
     navigationTargetRef.current = { id: sectionId, expiresAt: performance.now() + 1_600 };
     setActiveSection(sectionId);
+    setIsHeaderVisible(true);
   };
 
   useEffect(() => {
@@ -57,11 +61,37 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const updateHeader = () => setIsScrolled(window.scrollY > 24);
+    let animationFrameId = 0;
+    let lastScrollY = window.scrollY;
+
+    const updateHeader = () => {
+      const currentScrollY = Math.max(window.scrollY, 0);
+      const scrollDelta = currentScrollY - lastScrollY;
+
+      setIsScrolled(currentScrollY > HEADER_SCROLL_THRESHOLD);
+
+      if (isMenuOpen || currentScrollY <= HEADER_SCROLL_THRESHOLD) {
+        setIsHeaderVisible(true);
+        lastScrollY = currentScrollY;
+      } else if (Math.abs(scrollDelta) >= HEADER_DIRECTION_DELTA) {
+        setIsHeaderVisible(scrollDelta < 0);
+        lastScrollY = currentScrollY;
+      }
+
+      animationFrameId = 0;
+    };
+
+    const queueHeaderUpdate = () => {
+      if (!animationFrameId) animationFrameId = window.requestAnimationFrame(updateHeader);
+    };
+
     updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    return () => window.removeEventListener("scroll", updateHeader);
-  }, []);
+    window.addEventListener("scroll", queueHeaderUpdate, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", queueHeaderUpdate);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -80,7 +110,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}`}>
+    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}${isHeaderVisible || isMenuOpen ? "" : " is-hidden"}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home" onClick={() => selectSection("home")}>
