@@ -12,23 +12,14 @@ export default function App() {
   const completeIntro = useCallback(() => {
     setIsIntroVisible(false);
     window.requestAnimationFrame(() => {
-      const hashTarget = window.location.hash
-        ? document.getElementById(window.location.hash.slice(1))
-        : null;
-
-      if (hashTarget) {
-        hashTarget.scrollIntoView();
-        return;
-      }
-
-      window.scrollTo(0, 0);
+      document.getElementById("home")?.scrollIntoView();
     });
   }, []);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
-
-    if (!window.location.hash) window.scrollTo(0, 0);
+    window.history.replaceState(window.history.state, "", "#home");
+    window.scrollTo(0, 0);
   }, []);
 
   return (

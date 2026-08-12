@@ -35,29 +35,58 @@ export default function Header() {
 
   useEffect(() => {
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const navigationTarget = navigationTargetRef.current;
-        if (navigationTarget && performance.now() < navigationTarget.expiresAt) {
-          const targetEntry = entries.find((entry) => entry.target.id === navigationTarget.id);
-          if (!targetEntry?.isIntersecting) return;
+    let animationFrameId = 0;
 
-          navigationTargetRef.current = null;
+    const updateActiveSection = () => {
+      const headerHeight = headerRef.current?.offsetHeight ?? 0;
+      const activationLine = headerHeight + Math.min(window.innerHeight * .22, 160);
+      const navigationTarget = navigationTargetRef.current;
+
+      if (navigationTarget && performance.now() < navigationTarget.expiresAt) {
+        const targetSection = document.getElementById(navigationTarget.id);
+        const hasReachedTarget = targetSection
+          ? Math.abs(targetSection.getBoundingClientRect().top - headerHeight) <= 32
+          : true;
+
+        if (!hasReachedTarget) {
           setActiveSection(navigationTarget.id);
+          animationFrameId = 0;
           return;
         }
+      }
 
-        navigationTargetRef.current = null;
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visibleEntry) setActiveSection(visibleEntry.target.id);
-      },
-      { rootMargin: "-20% 0px -60%", threshold: [0, .2, .5] },
-    );
+      navigationTargetRef.current = null;
+      let nextActiveSection = sections[0]?.id ?? "home";
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= activationLine) {
+          nextActiveSection = section.id;
+        }
+      });
+
+      const isAtPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (isAtPageBottom && sections.length > 0) {
+        nextActiveSection = sections[sections.length - 1].id;
+      }
+
+      setActiveSection((currentSection) => (
+        currentSection === nextActiveSection ? currentSection : nextActiveSection
+      ));
+      animationFrameId = 0;
+    };
+
+    const queueActiveSectionUpdate = () => {
+      if (!animationFrameId) animationFrameId = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", queueActiveSectionUpdate, { passive: true });
+    window.addEventListener("resize", queueActiveSectionUpdate);
+    return () => {
+      window.removeEventListener("scroll", queueActiveSectionUpdate);
+      window.removeEventListener("resize", queueActiveSectionUpdate);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   useEffect(() => {
@@ -153,7 +182,7 @@ export default function Header() {
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label={copy.brandHome} onClick={() => selectSection("home")}>
           <span className="Header-mark"><img src={brandLogo} alt="" /></span>
-          <span>Thirawat Duangta</span>
+          <span>Taitunnn</span>
         </a>
         <nav className="Header-nav" aria-label={copy.mainNav}>
           {links.map((link) => (
