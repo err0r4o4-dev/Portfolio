@@ -601,8 +601,8 @@
 .Contact .Section-heading-centered h2 { max-width: none; font-size: clamp(2.9rem,4.5vw,4.5rem); }
 .Portfolio .Section-heading-centered > p,
 .Contact .Section-heading-centered > p:last-child { max-width: 36rem; }
-.Intro-grid { grid-template-columns: 1fr; gap: clamp(3.5rem,6vw,5rem); align-items: center; }
-.Intro-visual { justify-items: center; perspective: 1200px; }
+.Intro-grid { grid-template-columns: minmax(0,1.12fr) minmax(20rem,.88fr); gap: clamp(4rem,8vw,9rem); align-items: center; }
+.Intro-visual { justify-items: end; perspective: 1200px; }
 .Intro-image-frame {
   isolation: isolate;
   width: min(100%,25rem);
@@ -620,11 +620,11 @@
 .Intro-image-frame::after { content: ""; position: absolute; z-index: -2; inset: -12%; border-radius: 50%; background: conic-gradient(from 90deg,transparent 0 28%,rgba(38,151,255,.24) 40%,transparent 52% 78%,rgba(69,205,255,.16) 88%,transparent); filter: blur(.2rem); animation: introHaloSpin 18s linear infinite; }
 .Intro-image-frame:hover { border-color: rgba(119,190,255,.58); box-shadow: 0 2.7rem 6.5rem rgba(0,24,57,.5),0 0 5rem rgba(38,151,255,.18),inset 0 1px rgba(255,255,255,.1); transform: translate3d(0,-.35rem,0) scale(1.015); }
 .Intro-image-frame > img { border-radius: 50%; animation: introPortraitSwap .7s var(--ease-out) both; }
-.Intro-image-meta { position: absolute; z-index: 2; right: 1rem; bottom: 1.75rem; display: flex; align-items: flex-end; gap: .65rem; }
+.Intro-image-meta { position: absolute; z-index: 2; right: 1rem; bottom: 1.75rem; display: flex; flex-direction: column; align-items: flex-end; gap: .65rem; }
 .Intro-image-next { width: clamp(3.5rem,18vw,4.5rem); aspect-ratio: 1; padding: .24rem; overflow: hidden; border: 1px solid rgba(126,196,255,.62); border-radius: .85rem; background: rgba(3,12,25,.9); box-shadow: 0 .9rem 2.2rem rgba(0,7,20,.42),0 0 1.5rem rgba(38,151,255,.16),inset 0 1px rgba(255,255,255,.1); transform: rotate(3deg); }
 .Intro-image-next img { width: 100%; height: 100%; border-radius: .62rem; object-fit: cover; object-position: center 24%; filter: saturate(.88); animation: introPortraitSwap .7s var(--ease-out) both; }
 .Intro-image-meta > span { padding: .65rem .8rem; border: 1px solid rgba(38,151,255,.35); border-radius: .45rem; background: rgba(3,12,25,.86); color: var(--accent); font: 500 .62rem/1 var(--mono); backdrop-filter: blur(8px); }
-.Intro-copy { position: relative; gap: 1.2rem; width: min(100%,43rem); margin-inline: auto; padding: 0; border: 0; background: transparent; box-shadow: none; font-size: 1.02rem; line-height: 1.8; }
+.Intro-copy { position: relative; gap: 1.2rem; width: min(100%,43rem); margin-inline: 0; padding: 0; border: 0; background: transparent; box-shadow: none; font-size: 1.02rem; line-height: 1.8; }
 .Intro-copy::before { content: none; }
 .Intro-copy h3 { display: grid; gap: .35rem; margin-bottom: .55rem; }
 .Intro-copy h3 span { color: #76baff; font: 500 .82rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
@@ -767,9 +767,9 @@
   .Section-heading { display: grid; align-items: start; }
   .Section-heading > p { max-width: 42rem; }
   .Intro-grid { grid-template-columns: 1fr; gap: 3.5rem; }
-  .Intro-visual { justify-items: center; }
+  .Intro-visual { order: -1; justify-items: center; }
   .Intro-image-frame { transform: rotateY(1.5deg); }
-  .Intro-copy { max-width: 46rem; }
+  .Intro-copy { max-width: 46rem; margin-inline: auto; }
   .Tech-group { grid-template-columns: 1fr; }
   .Experience-list,.Now-list { margin-left: 2.5rem; }
   .Experience-row { grid-template-columns: 8rem 1fr; }
@@ -787,7 +787,7 @@
   .Section-heading-centered { margin-bottom: 3rem; }
   .Intro-grid { gap: 2.5rem; }
   .Intro-image-frame { width: min(82vw,20rem); transform: none; }
-  .Intro-image-meta { right: .85rem; bottom: 1.35rem; flex-direction: column; gap: .5rem; }
+  .Intro-image-meta { right: .85rem; bottom: 1.35rem; gap: .5rem; }
   .Intro-image-next { width: 3.5rem; }
   .Intro-image-meta > span { padding: .55rem .65rem; font-size: .56rem; }
   .Intro-copy { padding: 0; }

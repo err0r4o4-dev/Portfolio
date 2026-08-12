@@ -21,7 +21,7 @@
 @media (max-width: 640px) {
   .Footer-container { width: min(100% - 32px,1440px); min-height: 5rem; }
   .Footer-bottom { flex-wrap: wrap; gap: .5rem clamp(.75rem,3vw,1.25rem); padding-block: 1rem; }
-  .Footer-bottom span { width: auto; margin-right: 0; }
+  .Footer-bottom span { width: auto; margin-right: auto; }
   .Footer-bottom span, .Footer-bottom a { white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
