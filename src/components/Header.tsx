@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage, type Language } from "../language";
 import brandLogo from "../assets/thirawat-logo.png";
 import "../styles/Header.css";
@@ -15,6 +15,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigationTargetRef = useRef<{ id: string; expiresAt: number } | null>(null);
   const copy = navigation[language];
   const links = [
     { href: "#home", label: copy.home },
@@ -23,10 +24,26 @@ export default function Header() {
     { href: "#contact", label: copy.contact },
   ];
 
+  const selectSection = (sectionId: string) => {
+    navigationTargetRef.current = { id: sectionId, expiresAt: performance.now() + 1_600 };
+    setActiveSection(sectionId);
+  };
+
   useEffect(() => {
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(
       (entries) => {
+        const navigationTarget = navigationTargetRef.current;
+        if (navigationTarget && performance.now() < navigationTarget.expiresAt) {
+          const targetEntry = entries.find((entry) => entry.target.id === navigationTarget.id);
+          if (!targetEntry?.isIntersecting) return;
+
+          navigationTargetRef.current = null;
+          setActiveSection(navigationTarget.id);
+          return;
+        }
+
+        navigationTargetRef.current = null;
         const visibleEntry = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -66,13 +83,13 @@ export default function Header() {
     <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
-        <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home">
+        <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home" onClick={() => selectSection("home")}>
           <span className="Header-mark"><img src={brandLogo} alt="" /></span>
           <span>Thirawat Duangta</span>
         </a>
         <nav className="Header-nav" aria-label="Main navigation">
           {links.map((link) => (
-            <a className={activeSection === link.href.slice(1) ? "is-active" : ""} href={link.href} key={link.href} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>{link.label}</a>
+            <a className={activeSection === link.href.slice(1) ? "is-active" : ""} href={link.href} key={link.href} onClick={() => selectSection(link.href.slice(1))} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>{link.label}</a>
           ))}
         </nav>
         <div className="Header-actions">
@@ -112,7 +129,7 @@ export default function Header() {
         <div className="Mobile-menu-panel">
           <nav aria-label="Mobile navigation">
             {links.map((link, index) => (
-              <a href={link.href} key={link.href} onClick={() => setIsMenuOpen(false)} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>
+              <a href={link.href} key={link.href} onClick={() => { selectSection(link.href.slice(1)); setIsMenuOpen(false); }} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>
                 <span>0{index + 1}</span>
                 <strong>{link.label}</strong>
                 <span aria-hidden="true">↘</span>
