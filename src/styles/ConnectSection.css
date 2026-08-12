@@ -1,0 +1,576 @@
+.Connect {
+  width: var(--container);
+  max-width: 1440px;
+}
+
+.Connect .Connect-heading {
+  margin-bottom: clamp(2.75rem, 4.5vw, 4rem);
+}
+
+.Connect .Connect-heading h2 {
+  font-size: clamp(3.4rem, 6vw, 5.8rem);
+  line-height: .94;
+  letter-spacing: -.07em;
+}
+
+.Connect .Connect-heading > p {
+  max-width: 42rem;
+  margin-top: 1.15rem;
+  color: #a5b5ca;
+  font-size: clamp(.96rem, 1.35vw, 1.16rem);
+  line-height: 1.65;
+}
+
+.Connect-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.Connect-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.Connect-grid-top {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.Connect-grid-bottom {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.Connect-card {
+  min-width: 0;
+  border: 1px solid rgba(91, 154, 218, .28);
+  border-radius: 1.1rem;
+  background: rgba(5, 17, 32, .92);
+  box-shadow: 0 1.6rem 4rem rgba(0, 7, 20, .22), inset 0 1px rgba(239, 247, 255, .025);
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s var(--ease-out);
+}
+
+.reveal-enabled .Connect-card[data-reveal]:nth-child(2) {
+  transition-delay: .08s;
+}
+
+.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(2) {
+  transition-delay: .12s;
+}
+
+.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(3),
+.reveal-enabled .Connect-status-strip[data-reveal] {
+  transition-delay: .2s;
+}
+
+.reveal-enabled .Connect-card[data-reveal].is-visible:hover,
+.Connect-card:hover {
+  border-color: rgba(86, 174, 255, .52);
+  box-shadow: 0 1.8rem 4.5rem rgba(0, 12, 30, .32), 0 0 2.4rem rgba(38, 151, 255, .06), inset 0 1px rgba(239, 247, 255, .04);
+  transform: translate3d(0, -.2rem, 0);
+}
+
+.Connect-card-title {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  color: #edf5ff;
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -.025em;
+}
+
+.Connect-card-title > svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: 0 0 auto;
+  color: #4da6ff;
+  stroke-width: 1.8;
+}
+
+.Connect-profile-card {
+  display: grid;
+  grid-template-columns: minmax(10rem, .78fr) minmax(0, 1.22fr);
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.55rem, 3vw, 2.2rem);
+}
+
+.Connect-profile-logo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 14.5rem;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(86, 166, 243, .38);
+  border-radius: 1.25rem;
+  background: #020b18;
+}
+
+.Connect-profile-logo img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  filter: drop-shadow(0 1rem 2rem rgba(38, 151, 255, .2));
+}
+
+.Connect-profile-copy {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+}
+
+.Connect-profile-copy h3 {
+  font-size: clamp(1.65rem, 2.35vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.Connect-profile-role {
+  max-width: 31rem;
+  margin-top: .6rem;
+  color: #77b7f7;
+  font-size: clamp(.91rem, 1.25vw, 1.08rem);
+  line-height: 1.65;
+}
+
+.Connect-profile-location {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  color: #aabbd0;
+  font-size: .94rem;
+}
+
+.Connect-profile-location svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+  color: #9fb7d2;
+  stroke-width: 1.8;
+}
+
+.Connect-profile-status {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  margin-top: .25rem;
+}
+
+.Connect-profile-status p {
+  max-width: 14rem;
+  color: #b7c6d9;
+  font-size: .86rem;
+  line-height: 1.5;
+}
+
+.Connect-availability {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  color: #7fce5a;
+  font-size: .88rem;
+  white-space: nowrap;
+}
+
+.Connect-availability i,
+.Connect-status-strip i {
+  width: .72rem;
+  height: .72rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #78cc58;
+  box-shadow: 0 0 0 .25rem rgba(120, 204, 88, .07), 0 0 1.2rem rgba(120, 204, 88, .26);
+  animation: connectPulse 3.2s ease-in-out infinite;
+}
+
+.Connect-status-divider {
+  width: 1px;
+  height: 2.6rem;
+  flex: 0 0 auto;
+  background: rgba(128, 174, 221, .28);
+}
+
+.Connect-social-card,
+.Connect-open-card,
+.Connect-focus-card,
+.Connect-action-card {
+  padding: clamp(1.4rem, 2.5vw, 1.85rem);
+}
+
+.Connect-social-list {
+  display: grid;
+  gap: .45rem;
+  margin-top: 1rem;
+}
+
+.Connect-social-link {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .8rem;
+  min-height: 3.75rem;
+  padding: .55rem .8rem;
+  border: 1px solid rgba(105, 158, 213, .23);
+  border-radius: .7rem;
+  background: rgba(10, 29, 50, .7);
+  transition: border-color .25s ease, background .25s ease, transform .25s var(--ease-out);
+}
+
+a.Connect-social-link:hover {
+  border-color: rgba(83, 170, 255, .52);
+  background: rgba(12, 36, 62, .9);
+  transform: translate3d(0, -.1rem, 0);
+}
+
+.Connect-social-link.is-unavailable {
+  opacity: .62;
+  cursor: not-allowed;
+}
+
+.Connect-social-icon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: #dcecff;
+}
+
+.Connect-social-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke-width: 1.8;
+}
+
+.Connect-social-copy {
+  display: grid;
+  min-width: 0;
+  gap: .08rem;
+}
+
+.Connect-social-copy strong {
+  color: #edf5ff;
+  font-size: .88rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.Connect-social-copy small {
+  overflow: hidden;
+  color: #9fb1c7;
+  font-size: .78rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Connect-external-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #4da6ff;
+  transition: transform .25s var(--ease-out);
+}
+
+a.Connect-social-link:hover .Connect-external-icon {
+  transform: translate3d(.16rem, -.16rem, 0);
+}
+
+.Connect-open-grid,
+.Connect-focus-list {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.Connect-open-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .65rem;
+}
+
+.Connect-open-grid li {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  min-height: 4.2rem;
+  padding: .8rem .85rem;
+  border: 1px solid rgba(105, 158, 213, .22);
+  border-radius: .7rem;
+  background: rgba(10, 29, 50, .66);
+  color: #d7e4f2;
+  font-size: .78rem;
+  line-height: 1.4;
+  transition: border-color .25s ease, background .25s ease, transform .25s var(--ease-out);
+}
+
+.Connect-open-grid li:hover {
+  border-color: rgba(83, 170, 255, .45);
+  background: rgba(13, 38, 65, .82);
+  transform: translate3d(0, -.12rem, 0);
+}
+
+.Connect-open-grid svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex: 0 0 auto;
+  color: #67aff8;
+  stroke-width: 1.75;
+}
+
+.Connect-focus-list {
+  display: grid;
+}
+
+.Connect-focus-list li {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr);
+  align-items: center;
+  gap: .9rem;
+  min-height: 4rem;
+  color: #b8c6d8;
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.Connect-focus-list li + li {
+  border-top: 1px solid rgba(112, 157, 204, .17);
+}
+
+.Connect-focus-list svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  color: #d7e8fa;
+  stroke-width: 1.7;
+}
+
+.Connect-action-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.Connect-action-card > p {
+  margin-top: 1.15rem;
+  color: #a7b8cb;
+  font-size: .9rem;
+  line-height: 1.65;
+}
+
+.Connect-actions {
+  display: grid;
+  gap: .55rem;
+  margin-top: auto;
+  padding-top: 1.15rem;
+}
+
+.Connect-action {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) 1.1rem;
+  align-items: center;
+  gap: .75rem;
+  min-height: 3.35rem;
+  padding: .7rem 1rem;
+  border: 1px solid #4da6ff;
+  border-radius: .65rem;
+  font-size: .94rem;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease, transform .25s var(--ease-out);
+}
+
+.Connect-action svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 1.8;
+}
+
+.Connect-action-primary {
+  background: #2f8cf3;
+  color: #fff;
+  box-shadow: 0 .8rem 1.8rem rgba(38, 151, 255, .15), inset 0 1px rgba(255, 255, 255, .18);
+}
+
+.Connect-action-secondary {
+  background: rgba(8, 27, 48, .72);
+  color: #e2edf8;
+}
+
+.Connect-action:hover {
+  border-color: #79bcff;
+  transform: translate3d(0, -.12rem, 0);
+}
+
+.Connect-action-primary:hover {
+  background: #3897ff;
+  box-shadow: 0 1rem 2.2rem rgba(38, 151, 255, .22), inset 0 1px rgba(255, 255, 255, .2);
+}
+
+.Connect-action-secondary:hover {
+  background: rgba(12, 37, 64, .92);
+}
+
+.Connect-status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 4.5rem;
+  padding: 1rem 1.5rem;
+  color: #aebed1;
+  font-size: .88rem;
+}
+
+.Connect-status-strip > span:not(.Connect-strip-divider) {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.Connect-status-strip svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #7eb8ef;
+  stroke-width: 1.7;
+}
+
+.Connect-strip-divider {
+  width: 1px;
+  height: 1.8rem;
+  background: rgba(128, 174, 221, .28);
+}
+
+@keyframes connectPulse {
+  0%, 100% { opacity: .8; transform: scale(.92); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 1100px) {
+  .Connect-grid-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .Connect-action-card {
+    grid-column: 1 / -1;
+  }
+
+  .Connect-profile-card {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 1.35rem;
+  }
+
+  .Connect-profile-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .45rem;
+  }
+
+  .Connect-status-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .Connect-grid-top,
+  .Connect-grid-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .Connect-action-card {
+    grid-column: auto;
+  }
+
+  .Connect-profile-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .Connect-profile-logo {
+    width: min(100%, 12rem);
+  }
+
+  .Connect-profile-copy {
+    justify-items: center;
+  }
+
+  .Connect-profile-location,
+  .Connect-profile-status {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Connect-profile-status p {
+    max-width: 22rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .Connect {
+    width: min(100% - 32px, 1440px);
+  }
+
+  .Connect .Connect-heading h2 {
+    font-size: clamp(2.75rem, 15vw, 4rem);
+  }
+
+  .Connect .Connect-heading > p {
+    font-size: .92rem;
+  }
+
+  .Connect-card,
+  .Connect-social-card,
+  .Connect-open-card,
+  .Connect-focus-card,
+  .Connect-action-card,
+  .Connect-profile-card {
+    border-radius: .9rem;
+  }
+
+  .Connect-open-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .Connect-actions {
+    width: 100%;
+  }
+
+  .Connect-action {
+    width: 100%;
+  }
+
+  .Connect-status-strip {
+    flex-direction: column;
+    gap: .75rem;
+    min-height: 6.5rem;
+    text-align: center;
+  }
+
+  .Connect-strip-divider {
+    width: min(12rem, 70%);
+    height: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Connect-card,
+  .Connect-social-link,
+  .Connect-external-icon,
+  .Connect-open-grid li,
+  .Connect-action {
+    transition: none;
+  }
+
+  .Connect-availability i,
+  .Connect-status-strip i {
+    animation: none;
+  }
+
+  .reveal-enabled .Connect-card[data-reveal].is-visible:hover,
+  .Connect-card:hover,
+  a.Connect-social-link:hover,
+  .Connect-open-grid li:hover,
+  .Connect-action:hover,
+  a.Connect-social-link:hover .Connect-external-icon {
+    transform: none;
+  }
+}

@@ -1,9 +1,13 @@
+import { useEffect, useRef } from "react";
+import { useLanguage } from "../language";
+import ProjectCover from "./ProjectCover";
 import "../styles/ProjectModal.css";
 
 export interface Project {
   title: string;
   subtitle: string;
-  image: string;
+  coverCode: string;
+  coverNumber: string;
   description: string;
   techStack: string[];
   features?: string[];
@@ -18,152 +22,140 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
-  // Generate absolute URL for APK download to encode in QR code
-  const apkDownloadUrl = project.apkUrl
-    ? `${window.location.origin}${project.apkUrl}`
-    : "";
+  const { language } = useLanguage();
+  const dialogRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const labels = language === "th"
+    ? {
+        close: "ปิดรายละเอียดผลงาน",
+        archive: "รายละเอียดจากคลังผลงาน",
+        overview: "ภาพรวม",
+        contributions: "สิ่งที่รับผิดชอบ",
+        stack: "เทคโนโลยี",
+        download: "ดาวน์โหลด APK",
+        demo: "ดูเว็บไซต์",
+        source: "ดูซอร์สโค้ด",
+      }
+    : {
+        close: "Close project details",
+        archive: "Archive case details",
+        overview: "Overview",
+        contributions: "Key contributions",
+        stack: "Technology",
+        download: "Download APK",
+        demo: "View website",
+        source: "Source code",
+      };
 
-  const qrCodeApiUrl = apkDownloadUrl
-    ? `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-        apkDownloadUrl
-      )}`
-    : "";
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const animationFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusableElements = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (!firstElement || !lastElement) return;
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [onClose]);
+
+  const hasActions = project.apkUrl || project.webDemoUrl || project.githubUrl;
 
   return (
-    <div className="ProjectModal-overlay" onClick={onClose}>
-      <div className="ProjectModal-container" onClick={(e) => e.stopPropagation()}>
-        <button className="ProjectModal-close" onClick={onClose} aria-label="Close modal">
-          &times;
-        </button>
+    <div className="ProjectModal-overlay" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section
+        className="ProjectModal-container"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        tabIndex={-1}
+      >
+        <header className="ProjectModal-header">
+          <span>{project.coverNumber} / {labels.archive}</span>
+          <button ref={closeButtonRef} className="ProjectModal-close" type="button" onClick={onClose} aria-label={labels.close}>
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
 
         <div className="ProjectModal-content">
-          {/* Left Column: Phone Mockup / Live Preview */}
           <div className="ProjectModal-preview">
-            <div className="PhoneMockup">
-              <div className="PhoneMockup-speaker"></div>
-              <div className="PhoneMockup-camera"></div>
-              <div className="PhoneMockup-screen">
-                <img src={project.image} alt={project.title} className="PhoneMockup-screenshot" />
-              </div>
-              <div className="PhoneMockup-home-button"></div>
-            </div>
-            <div className="ProjectModal-glow"></div>
+            <ProjectCover
+              title={project.title}
+              subtitle={project.subtitle}
+              code={project.coverCode}
+              number={project.coverNumber}
+              isCompact
+            />
           </div>
 
-          {/* Right Column: Project Details */}
-          <div className="ProjectModal-details">
-            <span className="ProjectModal-subtitle">{project.subtitle}</span>
-            <h2 className="ProjectModal-title">{project.title}</h2>
+          <article className="ProjectModal-details">
+            <p className="ProjectModal-subtitle">{project.subtitle}</p>
+            <h2 className="ProjectModal-title" id="project-modal-title">{project.title}</h2>
 
-            <div className="ProjectModal-tags">
-              {project.techStack.map((tech) => (
-                <span key={tech} className="ProjectModal-tag">
-                  {tech}
-                </span>
-              ))}
+            <div className="ProjectModal-section">
+              <h3>{labels.overview}</h3>
+              <p>{project.description}</p>
             </div>
 
-            <p className="ProjectModal-desc">{project.description}</p>
-
             {project.features && project.features.length > 0 && (
-              <div className="ProjectModal-features-section">
-                <h3>คุณสมบัติเด่น (Features)</h3>
-                <ul className="ProjectModal-features-list">
-                  {project.features.map((feature, idx) => (
-                    <li key={idx} className="ProjectModal-feature-item">
-                      <span className="ProjectModal-feature-icon">✓</span>
-                      {feature}
+              <div className="ProjectModal-section">
+                <h3>{labels.contributions}</h3>
+                <ol className="ProjectModal-features-list">
+                  {project.features.map((feature, index) => (
+                    <li key={feature}>
+                      <span>0{index + 1}</span>
+                      <p>{feature}</p>
                     </li>
                   ))}
-                </ul>
+                </ol>
               </div>
             )}
 
-            <div className="ProjectModal-actions-container">
-              {/* Action Buttons */}
-              <div className="ProjectModal-buttons">
-                {project.apkUrl && (
-                  <a
-                    href={project.apkUrl}
-                    download
-                    className="ProjectModal-btn ProjectModal-btn-primary"
-                  >
-                    <svg
-                      className="ProjectModal-btn-icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="7 10 12 15 17 10" />
-                      <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    Download APK
-                  </a>
-                )}
-
-                {project.webDemoUrl && (
-                  <a
-                    href={project.webDemoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ProjectModal-btn ProjectModal-btn-secondary"
-                  >
-                    <svg
-                      className="ProjectModal-btn-icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    View Demo
-                  </a>
-                )}
-
-                {project.githubUrl && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ProjectModal-btn ProjectModal-btn-github"
-                  >
-                    <svg
-                      className="ProjectModal-btn-icon"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
-                    </svg>
-                    Source Code
-                  </a>
-                )}
+            <div className="ProjectModal-section ProjectModal-stack-section">
+              <h3>{labels.stack}</h3>
+              <div className="ProjectModal-tags">
+                {project.techStack.map((tech) => <span key={tech}>{tech}</span>)}
               </div>
-
-              {/* QR Code Section for Mobile App Downloads */}
-              {project.apkUrl && qrCodeApiUrl && (
-                <div className="ProjectModal-qr-section">
-                  <div className="ProjectModal-qr-wrapper">
-                    <img
-                      src={qrCodeApiUrl}
-                      alt="Scan to download APK"
-                      className="ProjectModal-qr-image"
-                    />
-                  </div>
-                  <div className="ProjectModal-qr-info">
-                    <strong>Scan to Download</strong>
-                    <span>สแกน QR Code ด้วยมือถือเพื่อดาวน์โหลดไฟล์ติดตั้ง (.apk) ลงเครื่องได้ทันที</span>
-                  </div>
-                </div>
-              )}
             </div>
-          </div>
+
+            {hasActions && (
+              <div className="ProjectModal-actions">
+                {project.apkUrl && <a href={project.apkUrl} download>{labels.download} <span aria-hidden="true">↓</span></a>}
+                {project.webDemoUrl && <a href={project.webDemoUrl} target="_blank" rel="noopener noreferrer">{labels.demo} <span aria-hidden="true">↗</span></a>}
+                {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">{labels.source} <span aria-hidden="true">↗</span></a>}
+              </div>
+            )}
+          </article>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

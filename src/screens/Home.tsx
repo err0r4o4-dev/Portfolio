@@ -1,226 +1,586 @@
-import { useState } from "react";
-import "../styles/Home.css";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLanguage } from "../language";
 import ProjectModal, { type Project } from "../components/ProjectModal";
+import ProjectCover from "../components/ProjectCover";
+import AchievementStats, { type AchievementStat } from "../components/AchievementStats";
+import ConnectSection from "../components/connect/ConnectSection";
+import profileMomentOne from "../assets/profile-moment-01.jpg";
+import profileMomentTwo from "../assets/profile-moment-02.jpg";
+import profileMomentThree from "../assets/profile-moment-03.jpg";
+import "../styles/Home.css";
 
-const skillCards = [
-  {
-    title: "Frontend",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-  },
-  {
-    title: "Backend",
-    items: ["Node.js", "Express", "Spring Boot", "PostgreSQL"],
-  },
-  {
-    title: "Mobile",
-    items: ["React Native", "Flutter", "Android Kotlin"],
-  },
-  {
-    title: "Tools",
-    items: ["Git", "Postman", "Figma", "Docker"],
-  },
-];
+const portfolioTabs = ["projects", "certificates", "stack"] as const;
+type PortfolioTab = (typeof portfolioTabs)[number];
+const profileMoments = [profileMomentTwo, profileMomentThree, profileMomentOne];
+const PROFILE_MOMENT_INTERVAL_MS = 5_000;
+const THE_SVG_CDN = "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons";
+const techLogoPaths: Record<string, string> = {
+  JavaScript: "javascript/default",
+  Java: "java/default",
+  Python: "python/default",
+  "C#": "c-sharp/default",
+  C: "c/default",
+  Lua: "lua/default",
+  Dart: "dart/default",
+  "HTML / CSS": "html5/default",
+  XML: "xml/default",
+  React: "react/default",
+  "React Native": "react/default",
+  "Next.js": "nextdotjs/default",
+  "Express.js": "expressdotjs/light",
+  Flutter: "flutter/default",
+  Bootstrap: "bootstrap/default",
+  MySQL: "mysql/default",
+  MariaDB: "mariadb/default",
+  GitHub: "github/light",
+  "Android Studio": "android-studio/default",
+  Figma: "figma/default",
+  Unity: "unity/light",
+  Blender: "blender/default",
+  "UX/UI design": "figma/default",
+  "ออกแบบ UX/UI": "figma/default",
+  "3D modelling": "blender/default",
+  "สร้างโมเดล 3D": "blender/default",
+};
 
-const projectCards: Project[] = [
-  {
-    title: "Grande Galaxy Hotel",
-    subtitle: "Full-Stack Web App",
-    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
-    description: "ระบบจองห้องพักโรงแรมแบบครบวงจร มีระบบชำระเงิน ตรวจสอบสถานะห้องพักแบบ Real-time และแดชบอร์ดจัดการจองสำหรับผู้ดูแลระบบ",
-    techStack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
-    features: [
-      "ระบบจองห้องพักและชำระเงินออนไลน์สมบูรณ์แบบ",
-      "ระบบส่งอีเมลแจ้งยืนยันการจองอัตโนมัติ",
-      "แดชบอร์ดสรุปยอดขายและอัตราการเข้าพักสำหรับ Admin",
-      "การดีไซน์แบบ Responsive รองรับการจองผ่านมือถือ"
-    ],
-    webDemoUrl: "https://example.com/grande-galaxy",
-    githubUrl: "https://github.com/example/grande-galaxy-hotel"
+const getTechLogo = (name: string) => `${THE_SVG_CDN}/${techLogoPaths[name]}.svg`;
+
+const skillGroups = {
+  en: [
+    { title: "Languages", items: ["JavaScript", "Java", "Python", "C#", "C", "Lua", "Dart", "HTML / CSS", "XML"] },
+    { title: "Frameworks", items: ["React", "React Native", "Next.js", "Express.js", "Flutter", "Bootstrap"] },
+    { title: "Data & tools", items: ["MySQL", "MariaDB", "GitHub", "Android Studio", "Figma"] },
+    { title: "Creative tech", items: ["Unity", "Blender", "UX/UI design", "3D modelling"] },
+  ],
+  th: [
+    { title: "ภาษาโปรแกรม", items: ["JavaScript", "Java", "Python", "C#", "C", "Lua", "Dart", "HTML / CSS", "XML"] },
+    { title: "เฟรมเวิร์ก", items: ["React", "React Native", "Next.js", "Express.js", "Flutter", "Bootstrap"] },
+    { title: "ข้อมูลและเครื่องมือ", items: ["MySQL", "MariaDB", "GitHub", "Android Studio", "Figma"] },
+    { title: "เทคโนโลยีสร้างสรรค์", items: ["Unity", "Blender", "ออกแบบ UX/UI", "สร้างโมเดล 3D"] },
+  ],
+};
+
+const projects: Record<"en" | "th", Project[]> = {
+  en: [
+    {
+      title: "SugarFulit",
+      subtitle: "Android application",
+      coverCode: "SF",
+      coverNumber: "01",
+      description: "An Android application that presents sugar-content information in fruit, helping people with diabetes and anyone who wants to manage their sugar intake.",
+      techStack: ["Java", "XML", "Android Studio", "UX/UI"],
+      features: ["Designed and implemented the user experience and interface", "Developed the application across the full stack", "Focused the product on clear, accessible nutrition information"],
+    },
+    {
+      title: "BrainFit",
+      subtitle: "Mobile application",
+      coverCode: "BF",
+      coverNumber: "02",
+      description: "A mobile application created to help reduce the risk of Alzheimer's disease through accessible cognitive activities and a simple mobile experience.",
+      techStack: ["React Native", "JSX", "Google Sheets API", "UX/UI"],
+      features: ["Developed the application with React Native", "Built the backend and supported frontend layout implementation", "Designed the data structure and integrated Google Sheets API"],
+    },
+    {
+      title: "Grande Galaxy Hotel",
+      subtitle: "Full-stack web application",
+      coverCode: "GG",
+      coverNumber: "03",
+      description: "A complete hotel booking experience covering room search, reservations, online payments, room availability and an operational management dashboard.",
+      techStack: ["Full-stack", "MariaDB", "Database design", "UX/UI"],
+      features: ["Contributed to the UX/UI design", "Developed the complete full-stack application", "Designed and implemented the MariaDB database schema"],
+    },
+    {
+      title: "SWU Metaverse",
+      subtitle: "Competition project · 3rd place",
+      coverCode: "SM",
+      coverNumber: "04",
+      description: "A virtual Srinakharinwirot University environment developed for the SWU Metaverse Competition, earning 3rd place and an invitation to join Metaverse training workshops.",
+      techStack: ["Unity", "C#", "Blender", "3D optimisation"],
+      features: ["Developed the player system in Unity with C#", "Modelled university buildings in Blender", "Imported and optimised 3D assets for the Metaverse environment"],
+    },
+    {
+      title: "FiveM Server Development",
+      subtitle: "Custom multiplayer server",
+      coverCode: "FM",
+      coverNumber: "05",
+      description: "A custom FiveM server developed and maintained across gameplay systems, Lua scripting, web-based interfaces, debugging and performance optimisation.",
+      techStack: ["FiveM", "Lua", "JavaScript", "MySQL"],
+      features: ["Developed custom server-side gameplay systems with Lua", "Built and integrated web-based interfaces", "Debugged systems and improved server performance"],
+    },
+  ],
+  th: [
+    {
+      title: "SugarFulit",
+      subtitle: "แอปพลิเคชัน Android",
+      coverCode: "SF",
+      coverNumber: "01",
+      description: "แอปพลิเคชันที่ให้ข้อมูลปริมาณน้ำตาลในผลไม้ เพื่อช่วยผู้ป่วยเบาหวานและผู้ที่ต้องการควบคุมปริมาณน้ำตาลในแต่ละวัน",
+      techStack: ["Java", "XML", "Android Studio", "UX/UI"],
+      features: ["ออกแบบและพัฒนา UX/UI", "รับผิดชอบการพัฒนาแอปพลิเคชันแบบ Full-stack", "ออกแบบการนำเสนอข้อมูลโภชนาการให้ชัดเจนและเข้าถึงง่าย"],
+    },
+    {
+      title: "BrainFit",
+      subtitle: "โมบายแอปพลิเคชัน",
+      coverCode: "BF",
+      coverNumber: "02",
+      description: "แอปพลิเคชันมือถือที่พัฒนาขึ้นเพื่อช่วยลดความเสี่ยงของโรคอัลไซเมอร์ ผ่านกิจกรรมฝึกสมองที่เข้าถึงง่ายและประสบการณ์ใช้งานที่ไม่ซับซ้อน",
+      techStack: ["React Native", "JSX", "Google Sheets API", "UX/UI"],
+      features: ["พัฒนาแอปพลิเคชันด้วย React Native", "พัฒนาระบบ Backend และสนับสนุนการวาง Layout ฝั่ง Frontend", "ออกแบบโครงสร้างข้อมูลและเชื่อมต่อ Google Sheets API"],
+    },
+    {
+      title: "Grande Galaxy Hotel",
+      subtitle: "เว็บแอปพลิเคชัน Full-stack",
+      coverCode: "GG",
+      coverNumber: "03",
+      description: "ระบบจองโรงแรมที่ครอบคลุมการค้นหาห้อง การจอง ชำระเงิน ตรวจสอบห้องว่าง และแดชบอร์ดสำหรับบริหารจัดการโรงแรม",
+      techStack: ["Full-stack", "MariaDB", "Database design", "UX/UI"],
+      features: ["มีส่วนร่วมในการออกแบบ UX/UI", "รับผิดชอบการพัฒนาเว็บแบบ Full-stack ทั้งระบบ", "ออกแบบและพัฒนาโครงสร้างฐานข้อมูล MariaDB"],
+    },
+    {
+      title: "SWU Metaverse",
+      subtitle: "ผลงานประกวด · รางวัลอันดับ 3",
+      coverCode: "SM",
+      coverNumber: "04",
+      description: "โลกเสมือนของมหาวิทยาลัยศรีนครินทรวิโรฒสำหรับการแข่งขัน SWU Metaverse ได้รับรางวัลอันดับ 3 และได้รับเชิญให้เข้าร่วมกิจกรรมอบรมด้าน Metaverse",
+      techStack: ["Unity", "C#", "Blender", "3D optimisation"],
+      features: ["พัฒนาระบบผู้เล่นใน Unity ด้วย C#", "สร้างโมเดลอาคารมหาวิทยาลัยด้วย Blender", "นำเข้าและปรับแต่ง 3D Asset ให้เหมาะกับสภาพแวดล้อม Metaverse"],
+    },
+    {
+      title: "FiveM Server Development",
+      subtitle: "เซิร์ฟเวอร์ Multiplayer แบบกำหนดเอง",
+      coverCode: "FM",
+      coverNumber: "05",
+      description: "พัฒนาและดูแลเซิร์ฟเวอร์ FiveM แบบกำหนดเอง ครอบคลุมระบบ Gameplay การเขียน Lua ระบบอินเทอร์เฟซบนเว็บ การแก้ข้อผิดพลาด และการปรับประสิทธิภาพ",
+      techStack: ["FiveM", "Lua", "JavaScript", "MySQL"],
+      features: ["พัฒนาระบบ Gameplay ฝั่งเซิร์ฟเวอร์ด้วย Lua", "สร้างและเชื่อมต่ออินเทอร์เฟซบนเว็บ", "แก้ไขข้อผิดพลาดและปรับปรุงประสิทธิภาพของเซิร์ฟเวอร์"],
+    },
+  ],
+};
+
+const content = {
+  en: {
+    available: "Currently building & learning",
+    heroKicker: "Computer Engineering · Software Development",
+    heroTitleLines: ["Full Stack", "Developer"],
+    heroIntroStart: "I’m",
+    heroIntroEnd: "a Computer Engineering student building thoughtful web experiences and reliable systems that solve real problems.",
+    explore: "Explore my work",
+    contactMe: "Contact me",
+    download: "Download CV",
+    heroSkills: ["React", "TypeScript", "Node.js", "MongoDB"],
+    heroCodeAria: "Developer profile shown as TypeScript code",
+    heroFocusLabel: "Current focus",
+    heroFocusValue: "Full-stack",
+    heroProjectLabel: "Project status",
+    heroProjectValue: "Building ideas",
+    heroScroll: "Scroll to explore",
+    profileTitle: "About Me",
+    profileSubtitle: "Turning ideas into useful digital experiences.",
+    profileGreeting: "Hello, I’m",
+    profileName: "Thirawat Duangta",
+    profileQuote: "I use code to turn practical ideas into experiences people can actually use.",
+    profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
+    profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
+    nextPhoto: "Next photo",
+    momentAlt: "Personal portrait of Thirawat",
+    workIndex: "02 / Archive",
+    workTitle: "Selected things I’ve made.",
+    workIntro: "Coursework, independent builds and competition work across health, hospitality and immersive technology.",
+    viewProject: "View project details",
+    viewCase: "View case details",
+    statsLabel: "Portfolio highlights",
+    stats: [
+      { value: 5, label: "Project builds", note: "Completed work across web, mobile, and interactive technology.", symbol: "PR" },
+      { value: 1, label: "Competition award", note: "3rd place in the SWU Metaverse Competition.", symbol: "AW" },
+      { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
+    ] satisfies AchievementStat[],
+
+    portfolioTitle: "Portfolio Projects",
+    portfolioIntro: "A collection of applications and interactive experiences built through code, design, and practical problem-solving.",
+    tabProjects: "Projects",
+    tabCertificates: "Credentials",
+    tabStack: "Toolkit",
+    certificatesEmpty: "No certificate records added yet.",
+    certificatesEmptyDetail: "This area is ready for verified certificate images, organisations, dates, and links.",
+    skillsIndex: "03 / Toolkit",
+    skillsTitle: "Tools I use to turn ideas into working things.",
+
   },
-  {
-    title: "Sugar Fruits",
-    subtitle: "Android App",
-    image: "https://images.unsplash.com/photo-1510627498534-cf7e9002facc?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันมือถือสำหรับสั่งซื้อผลไม้ออร์แกนิกเดลิเวอรี่ พร้อมระบบตรวจสอบความสดใหม่และจำแนกประเภทผลไม้ด้วยกล้อง AI",
-    techStack: ["Kotlin", "Jetpack Compose", "TensorFlow Lite", "Firebase"],
-    features: [
-      "สแกนและวิเคราะห์ความสุกของผลไม้แบบเรียลไทม์ด้วย AI",
-      "ระบบชำระเงินผ่าน Mobile Banking และ QR Code",
-      "ติดตามพิกัดของไรเดอร์ผู้จัดส่งแบบ Real-time บนแผนที่",
-      "ระบบสะสมแต้มสมาชิกเพื่อแลกส่วนลดพิเศษ"
-    ],
-    apkUrl: "/downloads/sugar-fruits.apk",
-    githubUrl: "https://github.com/example/sugar-fruits-android"
+  th: {
+    available: "กำลังสร้างและเรียนรู้",
+    heroKicker: "วิศวกรรมคอมพิวเตอร์ · การพัฒนาซอฟต์แวร์",
+    heroTitleLines: ["ผมสร้างผลิตภัณฑ์", "ดิจิทัลที่ใช้งาน", "ได้อย่างลื่นไหล"],
+    heroIntroStart: "ผมคือ",
+    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สร้างประสบการณ์บนเว็บและระบบที่เชื่อถือได้ เพื่อแก้ปัญหาที่เกิดขึ้นจริง",
+    explore: "ดูผลงานของฉัน",
+    contactMe: "ติดต่อฉัน",
+    download: "ดาวน์โหลด CV",
+    heroSkills: ["React", "TypeScript", "Node.js", "MongoDB"],
+    heroCodeAria: "ข้อมูลนักพัฒนาในรูปแบบโค้ด TypeScript",
+    heroFocusLabel: "สิ่งที่โฟกัส",
+    heroFocusValue: "Full-stack",
+    heroProjectLabel: "สถานะโปรเจกต์",
+    heroProjectValue: "กำลังสร้างไอเดีย",
+    heroScroll: "เลื่อนเพื่อสำรวจ",
+    profileTitle: "เกี่ยวกับฉัน",
+    profileSubtitle: "เปลี่ยนไอเดียให้เป็นประสบการณ์ดิจิทัลที่ใช้งานได้จริง",
+    profileGreeting: "สวัสดี ผมคือ",
+    profileName: "ธีรวัฒน์ ดวงตา",
+    profileQuote: "ผมใช้โค้ดเปลี่ยนไอเดียที่ใช้งานได้จริง ให้กลายเป็นประสบการณ์ที่ผู้คนเข้าถึงได้",
+    profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
+    profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
+    nextPhoto: "ภาพถัดไป",
+    momentAlt: "ภาพถ่ายส่วนตัวของธีรวัฒน์",
+    workIndex: "02 / คลังผลงาน",
+    workTitle: "สิ่งที่ผมเคยสร้าง",
+    workIntro: "ผลงานจากการเรียน โปรเจกต์ส่วนตัว และการแข่งขัน ครอบคลุมด้านสุขภาพ โรงแรม และเทคโนโลยีโลกเสมือน",
+    viewProject: "ดูรายละเอียด",
+    viewCase: "ดูรายละเอียดโปรเจกต์",
+    statsLabel: "ภาพรวมผลงาน",
+    stats: [
+      { value: 5, label: "โปรเจกต์", note: "ผลงานด้านเว็บ โมบาย และเทคโนโลยี Interactive ที่ทำเสร็จแล้ว", symbol: "PR" },
+      { value: 1, label: "รางวัลการแข่งขัน", note: "รางวัลอันดับ 3 จากการแข่งขัน SWU Metaverse", symbol: "AW" },
+      { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
+    ] satisfies AchievementStat[],
+
+    portfolioTitle: "ผลงาน หลักฐาน และเครื่องมือเบื้องหลัง",
+    portfolioIntro: "รวมผลงานแอปพลิเคชันและประสบการณ์อินเทอร์แอกทีฟที่พัฒนาผ่านการเขียนโค้ด การออกแบบ และการแก้ปัญหาที่ใช้งานได้จริง",
+    tabProjects: "โปรเจกต์",
+    tabCertificates: "ใบรับรอง",
+    tabStack: "เครื่องมือ",
+    certificatesEmpty: "ยังไม่ได้เพิ่มข้อมูลใบรับรอง",
+    certificatesEmptyDetail: "พื้นที่นี้พร้อมสำหรับภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ที่ตรวจสอบได้",
+    skillsIndex: "03 / เครื่องมือ",
+    skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
+
   },
-  {
-    title: "BrainFit",
-    subtitle: "React Native App",
-    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันฝึกสมองและพัฒนาความจำสำหรับผู้สูงอายุ มีมินิเกมด่านต่างๆ ระบบบันทึกคะแนนรายวัน และแบบประเมินสุขภาพสมอง",
-    techStack: ["React Native", "Expo", "Redux Toolkit", "SQLite", "Node.js"],
-    features: [
-      "มินิเกมฝึกความจำ ตรรกะ และการคิดคำนวณมากกว่า 10 เกม",
-      "ระบบบันทึกสถิติและคะแนนสะสมรายวันเพื่อดูพัฒนาการ",
-      "ฟังก์ชันตั้งเวลาเตือนทำกิจกรรมฝึกสมองตามกำหนด",
-      "รองรับการใช้งานออฟไลน์ บันทึกข้อมูลลงฐานข้อมูลในเครื่อง"
-    ],
-    apkUrl: "/downloads/brainfit-app.apk",
-    githubUrl: "https://github.com/example/brainfit-app"
-  },
-  {
-    title: "News24",
-    subtitle: "Flutter App",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-    description: "แอปพลิเคชันข่าวสารอัจฉริยะที่รวบรวมเนื้อหาจากสำนักข่าวชั้นนำทั่วโลก พร้อมระบบสรุปประเด็นข่าวที่สำคัญด้วย AI สั้นกระชับเข้าใจง่าย",
-    techStack: ["Flutter", "Dart", "OpenAI API", "SQLite", "Bloc Pattern"],
-    features: [
-      "ระบบย่อยข่าว/สรุปข่าวอัตโนมัติด้วย AI ภายใน 3 บรรทัด",
-      "บุ๊กมาร์กข่าวสารไว้อ่านออฟไลน์ได้โดยไม่ต้องเชื่อมต่อเน็ต",
-      "ระบบกรองและนำเสนอข่าวสารแนะนำตามความสนใจของผู้ใช้",
-      "ระบบแจ้งเตือนแบบ Push Notification ทันทีที่มีข่าวด่วน"
-    ],
-    apkUrl: "/downloads/news24-app.apk",
-    webDemoUrl: "https://example.com/news24-web",
-    githubUrl: "https://github.com/example/news24-flutter"
-  },
-];
+};
 
 export default function Home() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { language } = useLanguage();
+  const ambientLayerRef = useRef<HTMLDivElement>(null);
+  const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
+  const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
+  const [activeProfileMoment, setActiveProfileMoment] = useState(0);
+  const copy = content[language];
+  const localizedProjects = projects[language];
+  const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
+  const closeSelectedProject = useCallback(() => setSelectedProjectTitle(null), []);
+  const nextProfileMoment = profileMoments[(activeProfileMoment + 1) % profileMoments.length];
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    profileMoments.forEach((source) => {
+      const image = new Image();
+      image.src = source;
+    });
+
+    const intervalId = window.setInterval(() => {
+      setActiveProfileMoment((current) => (current + 1) % profileMoments.length);
+    }, PROFILE_MOMENT_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const currentIndex = portfolioTabs.indexOf(currentTab);
+    const nextTab = portfolioTabs[(currentIndex + direction + portfolioTabs.length) % portfolioTabs.length];
+    setActivePortfolioTab(nextTab);
+    document.getElementById(`portfolio-tab-${nextTab}`)?.focus();
+  };
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const root = document.documentElement;
+
+    const revealHashTarget = () => {
+      if (!window.location.hash) return;
+
+      const target = document.querySelector(window.location.hash);
+      target?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
+        element.classList.add("is-visible");
+      });
+    };
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    root.classList.add("reveal-enabled");
+    revealHashTarget();
+    window.addEventListener("hashchange", revealHashTarget);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("hashchange", revealHashTarget);
+      root.classList.remove("reveal-enabled");
+    };
+  }, [activePortfolioTab]);
+
+  useEffect(() => {
+    const ambientLayer = ambientLayerRef.current;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!ambientLayer || reducedMotionQuery.matches) return;
+
+    let animationFrameId = 0;
+    let currentScroll = window.scrollY;
+    let targetScroll = window.scrollY;
+
+    const renderAmbientMotion = () => {
+      currentScroll += (targetScroll - currentScroll) * 0.095;
+
+      const motionScale = window.innerWidth <= 640 ? 0.5 : 1;
+      const bluePhase = currentScroll / 780;
+      const cyanPhase = currentScroll / 940;
+      const indigoPhase = currentScroll / 1140;
+
+      ambientLayer.style.setProperty(
+        "--ambient-blue-transform",
+        `translate3d(${Math.sin(bluePhase) * 210 * motionScale}px, ${Math.cos(bluePhase * 0.72) * 82 * motionScale}px, 0) scale(${1 + Math.sin(bluePhase * 0.54) * 0.06})`,
+      );
+      ambientLayer.style.setProperty(
+        "--ambient-cyan-transform",
+        `translate3d(${Math.cos(cyanPhase + 0.8) * 165 * motionScale}px, ${Math.sin(cyanPhase * 0.9) * 108 * motionScale}px, 0) scale(${1 + Math.cos(cyanPhase * 0.61) * 0.07})`,
+      );
+      ambientLayer.style.setProperty(
+        "--ambient-indigo-transform",
+        `translate3d(${Math.sin(indigoPhase + 2.1) * 135 * motionScale}px, ${Math.cos(indigoPhase * 1.08) * 76 * motionScale}px, 0) scale(${1 + Math.sin(indigoPhase * 0.66) * 0.05})`,
+      );
+
+      if (Math.abs(targetScroll - currentScroll) > 0.1) {
+        animationFrameId = window.requestAnimationFrame(renderAmbientMotion);
+      } else {
+        currentScroll = targetScroll;
+        animationFrameId = 0;
+      }
+    };
+
+    const queueAmbientMotion = () => {
+      targetScroll = window.scrollY;
+      if (!animationFrameId) {
+        animationFrameId = window.requestAnimationFrame(renderAmbientMotion);
+      }
+    };
+
+    renderAmbientMotion();
+    window.addEventListener("scroll", queueAmbientMotion, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", queueAmbientMotion);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
-    <main className="Home">
+    <main id="main-content" className="Home">
+      <div className="Home-ambient" ref={ambientLayerRef} aria-hidden="true">
+        <span className="Home-ambient-orb Home-ambient-orb-blue" />
+        <span className="Home-ambient-orb Home-ambient-orb-cyan" />
+        <span className="Home-ambient-orb Home-ambient-orb-indigo" />
+      </div>
       <section className="Hero" id="home">
+        <span className="Hero-lighting" aria-hidden="true" />
         <div className="Hero-content">
-          <div>
-            <p className="Hero-label">About Me</p>
-            <h1 className="Hero-title">I’m a passionate developer building web and mobile applications.</h1>
-            <p className="Hero-text">
-              I specialize in React, Node.js, and Flutter. Always eager to learn new technologies and solve challenging problems.
-            </p>
+          <div className="Hero-copy">
+            <p className="Hero-status"><span aria-hidden="true" /> {copy.available}</p>
+            <p className="Hero-kicker">{copy.heroKicker}</p>
+            <h1>
+              {copy.heroTitleLines.map((line, index) => (
+                <span
+                  className={language === "en" ? (index === 1 ? "is-about-accent" : undefined) : (index > 0 ? "is-accent" : undefined)}
+                  key={line}
+                >
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className="Hero-intro">{copy.heroIntroStart} <strong>Thirawat Duangta</strong>, {copy.heroIntroEnd}</p>
             <div className="Hero-actions">
-              <a href="#projects" className="Hero-btn Hero-btn-primary">View Projects</a>
-              <a href="#contact" className="Hero-btn Hero-btn-outline">Contact Me</a>
+              <a href="#work" className="Button Button-primary">{copy.explore}<span aria-hidden="true">↗</span></a>
+              <a href="#contact" className="Button Button-secondary">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" /></svg>
+                {copy.contactMe}
+              </a>
+            </div>
+            <div className="Hero-tech" aria-label={language === "th" ? "เทคโนโลยีหลัก" : "Core technologies"}>
+              {copy.heroSkills.map((skill) => <span key={skill}>{skill}</span>)}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="About" id="about">
-        <div className="About-card">
-          <div className="About-image" />
-          <div className="About-text">
-            <h2>About Me</h2>
-            <p className="About-description">
-              I’m a passionate developer with experience building web and mobile applications.
-              I specialize in React, Node.js, and Flutter.
-            </p>
-            <p>
-              Always eager to learn new technologies and solve challenging problems.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="Skills" id="skills">
-        <div className="Section-header">
-          <h2>Skills</h2>
-          <p>Strong skill set across frontend, backend, mobile, and developer tools.</p>
-        </div>
-
-        <div className="Skill-grid">
-          {skillCards.map((card) => (
-            <div key={card.title} className="Skill-card">
-              <h3>{card.title}</h3>
-              <div className="Skill-items">
-                {card.items.map((item) => (
-                  <span key={item} className="Skill-item">{item}</span>
-                ))}
-              </div>
-              <a href="#projects" className="Skill-demo">Live Demo</a>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="Projects" id="projects">
-        <div className="Section-header">
-          <h2>My Projects</h2>
-          <p>Selected projects showcasing web and mobile experiences with modern design.</p>
-        </div>
-
-        <div className="Project-grid">
-          {projectCards.map((project) => (
-            <article 
-              key={project.title} 
-              className="Project-card"
-              onClick={() => setSelectedProject(project)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="Project-image-container">
-                <img src={project.image} alt={project.title} />
-                <div className="Project-card-overlay">
-                  <span className="Project-card-overlay-btn">ดูรายละเอียดผลงาน</span>
+          <figure className="Hero-code-visual" aria-label={copy.heroCodeAria}>
+            <span className="Hero-code-orbit" aria-hidden="true" />
+            <div className="Hero-code-entry">
+              <div className="Hero-code-float">
+                <div className="Hero-code-window">
+                  <div className="Hero-code-toolbar" aria-hidden="true">
+                    <span className="is-red" /><span className="is-yellow" /><span className="is-green" />
+                    <strong>portfolio.tsx</strong>
+                  </div>
+                  <ol className="Hero-code-lines">
+                    <li><code><span className="Code-keyword">const</span> developer = &#123;</code></li>
+                    <li><code>name: <span className="Code-string">&quot;Thirawat Duangta&quot;</span>,</code></li>
+                    <li><code>focus: <span className="Code-string">&quot;Full-stack&quot;</span>,</code></li>
+                    <li><code>crafts: <span className="Code-string">&quot;Useful digital products&quot;</span>,</code></li>
+                    <li><code>status: <span className="Code-string">&quot;Always learning&quot;</span></code></li>
+                    <li><code>&#125;</code></li>
+                    <li><code><span className="Code-keyword">export default</span> developer;</code></li>
+                  </ol>
+                  <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
                 </div>
               </div>
-              <div className="Project-copy">
-                <span>{project.subtitle}</span>
-                <h3>{project.title}</h3>
-                <p className="Project-card-short-desc">
-                  {project.description.slice(0, 75)}...
-                </p>
-                <div className="Project-actions" onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    onClick={() => setSelectedProject(project)} 
-                    className="Project-btn"
-                  >
-                    View Details
+              <div className="Hero-callout Hero-callout-focus">
+                <div className="Hero-callout-surface">
+                  <span className="Hero-callout-icon" aria-hidden="true">&lt;/&gt;</span>
+                  <span><small>{copy.heroFocusLabel}</small><strong>{copy.heroFocusValue}</strong></span>
+                </div>
+              </div>
+              <div className="Hero-callout Hero-callout-status">
+                <div className="Hero-callout-surface">
+                  <span className="Hero-callout-dot" aria-hidden="true" />
+                  <span><small>{copy.heroProjectLabel}</small><strong>{copy.heroProjectValue}</strong></span>
+                </div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section className="Intro Section" id="about">
+        <div className="Section-heading-centered" data-reveal>
+          <h2>{copy.profileTitle}</h2>
+          <p>{copy.profileSubtitle}</p>
+        </div>
+        <div className="Intro-grid">
+          <div className="Intro-copy" data-reveal>
+            <h3><span>{copy.profileGreeting}</span><strong>{copy.profileName}</strong></h3>
+            <p>{copy.profileOne}</p>
+            <p>{copy.profileTwo}</p>
+            <blockquote>“{copy.profileQuote}”</blockquote>
+            <div className="Intro-actions">
+              <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Button Button-primary">{copy.download}</a>
+              <a href="#work" className="Text-link">{copy.explore} <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div className="Intro-visual" data-reveal>
+            <div className="Intro-image-float">
+              <div className="Intro-image-frame">
+                <img
+                  key={profileMoments[activeProfileMoment]}
+                  src={profileMoments[activeProfileMoment]}
+                  alt={copy.momentAlt}
+                  loading="lazy"
+                />
+                <div className="Intro-image-meta" aria-hidden="true">
+                  <div className="Intro-image-next">
+                    <img key={nextProfileMoment} src={nextProfileMoment} alt="" />
+                  </div>
+                  <span>THIRAWAT / 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <AchievementStats stats={copy.stats} ariaLabel={copy.statsLabel} />
+      </section>
+
+      <section className="Portfolio Section" id="work">
+        <div className="Section-heading-centered" data-reveal>
+
+          <h2>{copy.portfolioTitle}</h2>
+          <p>{copy.portfolioIntro}</p>
+        </div>
+        <div className="Portfolio-tabs" role="tablist" aria-label={copy.portfolioTitle} data-reveal>
+          {portfolioTabs.map((tab) => {
+            const label = tab === "projects" ? copy.tabProjects : tab === "certificates" ? copy.tabCertificates : copy.tabStack;
+            return (
+              <button
+                id={`portfolio-tab-${tab}`}
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activePortfolioTab === tab}
+                aria-controls={`portfolio-panel-${tab}`}
+                tabIndex={activePortfolioTab === tab ? 0 : -1}
+                onClick={() => setActivePortfolioTab(tab)}
+                onKeyDown={(event) => changePortfolioTabWithKeyboard(event, tab)}
+              >
+                <span>0{portfolioTabs.indexOf(tab) + 1}</span>{label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="Portfolio-content">
+          {activePortfolioTab === "projects" && (
+            <div className="Portfolio-panel Project-list" id="portfolio-panel-projects" role="tabpanel" aria-labelledby="portfolio-tab-projects" key="projects">
+              {localizedProjects.map((project) => (
+                <article key={project.title} className="Project-card" data-reveal>
+                  <button className="Project-visual" onClick={() => setSelectedProjectTitle(project.title)} aria-label={`${copy.viewProject}: ${project.title}`}>
+                    <ProjectCover title={project.title} subtitle={project.subtitle} code={project.coverCode} number={project.coverNumber} />
+                    <span className="Project-open" aria-hidden="true">↗</span>
                   </button>
-                  {project.githubUrl && (
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="Project-link"
-                    >
-                      GitHub
-                    </a>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
+                  <div className="Project-copy">
+                    <span className="Project-type">{project.subtitle}</span>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="Project-tags">{project.techStack.slice(0, 4).map((tech) => <span key={tech}>{tech}</span>)}</div>
+                    <button className="Text-link Project-detail" onClick={() => setSelectedProjectTitle(project.title)}>{copy.viewCase} <span aria-hidden="true">→</span></button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {activePortfolioTab === "certificates" && (
+            <div className="Portfolio-panel Certificates-empty" id="portfolio-panel-certificates" role="tabpanel" aria-labelledby="portfolio-tab-certificates" key="certificates">
+              <span aria-hidden="true">00 / CERT</span>
+              <h3>{copy.certificatesEmpty}</h3>
+              <p>{copy.certificatesEmptyDetail}</p>
+            </div>
+          )}
+
+          {activePortfolioTab === "stack" && (
+            <div className="Portfolio-panel Tech-groups" id="portfolio-panel-stack" role="tabpanel" aria-labelledby="portfolio-tab-stack" key="stack">
+              {skillGroups[language].map((group, groupIndex) => (
+                <section className="Tech-group" key={group.title}>
+                  <div className="Tech-group-heading"><span>0{groupIndex + 1}</span><h3>{group.title}</h3></div>
+                  <div className="Tech-grid">
+                    {group.items.map((item) => (
+                      <article className="Tech-card" key={item}>
+                        <span aria-hidden="true"><img src={getTechLogo(item)} alt="" loading="lazy" /></span>
+                        <strong>{item}</strong>
+                        <small>{group.title}</small>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="Contact" id="contact">
-        <div className="Contact-panel">
-          <h2>Contact</h2>
-          <p>Ready to work together? Send me a message and I will respond as soon as possible.</p>
-          <div className="Contact-info">
-            <div>
-              <span>Email</span>
-              <strong>youname@email.com</strong>
-            </div>
-            <div>
-              <span>GitHub</span>
-              <strong>github.com/yourname</strong>
-            </div>
-            <div>
-              <span>LinkedIn</span>
-              <strong>linkedin.com/in/yourprofile</strong>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ConnectSection language={language} />
 
-      {/* Render interactive project detail modal */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={closeSelectedProject} />}
     </main>
   );
 }

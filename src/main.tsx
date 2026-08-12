@@ -4,15 +4,14 @@ import { BrowserRouter } from "react-router-dom"
 
 import './/styles/index.css'
 import App from './App.tsx'
-import Header from './components/Header.tsx'
-import Footer from './components/Footer.tsx'
+import LanguageProvider from './LanguageProvider.tsx'
 
 createRoot(document.getElementById('app')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Header />
-      <App />
-      <Footer />
+      <LanguageProvider>
+        <App />
+      </LanguageProvider>
     </BrowserRouter>
   </StrictMode>,
 )
