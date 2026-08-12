@@ -233,7 +233,6 @@ export default function Header() {
               <a href={link.href} key={link.href} onClick={() => { selectSection(link.href.slice(1)); setIsMenuOpen(false); }} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>
                 <span>0{index + 1}</span>
                 <strong>{link.label}</strong>
-                <span aria-hidden="true">↘</span>
               </a>
             ))}
           </nav>
