@@ -24,6 +24,13 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
   const [progress, setProgress] = useState(shouldSkipAnimation ? 1 : 0);
 
   useEffect(() => {
+    if (!isVisible || !isRevealFromTop) return;
+
+    const animationFrameId = window.requestAnimationFrame(() => setIsRevealFromTop(false));
+    return () => window.cancelAnimationFrame(animationFrameId);
+  }, [isRevealFromTop, isVisible]);
+
+  useEffect(() => {
     const region = regionRef.current;
     if (!region) return;
 

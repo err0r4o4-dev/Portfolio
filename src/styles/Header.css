@@ -27,6 +27,7 @@
   backdrop-filter: blur(20px) saturate(120%);
 }
 .Header.is-menu-open { backdrop-filter: none; }
+.Header.is-instant { transition: background .42s var(--ease-out), border-color .42s var(--ease-out), box-shadow .42s var(--ease-out); }
 .Header.is-hidden { transform: translate3d(0, calc(-100% - 1px), 0); }
 .Header.is-hidden:focus-within { transform: translate3d(0, 0, 0); }
 .Header.is-scrolled::before { opacity: .2; }

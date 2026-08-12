@@ -316,6 +316,16 @@ export default function Home() {
     root.classList.add("reveal-enabled");
     revealHashTarget();
     window.addEventListener("hashchange", revealHashTarget);
+    const instantRevealFrameIds = new Set<number>();
+
+    const revealWithoutTransition = (element: HTMLElement) => {
+      element.classList.add("is-reveal-instant", "is-visible");
+      const frameId = window.requestAnimationFrame(() => {
+        element.classList.remove("is-reveal-instant");
+        instantRevealFrameIds.delete(frameId);
+      });
+      instantRevealFrameIds.add(frameId);
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -325,7 +335,11 @@ export default function Home() {
 
           if (entry.isIntersecting) {
             element.classList.toggle("is-reveal-from-top", isAboveViewportCenter);
-            element.classList.add("is-visible");
+            if (isAboveViewportCenter) {
+              revealWithoutTransition(element);
+            } else {
+              element.classList.add("is-visible");
+            }
           } else {
             element.classList.toggle("is-reveal-from-top", isAboveViewportCenter);
             element.classList.remove("is-visible");
@@ -338,6 +352,8 @@ export default function Home() {
     revealElements.forEach((element) => observer.observe(element));
     return () => {
       observer.disconnect();
+      instantRevealFrameIds.forEach((frameId) => window.cancelAnimationFrame(frameId));
+      revealElements.forEach((element) => element.classList.remove("is-reveal-instant"));
       window.removeEventListener("hashchange", revealHashTarget);
       root.classList.remove("reveal-enabled");
     };

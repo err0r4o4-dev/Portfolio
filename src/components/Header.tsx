@@ -18,6 +18,7 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [shouldRevealHeaderInstantly, setShouldRevealHeaderInstantly] = useState(false);
   const navigationTargetRef = useRef<{ id: string; expiresAt: number } | null>(null);
   const copy = navigation[language];
   const links = [
@@ -30,6 +31,7 @@ export default function Header() {
   const selectSection = (sectionId: string) => {
     navigationTargetRef.current = { id: sectionId, expiresAt: performance.now() + 1_600 };
     setActiveSection(sectionId);
+    setShouldRevealHeaderInstantly(true);
     setIsHeaderVisible(true);
   };
 
@@ -71,10 +73,13 @@ export default function Header() {
       setIsScrolled(currentScrollY > HEADER_SCROLL_THRESHOLD);
 
       if (isMenuOpen || currentScrollY <= HEADER_SCROLL_THRESHOLD) {
+        setShouldRevealHeaderInstantly(true);
         setIsHeaderVisible(true);
         lastScrollY = currentScrollY;
       } else if (Math.abs(scrollDelta) >= HEADER_DIRECTION_DELTA) {
-        setIsHeaderVisible(scrollDelta < 0);
+        const isScrollingUp = scrollDelta < 0;
+        setShouldRevealHeaderInstantly(isScrollingUp);
+        setIsHeaderVisible(isScrollingUp);
         lastScrollY = currentScrollY;
       }
 
@@ -110,7 +115,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}${isHeaderVisible || isMenuOpen ? "" : " is-hidden"}`}>
+    <header className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}${shouldRevealHeaderInstantly ? " is-instant" : ""}${isHeaderVisible || isMenuOpen ? "" : " is-hidden"}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label="Thirawat Duangta, home" onClick={() => selectSection("home")}>
