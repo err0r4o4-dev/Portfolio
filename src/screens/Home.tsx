@@ -10,7 +10,7 @@ import profileMomentThree from "../assets/profile-moment-03-optimized.jpg";
 import desktopDuckIcon from "../assets/desktop-duck-icon.png";
 import "../styles/Home.css";
 
-const portfolioTabs = ["projects", "stack"] as const;
+const portfolioTabs = ["projects", "certificates", "stack"] as const;
 type PortfolioTab = (typeof portfolioTabs)[number];
 const profileMoments = [profileMomentTwo, profileMomentThree, profileMomentOne];
 const PROFILE_MOMENT_INTERVAL_MS = 5_000;
@@ -198,10 +198,13 @@ const content = {
       { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
     ] satisfies AchievementStat[],
 
-    portfolioTitle: "Projects & Toolkit",
+    portfolioTitle: "Projects, Certificates & Tech Stack",
     portfolioIntro: "A collection of applications and interactive experiences built through code, design, and practical problem-solving.",
     tabProjects: "Projects",
-    tabStack: "Toolkit",
+    tabCertificates: "Certificates",
+    tabStack: "Tech Stack",
+    certificatesEmpty: "Certificates coming soon",
+    certificatesEmptyDetail: "Verified certificate images, issuing organisations, dates, and credential links will be added here.",
     skillsIndex: "03 / Toolkit",
     skillsTitle: "Tools I use to turn ideas into working things.",
 
@@ -248,10 +251,13 @@ const content = {
       { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
     ] satisfies AchievementStat[],
 
-    portfolioTitle: "ผลงานและเครื่องมือเบื้องหลัง",
+    portfolioTitle: "ผลงาน ใบรับรอง และ Tech Stack",
     portfolioIntro: "รวมผลงานแอปพลิเคชันและประสบการณ์อินเทอร์แอกทีฟที่พัฒนาผ่านการเขียนโค้ด การออกแบบ และการแก้ปัญหาที่ใช้งานได้จริง",
     tabProjects: "โปรเจกต์",
-    tabStack: "เครื่องมือ",
+    tabCertificates: "ใบรับรอง",
+    tabStack: "Tech Stack",
+    certificatesEmpty: "กำลังเพิ่มใบรับรอง",
+    certificatesEmptyDetail: "ภาพใบรับรอง ชื่อองค์กร วันที่ และลิงก์ตรวจสอบที่ยืนยันได้จะถูกเพิ่มไว้ในส่วนนี้",
     skillsIndex: "03 / เครื่องมือ",
     skillsTitle: "เครื่องมือที่ผมใช้เปลี่ยนไอเดียให้ทำงานได้จริง",
 
@@ -548,7 +554,11 @@ export default function Home() {
         </div>
         <div className="Portfolio-tabs" role="tablist" aria-label={copy.portfolioTitle} data-reveal>
           {portfolioTabs.map((tab) => {
-            const label = tab === "projects" ? copy.tabProjects : copy.tabStack;
+            const label = tab === "projects"
+              ? copy.tabProjects
+              : tab === "certificates"
+                ? copy.tabCertificates
+                : copy.tabStack;
             return (
               <button
                 id={`portfolio-tab-${tab}`}
@@ -561,7 +571,7 @@ export default function Home() {
                 onClick={() => setActivePortfolioTab(tab)}
                 onKeyDown={(event) => changePortfolioTabWithKeyboard(event, tab)}
               >
-                <span>0{portfolioTabs.indexOf(tab) + 1}</span>{label}
+                {label}
               </button>
             );
           })}
@@ -585,6 +595,13 @@ export default function Home() {
                   </div>
                 </article>
               ))}
+            </div>
+          )}
+
+          {activePortfolioTab === "certificates" && (
+            <div className="Portfolio-panel Certificates-empty" id="portfolio-panel-certificates" role="tabpanel" aria-labelledby="portfolio-tab-certificates" key="certificates">
+              <h3>{copy.certificatesEmpty}</h3>
+              <p>{copy.certificatesEmptyDetail}</p>
             </div>
           )}
 
