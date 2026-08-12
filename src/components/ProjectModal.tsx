@@ -8,6 +8,7 @@ export interface Project {
   subtitle: string;
   coverCode: string;
   coverNumber: string;
+  coverImage?: string;
   description: string;
   techStack: string[];
   features?: string[];
@@ -35,6 +36,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         download: "ดาวน์โหลด APK",
         demo: "ดูเว็บไซต์",
         source: "ดูซอร์สโค้ด",
+        request: "สอบถามรายละเอียดโปรเจกต์",
       }
     : {
         close: "Close project details",
@@ -45,6 +47,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         download: "Download APK",
         demo: "View website",
         source: "Source code",
+        request: "Ask about this project",
       };
 
   useEffect(() => {
@@ -112,6 +115,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               subtitle={project.subtitle}
               code={project.coverCode}
               number={project.coverNumber}
+              imageUrl={project.coverImage}
               isCompact
             />
           </div>
@@ -151,6 +155,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 {project.apkUrl && <a href={project.apkUrl} download>{labels.download} <span aria-hidden="true">↓</span></a>}
                 {project.webDemoUrl && <a href={project.webDemoUrl} target="_blank" rel="noopener noreferrer">{labels.demo} <span aria-hidden="true">↗</span></a>}
                 {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">{labels.source} <span aria-hidden="true">↗</span></a>}
+              </div>
+            )}
+            {!hasActions && (
+              <div className="ProjectModal-actions">
+                <a href={`mailto:title.thirawat.dev@gmail.com?subject=${encodeURIComponent(`Portfolio project: ${project.title}`)}`}>
+                  {labels.request} <span aria-hidden="true">→</span>
+                </a>
               </div>
             )}
           </article>

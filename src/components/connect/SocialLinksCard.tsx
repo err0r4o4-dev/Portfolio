@@ -26,25 +26,17 @@ export default function SocialLinksCard({ language }: SocialLinksCardProps) {
             </>
           );
 
-          return link.href ? (
+          const isExternal = link.href.startsWith("http");
+          return (
             <a
               className="Connect-social-link"
               href={link.href}
               key={link.id}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
             >
               {content}
             </a>
-          ) : (
-            <div
-              className="Connect-social-link is-unavailable"
-              aria-disabled="true"
-              title={copy.socialUnavailable}
-              key={link.id}
-            >
-              {content}
-            </div>
           );
         })}
       </nav>

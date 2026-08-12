@@ -1,7 +1,6 @@
 import {
   BrainCircuit,
   Code2,
-  ContactRound,
   GitBranch,
   Layers3,
   Mail,
@@ -16,10 +15,10 @@ import type { Language } from "../../language";
 type LocalizedText = Record<Language, string>;
 
 export type SocialLink = {
-  id: "github" | "linkedin" | "email" | "phone";
+  id: "github" | "email" | "phone";
   label: LocalizedText;
   detail: LocalizedText;
-  href: string | null;
+  href: string;
   icon: LucideIcon;
 };
 
@@ -31,7 +30,6 @@ export type ConnectListItem = {
 
 export const portfolioLinks = {
   github: "https://github.com/err0r4o4-dev",
-  linkedin: null,
   email: "mailto:title.thirawat.dev@gmail.com",
   phone: "tel:+66615071665",
   resume: "/downloads/Thirawat-Duangta-CV.pdf",
@@ -48,12 +46,12 @@ export const connectCopy = {
     availabilityNote: "Open to internships & selected projects",
     profileLogoAlt: "Thirawat Duangta logo",
     socialTitle: "Around the web",
-    socialUnavailable: "Link not added yet",
     openToTitle: "What I’m open to",
     focusTitle: "Current focus",
     actionTitle: "Let’s build something great.",
     actionBody: "Explore my work or download my résumé to learn more about me.",
     viewGithub: "View GitHub",
+    sendEmail: "Send an email",
     downloadResume: "Download résumé",
     basedIn: "Based in Thailand",
     remote: "Available for remote collaboration",
@@ -68,12 +66,12 @@ export const connectCopy = {
     availabilityNote: "เปิดรับฝึกงานและโปรเจกต์ที่เหมาะสม",
     profileLogoAlt: "โลโก้ของธีรวัฒน์ ดวงตา",
     socialTitle: "ช่องทางออนไลน์",
-    socialUnavailable: "ยังไม่ได้เพิ่มลิงก์",
     openToTitle: "สิ่งที่ผมเปิดรับ",
     focusTitle: "สิ่งที่กำลังโฟกัส",
     actionTitle: "มาสร้างสิ่งดี ๆ ด้วยกัน",
     actionBody: "ดูผลงานหรือดาวน์โหลดเรซูเม่เพื่อทำความรู้จักผมให้มากขึ้น",
     viewGithub: "ดู GitHub",
+    sendEmail: "ส่งอีเมล",
     downloadResume: "ดาวน์โหลดเรซูเม่",
     basedIn: "อยู่ในประเทศไทย",
     remote: "พร้อมร่วมงานแบบรีโมต",
@@ -87,13 +85,6 @@ export const socialLinks: SocialLink[] = [
     detail: { en: "err0r4o4-dev", th: "err0r4o4-dev" },
     href: portfolioLinks.github,
     icon: GitBranch,
-  },
-  {
-    id: "linkedin",
-    label: { en: "LinkedIn", th: "LinkedIn" },
-    detail: { en: "Professional profile", th: "โปรไฟล์สำหรับการทำงาน" },
-    href: portfolioLinks.linkedin,
-    icon: ContactRound,
   },
   {
     id: "email",

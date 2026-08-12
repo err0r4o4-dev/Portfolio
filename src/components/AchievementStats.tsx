@@ -64,9 +64,9 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
   }, [shouldSkipAnimation]);
 
   return (
-    <div className={`Achievement-grid${isRevealFromTop ? " is-reveal-from-top" : ""}${isVisible ? " is-visible" : ""}`} ref={regionRef} aria-label={ariaLabel}>
+    <div className={`Achievement-grid${isRevealFromTop ? " is-reveal-from-top" : ""}${isVisible ? " is-visible" : ""}`} ref={regionRef} role="list" aria-label={ariaLabel}>
       {stats.map((stat, index) => (
-        <article className="Achievement-card" key={stat.label}>
+        <article className="Achievement-card" role="listitem" key={stat.label}>
           <span className="Achievement-symbol" aria-hidden="true">{stat.symbol}</span>
           <strong>{Math.round(stat.value * progress).toString().padStart(2, "0")}{stat.suffix}</strong>
           <h3>{stat.label}</h3>

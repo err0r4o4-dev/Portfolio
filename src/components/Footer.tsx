@@ -3,11 +3,12 @@ import "../styles/Footer.css";
 
 export default function Footer() {
   const { language } = useLanguage();
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="Footer">
       <div className="Footer-container">
         <div className="Footer-bottom">
-          <span>© 2026 Thirawat Duangta</span>
+          <span>© {currentYear} Thirawat Duangta</span>
           <a href="mailto:title.thirawat.dev@gmail.com">{language === "th" ? "อีเมล" : "Email"}</a>
           <a href="https://github.com/err0r4o4-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>

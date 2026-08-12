@@ -224,11 +224,6 @@ a.Connect-social-link:hover {
   transform: translate3d(0, -.1rem, 0);
 }
 
-.Connect-social-link.is-unavailable {
-  opacity: .62;
-  cursor: not-allowed;
-}
-
 .Connect-social-icon {
   display: grid;
   place-items: center;

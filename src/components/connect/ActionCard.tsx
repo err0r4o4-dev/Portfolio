@@ -1,4 +1,4 @@
-import { Download, ExternalLink, FileText, GitBranch, Zap } from "lucide-react";
+import { Download, ExternalLink, FileText, GitBranch, Mail, Zap } from "lucide-react";
 import type { Language } from "../../language";
 import { connectCopy, portfolioLinks } from "./connectData";
 
@@ -14,7 +14,12 @@ export default function ActionCard({ language }: ActionCardProps) {
       <h3 className="Connect-card-title"><Zap aria-hidden="true" />{copy.actionTitle}</h3>
       <p>{copy.actionBody}</p>
       <div className="Connect-actions">
-        <a className="Connect-action Connect-action-primary" href={portfolioLinks.github} target="_blank" rel="noopener noreferrer">
+        <a className="Connect-action Connect-action-primary" href={portfolioLinks.email}>
+          <Mail aria-hidden="true" />
+          <span>{copy.sendEmail}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <a className="Connect-action Connect-action-secondary" href={portfolioLinks.github} target="_blank" rel="noopener noreferrer">
           <GitBranch aria-hidden="true" />
           <span>{copy.viewGithub}</span>
           <ExternalLink aria-hidden="true" />
