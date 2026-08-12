@@ -4,8 +4,8 @@ import brandLogo from "../assets/thirawat-logo.png";
 import "../styles/Header.css";
 
 const navigation = {
-  en: { home: "Home", profile: "About", portfolio: "Work", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mainNav: "Main navigation", mobileNav: "Mobile navigation", brandHome: "Thirawat Duangta, home", mobileNote: "Personal archive · Thailand" },
-  th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mainNav: "เมนูนำทางหลัก", mobileNav: "เมนูนำทางบนมือถือ", brandHome: "ธีรวัฒน์ ดวงตา, หน้าหลัก", mobileNote: "คลังข้อมูลส่วนตัว · ประเทศไทย" },
+  en: { home: "Home", profile: "About", portfolio: "Work", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mainNav: "Main navigation", mobileNav: "Mobile navigation", brandHome: "Thirawat Duangta, home" },
+  th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mainNav: "เมนูนำทางหลัก", mobileNav: "เมนูนำทางบนมือถือ", brandHome: "ธีรวัฒน์ ดวงตา, หน้าหลัก" },
 };
 
 const sectionIds = ["home", "about", "work", "contact"];
@@ -237,10 +237,6 @@ export default function Header() {
               </a>
             ))}
           </nav>
-          <div className="Mobile-menu-footer">
-            <span>{copy.mobileNote}</span>
-            <a href="/downloads/Thirawat-Duangta-CV.pdf" download onClick={() => setIsMenuOpen(false)}>{copy.resume} <span aria-hidden="true">↓</span></a>
-          </div>
         </div>
       </div>
     </header>
