@@ -10,7 +10,6 @@ const navigation = {
 
 const sectionIds = ["home", "about", "work", "contact"];
 const HEADER_SCROLL_THRESHOLD = 24;
-const HEADER_DIRECTION_DELTA = 6;
 
 export default function Header() {
   const { language, setLanguage } = useLanguage();
@@ -20,8 +19,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [shouldRevealHeaderInstantly, setShouldRevealHeaderInstantly] = useState(false);
   const navigationTargetRef = useRef<{ id: string; expiresAt: number } | null>(null);
   const copy = navigation[language];
   const links = [
@@ -34,8 +31,6 @@ export default function Header() {
   const selectSection = (sectionId: string) => {
     navigationTargetRef.current = { id: sectionId, expiresAt: performance.now() + 1_600 };
     setActiveSection(sectionId);
-    setShouldRevealHeaderInstantly(true);
-    setIsHeaderVisible(true);
   };
 
   useEffect(() => {
@@ -67,25 +62,9 @@ export default function Header() {
 
   useEffect(() => {
     let animationFrameId = 0;
-    let lastScrollY = window.scrollY;
 
     const updateHeader = () => {
-      const currentScrollY = Math.max(window.scrollY, 0);
-      const scrollDelta = currentScrollY - lastScrollY;
-
-      setIsScrolled(currentScrollY > HEADER_SCROLL_THRESHOLD);
-
-      if (isMenuOpen || currentScrollY <= HEADER_SCROLL_THRESHOLD) {
-        setShouldRevealHeaderInstantly(true);
-        setIsHeaderVisible(true);
-        lastScrollY = currentScrollY;
-      } else if (Math.abs(scrollDelta) >= HEADER_DIRECTION_DELTA) {
-        const isScrollingUp = scrollDelta < 0;
-        setShouldRevealHeaderInstantly(isScrollingUp);
-        setIsHeaderVisible(isScrollingUp);
-        lastScrollY = currentScrollY;
-      }
-
+      setIsScrolled(Math.max(window.scrollY, 0) > HEADER_SCROLL_THRESHOLD);
       animationFrameId = 0;
     };
 
@@ -99,7 +78,7 @@ export default function Header() {
       window.removeEventListener("scroll", queueHeaderUpdate);
       if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
     };
-  }, [isMenuOpen]);
+  }, []);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -169,7 +148,7 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header ref={headerRef} className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}${shouldRevealHeaderInstantly ? " is-instant" : ""}${isHeaderVisible || isMenuOpen ? "" : " is-hidden"}`}>
+    <header ref={headerRef} className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}${isMenuOpen ? " is-menu-open" : ""}`}>
       <a className="Skip-link" href="#main-content">{copy.skip}</a>
       <div className="Header-container">
         <a className="Header-brand" href="#home" aria-label={copy.brandHome} onClick={() => selectSection("home")}>

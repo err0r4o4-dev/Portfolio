@@ -185,8 +185,6 @@ const content = {
       { label: "Availability", value: "Internships · Selected projects" },
     ],
     nextPhoto: "Next photo",
-    pausePhotos: "Pause photo rotation",
-    resumePhotos: "Resume photo rotation",
     momentAlt: "Personal portrait of Thirawat",
     workIndex: "02 / Archive",
     workTitle: "Selected things I’ve made.",
@@ -237,8 +235,6 @@ const content = {
       { label: "โอกาสที่เปิดรับ", value: "ฝึกงาน · โปรเจกต์ที่เหมาะสม" },
     ],
     nextPhoto: "ภาพถัดไป",
-    pausePhotos: "หยุดการเปลี่ยนภาพอัตโนมัติ",
-    resumePhotos: "เริ่มการเปลี่ยนภาพอัตโนมัติ",
     momentAlt: "ภาพถ่ายส่วนตัวของธีรวัฒน์",
     workIndex: "02 / คลังผลงาน",
     workTitle: "สิ่งที่ผมเคยสร้าง",
@@ -268,9 +264,7 @@ export default function Home() {
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null);
   const [activePortfolioTab, setActivePortfolioTab] = useState<PortfolioTab>("projects");
   const [activeProfileMoment, setActiveProfileMoment] = useState(0);
-  const [isProfileCarouselPaused, setIsProfileCarouselPaused] = useState(
-    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  );
+  const shouldRotateProfile = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const copy = content[language];
   const localizedProjects = projects[language];
   const selectedProject = localizedProjects.find((project) => project.title === selectedProjectTitle) ?? null;
@@ -283,14 +277,14 @@ export default function Home() {
   }, [nextProfileMoment]);
 
   useEffect(() => {
-    if (isProfileCarouselPaused) return;
+    if (!shouldRotateProfile) return;
 
     const intervalId = window.setInterval(() => {
       setActiveProfileMoment((current) => (current + 1) % profileMoments.length);
     }, PROFILE_MOMENT_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
-  }, [isProfileCarouselPaused]);
+  }, [shouldRotateProfile]);
 
   const changePortfolioTabWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>, currentTab: PortfolioTab) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -536,15 +530,6 @@ export default function Home() {
                     onClick={() => setActiveProfileMoment((current) => (current + 1) % profileMoments.length)}
                   >
                     <img key={nextProfileMoment} src={nextProfileMoment} alt="" />
-                  </button>
-                  <button
-                    className="Intro-image-control"
-                    type="button"
-                    aria-label={isProfileCarouselPaused ? copy.resumePhotos : copy.pausePhotos}
-                    aria-pressed={isProfileCarouselPaused}
-                    onClick={() => setIsProfileCarouselPaused((isPaused) => !isPaused)}
-                  >
-                    <span aria-hidden="true">{isProfileCarouselPaused ? "▶" : "Ⅱ"}</span>
                   </button>
                   <span aria-hidden="true">THIRAWAT / 2026</span>
                 </div>
