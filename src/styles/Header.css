@@ -65,7 +65,7 @@
   left: 0;
   right: 100%;
   bottom: -.4rem;
-  height: 2px;
+  height: 1px;
   background: linear-gradient(90deg,#72c0ff 0%,var(--accent) 62%,rgba(38,151,255,.38) 100%);
   box-shadow: 0 0 .9rem rgba(38,151,255,.58);
   transition: right .4s var(--ease-out);
