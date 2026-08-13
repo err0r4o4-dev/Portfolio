@@ -182,31 +182,32 @@ const projects: Record<"en" | "th", Project[]> = {
 const content = {
   en: {
     available: "Currently building & learning",
-    heroKicker: "Computer Engineering · Software Development",
-    heroTitleLines: ["Full Stack", "Developer"],
+    heroKicker: "Software Development · Interactive Technology",
+    heroTitleLines: ["Software", "Developer"],
     heroIntroStart: "I’m",
-    heroIntroEnd: "a Computer Engineering student building thoughtful web experiences and reliable systems that solve real problems.",
+    heroIntroEnd: "a Computer Engineering student building web, mobile, backend and interactive experiences through hands-on projects.",
     explore: "Explore my work",
     contactMe: "Contact me",
     download: "Download CV",
     heroSkills: ["React", "TypeScript", "Java", "MariaDB"],
     heroCodeAria: "Developer profile shown as TypeScript code",
-    heroFocusLabel: "Current focus",
-    heroFocusValue: "Full-stack",
-    heroProjectLabel: "Project status",
-    heroProjectValue: "Building ideas",
+    heroFocusLabel: "Primary focus",
+    heroFocusValue: "Software Developer",
+    heroProjectLabel: "Current status",
+    heroProjectValue: "Creating & exploring",
     heroScroll: "Scroll to explore",
     profileTitle: "About Me",
     profileSubtitle: "Turning ideas into useful digital experiences.",
     profileGreeting: "Hello, I’m",
     profileName: "Thirawat Duangta",
     profileQuote: "I use code to turn practical ideas into experiences people can actually use.",
-    profileOne: "I study Computer Engineering at Srinakharinwirot University and spend my time exploring how software can make everyday ideas useful and tangible.",
-    profileTwo: "My work spans web, mobile, databases and interactive 3D. I use this space to document finished projects, experiments, lessons and the direction I’m growing toward.",
+    profileOne: "I'm a Computer Engineering student at Srinakharinwirot University who enjoys exploring different areas of software development.",
+    profileTwo: "My work includes web applications, mobile apps, backend systems, game server development and interactive 3D environments. I've worked with technologies ranging from React and Java to Unity and Blender.",
+    profileThree: "This portfolio is where I document the projects I've built, the problems I've solved and what I learned along the way.",
     profileFacts: [
       { label: "Education", value: "Computer Engineering · Srinakharinwirot University" },
-      { label: "Focus", value: "Web applications · Backend systems" },
-      { label: "Availability", value: "Internships · Selected projects" },
+      { label: "Interests", value: "Software Development · Interactive Technology · UX/UI" },
+      { label: "Currently exploring", value: "Backend Systems · Applied AI · Software Engineering" },
     ],
     nextPhoto: "Next photo",
     momentAlt: "Personal portrait of Thirawat",
@@ -245,21 +246,22 @@ const content = {
     heroSkills: ["React", "TypeScript", "Java", "MariaDB"],
     heroCodeAria: "ข้อมูลนักพัฒนาในรูปแบบโค้ด TypeScript",
     heroFocusLabel: "สิ่งที่โฟกัส",
-    heroFocusValue: "Full-stack",
-    heroProjectLabel: "สถานะโปรเจกต์",
-    heroProjectValue: "กำลังสร้างไอเดีย",
+    heroFocusValue: "Software Developer",
+    heroProjectLabel: "สถานะปัจจุบัน",
+    heroProjectValue: "กำลังสร้างและสำรวจ",
     heroScroll: "เลื่อนเพื่อสำรวจ",
     profileTitle: "เกี่ยวกับฉัน",
-    profileSubtitle: "เปลี่ยนไอเดียให้เป็นประสบการณ์ดิจิทัลที่ใช้งานได้จริง",
+    profileSubtitle: "มากกว่าแค่การเขียนโค้ด",
     profileGreeting: "สวัสดี ผมคือ",
     profileName: "ธีรวัฒน์ ดวงตา",
     profileQuote: "ผมใช้โค้ดเปลี่ยนไอเดียที่ใช้งานได้จริง ให้กลายเป็นประสบการณ์ที่ผู้คนเข้าถึงได้",
-    profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนใจการเปลี่ยนไอเดียในชีวิตประจำวันให้เป็นซอฟต์แวร์ที่ใช้งานได้จริง",
-    profileTwo: "ผลงานของผมครอบคลุมเว็บ โมบาย ฐานข้อมูล และงาน 3D แบบ Interactive พื้นที่นี้ใช้บันทึกโปรเจกต์ การทดลอง บทเรียน และทิศทางที่กำลังพัฒนาตัวเอง",
+    profileOne: "ผมเป็นนักศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนุกกับการสำรวจแขนงต่าง ๆ ของการพัฒนาซอฟต์แวร์",
+    profileTwo: "ผลงานของผมครอบคลุมเว็บแอปพลิเคชัน แอปมือถือ ระบบ Backend การพัฒนาเกมเซิร์ฟเวอร์ และสภาพแวดล้อม 3D แบบ Interactive โดยได้ทำงานกับเทคโนโลยีตั้งแต่ React และ Java ไปจนถึง Unity และ Blender",
+    profileThree: "พอร์ตโฟลิโอนี้คือพื้นที่ที่ผมใช้บันทึกโปรเจกต์ที่สร้าง ปัญหาที่แก้ และสิ่งที่ได้เรียนรู้ตลอดเส้นทาง",
     profileFacts: [
       { label: "การศึกษา", value: "วิศวกรรมคอมพิวเตอร์ · มหาวิทยาลัยศรีนครินทรวิโรฒ" },
-      { label: "สิ่งที่โฟกัส", value: "เว็บแอปพลิเคชัน · ระบบ Backend" },
-      { label: "โอกาสที่เปิดรับ", value: "ฝึกงาน · โปรเจกต์ที่เหมาะสม" },
+      { label: "ความสนใจ", value: "การพัฒนาซอฟต์แวร์ · เทคโนโลยี Interactive · UX/UI" },
+      { label: "กำลังศึกษา", value: "ระบบ Backend · Applied AI · วิศวกรรมซอฟต์แวร์" },
     ],
     nextPhoto: "ภาพถัดไป",
     momentAlt: "ภาพถ่ายส่วนตัวของธีรวัฒน์",
@@ -493,10 +495,11 @@ export default function Home() {
                   <ol className="Hero-code-lines">
                     <li><code><span className="Code-keyword">const</span> developer = &#123;</code></li>
                     <li><code>name: <span className="Code-string">&quot;Thirawat Duangta&quot;</span>,</code></li>
-                    <li><code>focus: <span className="Code-string">&quot;Full-stack&quot;</span>,</code></li>
-                    <li><code>crafts: <span className="Code-string">&quot;Useful digital products&quot;</span>,</code></li>
-                    <li><code>status: <span className="Code-string">&quot;Always learning&quot;</span></code></li>
-                    <li><code>&#125;</code></li>
+                    <li><code>focus: <span className="Code-string">&quot;Software Developer&quot;</span>,</code></li>
+                    <li className="is-array-line"><code>works: [<span className="Code-string">&quot;Web&quot;</span>, <span className="Code-string">&quot;Mobile&quot;</span>, <span className="Code-string">&quot;Backend&quot;</span>, <span className="Code-string">&quot;Interactive 3D&quot;</span>],</code></li>
+                    <li><code>approach: <span className="Code-string">&quot;Learn by building&quot;</span>,</code></li>
+                    <li><code>status: <span className="Code-string">&quot;Creating and exploring&quot;</span></code></li>
+                    <li><code>&#125;;</code></li>
                     <li><code><span className="Code-keyword">export default</span> developer;</code></li>
                   </ol>
                   <div className="Hero-code-footer" aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>UTF-8</span></div>
@@ -529,6 +532,7 @@ export default function Home() {
             <h3><span>{copy.profileGreeting}</span><strong>{copy.profileName}</strong></h3>
             <p>{copy.profileOne}</p>
             <p>{copy.profileTwo}</p>
+            <p>{copy.profileThree}</p>
             <dl className="Intro-facts">
               {copy.profileFacts.map((fact) => (
                 <div key={fact.label}>

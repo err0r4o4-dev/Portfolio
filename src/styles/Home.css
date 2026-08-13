@@ -179,6 +179,7 @@
 .Hero-code-lines li { position: relative; min-width: 0; counter-increment: code-line; }
 .Hero-code-lines li::before { content: counter(code-line,decimal-leading-zero); position: absolute; right: calc(100% + 1.2rem); color: #354a61; font: 400 .66rem/1.6 var(--mono); }
 .Hero-code-lines code { color: #9db0c7; font: 500 clamp(.71rem,1vw,.84rem)/1.6 var(--mono); white-space: nowrap; }
+.Hero-code-lines .is-array-line code { white-space: normal; }
 .Hero-code-lines li:not(:first-child):not(:last-child) code { padding-left: 1.15rem; }
 .Code-keyword { color: #79aaff; }
 .Code-string { color: #63d9d0; }
@@ -597,8 +598,9 @@
 .reveal-enabled .Intro-copy.is-visible > h3 strong { transition-delay: .12s; }
 .reveal-enabled .Intro-copy.is-visible > p:nth-of-type(1) { transition-delay: .19s; }
 .reveal-enabled .Intro-copy.is-visible > p:nth-of-type(2) { transition-delay: .26s; }
-.reveal-enabled .Intro-copy.is-visible > blockquote { transition-delay: .33s; }
-.reveal-enabled .Intro-copy.is-visible > .Intro-actions { transition-delay: .4s; }
+.reveal-enabled .Intro-copy.is-visible > p:nth-of-type(3) { transition-delay: .33s; }
+.reveal-enabled .Intro-copy.is-visible > blockquote { transition-delay: .4s; }
+.reveal-enabled .Intro-copy.is-visible > .Intro-actions { transition-delay: .47s; }
 .reveal-enabled .Intro-visual.is-visible .Intro-image-float { transition-delay: .16s; }
 .reveal-enabled [data-reveal].is-reveal-instant,
 .reveal-enabled [data-reveal].is-reveal-instant * { transition: none !important; }
