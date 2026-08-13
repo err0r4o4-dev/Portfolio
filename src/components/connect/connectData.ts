@@ -1,4 +1,5 @@
 import {
+  ContactRound,
   GitBranch,
   Mail,
   Phone,
@@ -9,7 +10,7 @@ import type { Language } from "../../language";
 type LocalizedText = Record<Language, string>;
 
 export type SocialLink = {
-  id: "github" | "email" | "phone";
+  id: "github" | "linkedin" | "email" | "phone";
   label: LocalizedText;
   detail: LocalizedText;
   href: string;
@@ -18,6 +19,7 @@ export type SocialLink = {
 
 export const portfolioLinks = {
   github: "https://github.com/err0r4o4-dev",
+  linkedin: "https://www.linkedin.com/in/thirawat-duangta-2467023a6/",
   email: "mailto:title.thirawat.dev@gmail.com",
   phone: "tel:+66615071665",
 } as const;
@@ -58,6 +60,13 @@ export const socialLinks: SocialLink[] = [
     detail: { en: "err0r4o4-dev", th: "err0r4o4-dev" },
     href: portfolioLinks.github,
     icon: GitBranch,
+  },
+  {
+    id: "linkedin",
+    label: { en: "LinkedIn", th: "LinkedIn" },
+    detail: { en: "Thirawat Duangta", th: "ธีรวัฒน์ ดวงตา" },
+    href: portfolioLinks.linkedin,
+    icon: ContactRound,
   },
   {
     id: "email",

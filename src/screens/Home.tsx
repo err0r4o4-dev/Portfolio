@@ -14,25 +14,49 @@ const portfolioTabs = ["projects", "certificates", "stack"] as const;
 type PortfolioTab = (typeof portfolioTabs)[number];
 const profileMoments = [profileMomentTwo, profileMomentThree, profileMomentOne];
 const PROFILE_MOMENT_INTERVAL_MS = 5_000;
-const getTechMark = (name: string) => {
-  const words = name.replace(/[.#/]/g, " ").split(/\s+/).filter(Boolean);
-  return words.length > 1
-    ? words.map((word) => word[0]).join("").slice(0, 2).toUpperCase()
-    : name.slice(0, 2).toUpperCase();
+const THE_SVG_CDN = "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons";
+const techLogoPaths: Record<string, string> = {
+  JavaScript: "javascript/default",
+  Java: "java/default",
+  Python: "python/default",
+  "C#": "c-sharp/default",
+  C: "c/default",
+  Lua: "lua/default",
+  Dart: "dart/default",
+  "HTML / CSS": "html5/default",
+  XML: "xml/default",
+  React: "react/default",
+  "React Native": "react/default",
+  "Next.js": "nextdotjs/default",
+  "Express.js": "expressdotjs/light",
+  Flutter: "flutter/default",
+  Bootstrap: "bootstrap/default",
+  MySQL: "mysql/default",
+  MariaDB: "mariadb/default",
+  GitHub: "github/light",
+  "Android Studio": "android-studio/default",
+  Figma: "figma/default",
+  Unity: "unity/light",
+  Blender: "blender/default",
+  "UX/UI design": "figma/default",
+  "ออกแบบ UX/UI": "figma/default",
+  "3D modelling": "blender/default",
+  "สร้างโมเดล 3D": "blender/default",
 };
+const getTechLogo = (name: string) => `${THE_SVG_CDN}/${techLogoPaths[name]}.svg`;
 
 const skillGroups = {
   en: [
-    { title: "Languages", items: ["TypeScript", "JavaScript", "Python", "Java", "C#", "Lua", "XML"] },
-    { title: "Frameworks", items: ["React", "React Native", "Express.js", "PySide6"] },
-    { title: "Data & tools", items: ["MariaDB", "MySQL", "GitHub", "Figma"] },
-    { title: "Creative tech", items: ["Unity", "Blender"] },
+    { title: "Languages", items: ["JavaScript", "Java", "Python", "C#", "C", "Lua", "Dart", "HTML / CSS", "XML"] },
+    { title: "Frameworks", items: ["React", "React Native", "Next.js", "Express.js", "Flutter", "Bootstrap"] },
+    { title: "Data & tools", items: ["MySQL", "MariaDB", "GitHub", "Android Studio", "Figma"] },
+    { title: "Creative tech", items: ["Unity", "Blender", "UX/UI design", "3D modelling"] },
   ],
   th: [
-    { title: "ภาษาโปรแกรม", items: ["TypeScript", "JavaScript", "Python", "Java", "C#", "Lua", "XML"] },
-    { title: "เฟรมเวิร์ก", items: ["React", "React Native", "Express.js", "PySide6"] },
-    { title: "ข้อมูลและเครื่องมือ", items: ["MariaDB", "MySQL", "GitHub", "Figma"] },
-    { title: "เทคโนโลยีสร้างสรรค์", items: ["Unity", "Blender"] },
+    { title: "ภาษาโปรแกรม", items: ["JavaScript", "Java", "Python", "C#", "C", "Lua", "Dart", "HTML / CSS", "XML"] },
+    { title: "เฟรมเวิร์ก", items: ["React", "React Native", "Next.js", "Express.js", "Flutter", "Bootstrap"] },
+    { title: "ข้อมูลและเครื่องมือ", items: ["MySQL", "MariaDB", "GitHub", "Android Studio", "Figma"] },
+    { title: "เทคโนโลยีสร้างสรรค์", items: ["Unity", "Blender", "ออกแบบ UX/UI", "สร้างโมเดล 3D"] },
   ],
 };
 
@@ -198,7 +222,7 @@ const content = {
       { value: 4, label: "Technology areas", note: "Languages, frameworks, data tools, and creative technology.", symbol: "TS" },
     ] satisfies AchievementStat[],
 
-    portfolioTitle: "Projects, Certificates & Tech Stack",
+    portfolioTitle: "Portfolio Showcase",
     portfolioIntro: "A collection of applications and interactive experiences built through code, design, and practical problem-solving.",
     tabProjects: "Projects",
     tabCertificates: "Certificates",
@@ -251,7 +275,7 @@ const content = {
       { value: 4, label: "กลุ่มเทคโนโลยี", note: "ภาษา เฟรมเวิร์ก เครื่องมือข้อมูล และเทคโนโลยีสร้างสรรค์", symbol: "TS" },
     ] satisfies AchievementStat[],
 
-    portfolioTitle: "ผลงาน ใบรับรอง และ Tech Stack",
+    portfolioTitle: "ผลงานที่คัดสรร",
     portfolioIntro: "รวมผลงานแอปพลิเคชันและประสบการณ์อินเทอร์แอกทีฟที่พัฒนาผ่านการเขียนโค้ด การออกแบบ และการแก้ปัญหาที่ใช้งานได้จริง",
     tabProjects: "โปรเจกต์",
     tabCertificates: "ใบรับรอง",
@@ -607,14 +631,15 @@ export default function Home() {
 
           {activePortfolioTab === "stack" && (
             <div className="Portfolio-panel Tech-groups" id="portfolio-panel-stack" role="tabpanel" aria-labelledby="portfolio-tab-stack" key="stack">
-              {skillGroups[language].map((group, groupIndex) => (
+              {skillGroups[language].map((group) => (
                 <section className="Tech-group" key={group.title}>
-                  <div className="Tech-group-heading"><span>0{groupIndex + 1}</span><h3>{group.title}</h3></div>
+                  <div className="Tech-group-heading"><h3>{group.title}</h3></div>
                   <div className="Tech-grid">
                     {group.items.map((item) => (
                       <article className="Tech-card" key={item}>
-                        <span aria-hidden="true">{getTechMark(item)}</span>
+                        <span aria-hidden="true"><img src={getTechLogo(item)} alt="" loading="lazy" /></span>
                         <strong>{item}</strong>
+                        <small>{group.title}</small>
                       </article>
                     ))}
                   </div>
