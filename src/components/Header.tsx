@@ -5,7 +5,7 @@ import "../styles/Header.css";
 
 const navigation = {
   en: { home: "Home", profile: "About", portfolio: "Work", contact: "Contact", resume: "CV", skip: "Skip to content", menu: "Menu", close: "Close menu", language: "Select language", mainNav: "Main navigation", mobileNav: "Mobile navigation", brandHome: "Thirawat Duangta, home" },
-  th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mainNav: "เมนูนำทางหลัก", mobileNav: "เมนูนำทางบนมือถือ", brandHome: "ธีรวัฒน์ ดวงตา, หน้าหลัก" },
+  th: { home: "หน้าหลัก", profile: "เกี่ยวกับฉัน", portfolio: "ผลงาน", contact: "ติดต่อ", resume: "CV", skip: "ข้ามไปยังเนื้อหา", menu: "เมนู", close: "ปิดเมนู", language: "เลือกภาษา", mainNav: "เมนูนำทางหลัก", mobileNav: "เมนูนำทางบนมือถือ", brandHome: "ถิรวัฒน์ ดวงตา, หน้าหลัก" },
 };
 
 const sectionIds = ["home", "about", "work", "contact"];
@@ -138,43 +138,43 @@ export default function Header() {
       <header ref={headerRef} className={`Header${isScrolled || isMenuOpen ? " is-scrolled" : ""}`}>
         <a className="Skip-link" href="#main-content">{copy.skip}</a>
         <div className="Header-container">
-        <a className="Header-brand" href="#home" aria-label={copy.brandHome} onClick={() => selectSection("home")}>
-          <span className="Header-mark"><img src={brandLogo} alt="" /></span>
-          <span>Taitunnn</span>
-        </a>
-        <nav className="Header-nav" aria-label={copy.mainNav}>
-          {links.map((link) => (
-            <a className={activeSection === link.href.slice(1) ? "is-active" : ""} href={link.href} key={link.href} onClick={() => selectSection(link.href.slice(1))} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>{link.label}</a>
-          ))}
-        </nav>
-        <div className="Header-actions">
-          <div className="Language-switch" role="group" aria-label={copy.language}>
-            {(["en", "th"] as Language[]).map((option) => (
-              <button
-                key={option}
-                type="button"
-                className={language === option ? "is-active" : ""}
-                aria-pressed={language === option}
-                onClick={() => setLanguage(option)}
-              >
-                {option.toUpperCase()}
-              </button>
+          <a className="Header-brand" href="#home" aria-label={copy.brandHome} onClick={() => selectSection("home")}>
+            <span className="Header-mark"><img src={brandLogo} alt="" /></span>
+            <span>Taitunnn</span>
+          </a>
+          <nav className="Header-nav" aria-label={copy.mainNav}>
+            {links.map((link) => (
+              <a className={activeSection === link.href.slice(1) ? "is-active" : ""} href={link.href} key={link.href} onClick={() => selectSection(link.href.slice(1))} aria-current={activeSection === link.href.slice(1) ? "location" : undefined}>{link.label}</a>
             ))}
+          </nav>
+          <div className="Header-actions">
+            <div className="Language-switch" role="group" aria-label={copy.language}>
+              {(["en", "th"] as Language[]).map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  className={language === option ? "is-active" : ""}
+                  aria-pressed={language === option}
+                  onClick={() => setLanguage(option)}
+                >
+                  {option.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Header-cv">{copy.resume} <span aria-hidden="true">↓</span></a>
           </div>
-          <a href="/downloads/Thirawat-Duangta-CV.pdf" download className="Header-cv">{copy.resume} <span aria-hidden="true">↓</span></a>
-        </div>
-        <button
-          ref={menuToggleRef}
-          className="Header-menu-toggle"
-          type="button"
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-navigation"
-          aria-label={isMenuOpen ? copy.close : copy.menu}
-          onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
-        >
-          <span />
-          <span />
-        </button>
+          <button
+            ref={menuToggleRef}
+            className="Header-menu-toggle"
+            type="button"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isMenuOpen ? copy.close : copy.menu}
+            onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+          >
+            <span />
+            <span />
+          </button>
         </div>
       </header>
       <div

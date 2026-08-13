@@ -20,10 +20,10 @@ export default function LanguageProvider({ children }: { children: ReactNode }) 
   useEffect(() => {
     document.documentElement.lang = language;
     const title = language === "th"
-      ? "ธีรวัฒน์ ดวงตา — คลังผลงานส่วนตัว"
+      ? "ถิรวัฒน์ ดวงตา — คลังผลงานส่วนตัว"
       : "Thirawat Duangta — Personal Archive";
     const description = language === "th"
-      ? "คลังผลงานซอฟต์แวร์ การทดลอง การเรียนรู้ และเทคโนโลยีสร้างสรรค์ของธีรวัฒน์ ดวงตา"
+      ? "คลังผลงานซอฟต์แวร์ การทดลอง การเรียนรู้ และเทคโนโลยีสร้างสรรค์ของถิรวัฒน์ ดวงตา"
       : "Thirawat Duangta's personal archive of software projects, experiments, learning, and creative technology.";
 
     document.title = title;

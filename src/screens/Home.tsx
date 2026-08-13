@@ -181,11 +181,11 @@ const projects: Record<"en" | "th", Project[]> = {
 
 const content = {
   en: {
-    available: "Currently building & learning",
-    heroKicker: "Software Development · Interactive Technology",
+    available: "Building, learning & documenting",
+    heroKicker: "Software Developer · Computer Engineering Student",
     heroTitleLines: ["Software", "Developer"],
     heroIntroStart: "I’m",
-    heroIntroEnd: "a Computer Engineering student building web, mobile, backend and interactive experiences through hands-on projects.",
+    heroIntroEnd: "a Computer Engineering student building projects across web, mobile, backend systems, game servers and interactive 3D.",
     explore: "Explore my work",
     contactMe: "Contact me",
     download: "Download CV",
@@ -197,11 +197,11 @@ const content = {
     heroProjectValue: "Creating & exploring",
     heroScroll: "Scroll to explore",
     profileTitle: "About Me",
-    profileSubtitle: "Turning ideas into useful digital experiences.",
+    profileSubtitle: "Learning through hands-on projects.",
     profileGreeting: "Hello, I’m",
     profileName: "Thirawat Duangta",
     profileQuote: "I use code to turn practical ideas into experiences people can actually use.",
-    profileOne: "I'm a Computer Engineering student at Srinakharinwirot University who enjoys exploring different areas of software development.",
+    profileOne: "I study Computer Engineering at Srinakharinwirot University and enjoy exploring different areas of software development.",
     profileTwo: "My work includes web applications, mobile apps, backend systems, game server development and interactive 3D environments. I've worked with technologies ranging from React and Java to Unity and Blender.",
     profileThree: "This portfolio is where I document the projects I've built, the problems I've solved and what I learned along the way.",
     profileFacts: [
@@ -235,11 +235,11 @@ const content = {
 
   },
   th: {
-    available: "กำลังสร้างและเรียนรู้",
-    heroKicker: "วิศวกรรมคอมพิวเตอร์ · การพัฒนาซอฟต์แวร์",
-    heroTitleLines: ["ผมสร้างผลิตภัณฑ์", "ดิจิทัลที่ใช้งาน", "ได้อย่างลื่นไหล"],
+    available: "กำลังสร้าง เรียนรู้ และบันทึก",
+    heroKicker: "นักพัฒนาซอฟต์แวร์ · นักศึกษาวิศวกรรมคอมพิวเตอร์",
+    heroTitleLines: ["นักพัฒนา", "ซอฟต์แวร์"],
     heroIntroStart: "ผมคือ",
-    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สร้างประสบการณ์บนเว็บและระบบที่เชื่อถือได้ เพื่อแก้ปัญหาที่เกิดขึ้นจริง",
+    heroIntroEnd: "นักศึกษาวิศวกรรมคอมพิวเตอร์ที่สร้างโปรเจกต์ด้านเว็บ โมบาย ระบบ Backend เกมเซิร์ฟเวอร์ และ Interactive 3D",
     explore: "ดูผลงานของฉัน",
     contactMe: "ติดต่อฉัน",
     download: "ดาวน์โหลด CV",
@@ -251,11 +251,11 @@ const content = {
     heroProjectValue: "กำลังสร้างและสำรวจ",
     heroScroll: "เลื่อนเพื่อสำรวจ",
     profileTitle: "เกี่ยวกับฉัน",
-    profileSubtitle: "มากกว่าแค่การเขียนโค้ด",
+    profileSubtitle: "เรียนรู้ผ่านการลงมือสร้างโปรเจกต์จริง",
     profileGreeting: "สวัสดี ผมคือ",
-    profileName: "ธีรวัฒน์ ดวงตา",
+    profileName: "ถิรวัฒน์ ดวงตา",
     profileQuote: "ผมใช้โค้ดเปลี่ยนไอเดียที่ใช้งานได้จริง ให้กลายเป็นประสบการณ์ที่ผู้คนเข้าถึงได้",
-    profileOne: "ผมเป็นนักศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนุกกับการสำรวจแขนงต่าง ๆ ของการพัฒนาซอฟต์แวร์",
+    profileOne: "ผมศึกษาวิศวกรรมคอมพิวเตอร์ที่มหาวิทยาลัยศรีนครินทรวิโรฒ และสนุกกับการสำรวจแขนงต่าง ๆ ของการพัฒนาซอฟต์แวร์",
     profileTwo: "ผลงานของผมครอบคลุมเว็บแอปพลิเคชัน แอปมือถือ ระบบ Backend การพัฒนาเกมเซิร์ฟเวอร์ และสภาพแวดล้อม 3D แบบ Interactive โดยได้ทำงานกับเทคโนโลยีตั้งแต่ React และ Java ไปจนถึง Unity และ Blender",
     profileThree: "พอร์ตโฟลิโอนี้คือพื้นที่ที่ผมใช้บันทึกโปรเจกต์ที่สร้าง ปัญหาที่แก้ และสิ่งที่ได้เรียนรู้ตลอดเส้นทาง",
     profileFacts: [
@@ -471,7 +471,7 @@ export default function Home() {
                 </span>
               ))}
             </h1>
-            <p className="Hero-intro">{copy.heroIntroStart} <strong>Thirawat Duangta</strong>, {copy.heroIntroEnd}</p>
+            <p className="Hero-intro">{copy.heroIntroStart} <strong>{copy.profileName}</strong>, {copy.heroIntroEnd}</p>
             <div className="Hero-actions">
               <a href="#work" className="Button Button-primary">{copy.explore}<span aria-hidden="true">↗</span></a>
               <a href="#contact" className="Button Button-secondary">
