@@ -26,7 +26,7 @@ export default function App() {
     <>
       {isIntroVisible && <SiteIntro onComplete={completeIntro} />}
       <div
-        className={`App-shell ${isIntroVisible ? "is-intro-active" : "is-ready"}`}
+        className={`App-shell min-h-screen ${isIntroVisible ? "is-intro-active" : "is-ready"}`}
         inert={isIntroVisible ? true : undefined}
         aria-hidden={isIntroVisible || undefined}
       >
