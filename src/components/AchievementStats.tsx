@@ -19,8 +19,16 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
   const shouldSkipAnimation = typeof window !== "undefined" && (
     window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)
   );
-  const [hasEntered, setHasEntered] = useState(shouldSkipAnimation);
+  const [isVisible, setIsVisible] = useState(shouldSkipAnimation);
+  const [isRevealFromTop, setIsRevealFromTop] = useState(false);
   const [progress, setProgress] = useState(shouldSkipAnimation ? 1 : 0);
+
+  useEffect(() => {
+    if (!isVisible || !isRevealFromTop) return;
+
+    const animationFrameId = window.requestAnimationFrame(() => setIsRevealFromTop(false));
+    return () => window.cancelAnimationFrame(animationFrameId);
+  }, [isRevealFromTop, isVisible]);
 
   useEffect(() => {
     const region = regionRef.current;
@@ -28,29 +36,37 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
 
     if (shouldSkipAnimation) return;
 
+    let hasCounted = false;
+    let animationFrameId = 0;
+
     const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setHasEntered(true);
-      observer.disconnect();
+      setIsRevealFromTop(entry.boundingClientRect.top < window.innerHeight / 2);
+      setIsVisible(entry.isIntersecting);
+
+      if (!entry.isIntersecting || hasCounted) return;
+      hasCounted = true;
 
       const startedAt = performance.now();
       const duration = 850;
       const animate = (now: number) => {
         const elapsed = Math.min((now - startedAt) / duration, 1);
         setProgress(1 - Math.pow(1 - elapsed, 3));
-        if (elapsed < 1) window.requestAnimationFrame(animate);
+        if (elapsed < 1) animationFrameId = window.requestAnimationFrame(animate);
       };
-      window.requestAnimationFrame(animate);
-    }, { threshold: .25 });
+      animationFrameId = window.requestAnimationFrame(animate);
+    }, { threshold: .18, rootMargin: "0px 0px -8% 0px" });
 
     observer.observe(region);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
   }, [shouldSkipAnimation]);
 
   return (
-    <div className={`Achievement-grid${hasEntered ? " is-visible" : ""}`} ref={regionRef} aria-label={ariaLabel}>
+    <div className={`Achievement-grid${isRevealFromTop ? " is-reveal-from-top" : ""}${isVisible ? " is-visible" : ""}`} ref={regionRef} role="list" aria-label={ariaLabel}>
       {stats.map((stat, index) => (
-        <article className="Achievement-card" key={stat.label}>
+        <article className="Achievement-card" role="listitem" key={stat.label}>
           <span className="Achievement-symbol" aria-hidden="true">{stat.symbol}</span>
           <strong>{Math.round(stat.value * progress).toString().padStart(2, "0")}{stat.suffix}</strong>
           <h3>{stat.label}</h3>

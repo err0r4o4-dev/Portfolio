@@ -5,10 +5,11 @@ interface ProjectCoverProps {
   subtitle: string;
   code: string;
   number: string;
+  imageUrl?: string;
   isCompact?: boolean;
 }
 
-export default function ProjectCover({ title, subtitle, code, number, isCompact = false }: ProjectCoverProps) {
+export default function ProjectCover({ title, subtitle, code, number, imageUrl, isCompact = false }: ProjectCoverProps) {
   return (
     <div className={`ProjectCover${isCompact ? " ProjectCover-compact" : ""}`} aria-hidden="true">
       <span className="ProjectCover-grid" />
@@ -16,6 +17,7 @@ export default function ProjectCover({ title, subtitle, code, number, isCompact 
       <span className="ProjectCover-number">{number}</span>
       <span className="ProjectCover-code">{code}</span>
       <span className="ProjectCover-rule" />
+      {imageUrl && <img className="ProjectCover-image" src={imageUrl} alt="" />}
       <div className="ProjectCover-copy">
         <small>{subtitle}</small>
         <strong>{title}</strong>

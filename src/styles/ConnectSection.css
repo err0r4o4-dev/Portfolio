@@ -35,10 +35,6 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.Connect-grid-bottom {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .Connect-card {
   min-width: 0;
   border: 1px solid rgba(91, 154, 218, .28);
@@ -48,16 +44,11 @@
   transition: border-color .3s ease, box-shadow .3s ease, transform .3s var(--ease-out);
 }
 
-.reveal-enabled .Connect-card[data-reveal]:nth-child(2) {
+.reveal-enabled .Connect-card[data-reveal]:nth-child(2).is-visible {
   transition-delay: .08s;
 }
 
-.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(2) {
-  transition-delay: .12s;
-}
-
-.reveal-enabled .Connect-grid-bottom .Connect-card[data-reveal]:nth-child(3),
-.reveal-enabled .Connect-status-strip[data-reveal] {
+.reveal-enabled .Connect-status-strip[data-reveal].is-visible {
   transition-delay: .2s;
 }
 
@@ -192,10 +183,7 @@
   background: rgba(128, 174, 221, .28);
 }
 
-.Connect-social-card,
-.Connect-open-card,
-.Connect-focus-card,
-.Connect-action-card {
+.Connect-social-card {
   padding: clamp(1.4rem, 2.5vw, 1.85rem);
 }
 
@@ -222,11 +210,6 @@ a.Connect-social-link:hover {
   border-color: rgba(83, 170, 255, .52);
   background: rgba(12, 36, 62, .9);
   transform: translate3d(0, -.1rem, 0);
-}
-
-.Connect-social-link.is-unavailable {
-  opacity: .62;
-  cursor: not-allowed;
 }
 
 .Connect-social-icon {
@@ -276,139 +259,6 @@ a.Connect-social-link:hover .Connect-external-icon {
   transform: translate3d(.16rem, -.16rem, 0);
 }
 
-.Connect-open-grid,
-.Connect-focus-list {
-  margin: 1.2rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.Connect-open-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .65rem;
-}
-
-.Connect-open-grid li {
-  display: flex;
-  align-items: center;
-  gap: .7rem;
-  min-height: 4.2rem;
-  padding: .8rem .85rem;
-  border: 1px solid rgba(105, 158, 213, .22);
-  border-radius: .7rem;
-  background: rgba(10, 29, 50, .66);
-  color: #d7e4f2;
-  font-size: .78rem;
-  line-height: 1.4;
-  transition: border-color .25s ease, background .25s ease, transform .25s var(--ease-out);
-}
-
-.Connect-open-grid li:hover {
-  border-color: rgba(83, 170, 255, .45);
-  background: rgba(13, 38, 65, .82);
-  transform: translate3d(0, -.12rem, 0);
-}
-
-.Connect-open-grid svg {
-  width: 1.4rem;
-  height: 1.4rem;
-  flex: 0 0 auto;
-  color: #67aff8;
-  stroke-width: 1.75;
-}
-
-.Connect-focus-list {
-  display: grid;
-}
-
-.Connect-focus-list li {
-  display: grid;
-  grid-template-columns: 1.8rem minmax(0, 1fr);
-  align-items: center;
-  gap: .9rem;
-  min-height: 4rem;
-  color: #b8c6d8;
-  font-size: .84rem;
-  line-height: 1.45;
-}
-
-.Connect-focus-list li + li {
-  border-top: 1px solid rgba(112, 157, 204, .17);
-}
-
-.Connect-focus-list svg {
-  width: 1.45rem;
-  height: 1.45rem;
-  color: #d7e8fa;
-  stroke-width: 1.7;
-}
-
-.Connect-action-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.Connect-action-card > p {
-  margin-top: 1.15rem;
-  color: #a7b8cb;
-  font-size: .9rem;
-  line-height: 1.65;
-}
-
-.Connect-actions {
-  display: grid;
-  gap: .55rem;
-  margin-top: auto;
-  padding-top: 1.15rem;
-}
-
-.Connect-action {
-  display: grid;
-  grid-template-columns: 1.4rem minmax(0, 1fr) 1.1rem;
-  align-items: center;
-  gap: .75rem;
-  min-height: 3.35rem;
-  padding: .7rem 1rem;
-  border: 1px solid #4da6ff;
-  border-radius: .65rem;
-  font-size: .94rem;
-  font-weight: 600;
-  line-height: 1.3;
-  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease, transform .25s var(--ease-out);
-}
-
-.Connect-action svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  stroke-width: 1.8;
-}
-
-.Connect-action-primary {
-  background: #2f8cf3;
-  color: #fff;
-  box-shadow: 0 .8rem 1.8rem rgba(38, 151, 255, .15), inset 0 1px rgba(255, 255, 255, .18);
-}
-
-.Connect-action-secondary {
-  background: rgba(8, 27, 48, .72);
-  color: #e2edf8;
-}
-
-.Connect-action:hover {
-  border-color: #79bcff;
-  transform: translate3d(0, -.12rem, 0);
-}
-
-.Connect-action-primary:hover {
-  background: #3897ff;
-  box-shadow: 0 1rem 2.2rem rgba(38, 151, 255, .22), inset 0 1px rgba(255, 255, 255, .2);
-}
-
-.Connect-action-secondary:hover {
-  background: rgba(12, 37, 64, .92);
-}
-
 .Connect-status-strip {
   display: flex;
   align-items: center;
@@ -445,14 +295,6 @@ a.Connect-social-link:hover .Connect-external-icon {
 }
 
 @media (max-width: 1100px) {
-  .Connect-grid-bottom {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .Connect-action-card {
-    grid-column: 1 / -1;
-  }
-
   .Connect-profile-card {
     grid-template-columns: 8rem minmax(0, 1fr);
     gap: 1.35rem;
@@ -470,13 +312,8 @@ a.Connect-social-link:hover .Connect-external-icon {
 }
 
 @media (max-width: 760px) {
-  .Connect-grid-top,
-  .Connect-grid-bottom {
+  .Connect-grid-top {
     grid-template-columns: 1fr;
-  }
-
-  .Connect-action-card {
-    grid-column: auto;
   }
 
   .Connect-profile-card {
@@ -519,23 +356,8 @@ a.Connect-social-link:hover .Connect-external-icon {
 
   .Connect-card,
   .Connect-social-card,
-  .Connect-open-card,
-  .Connect-focus-card,
-  .Connect-action-card,
   .Connect-profile-card {
     border-radius: .9rem;
-  }
-
-  .Connect-open-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .Connect-actions {
-    width: 100%;
-  }
-
-  .Connect-action {
-    width: 100%;
   }
 
   .Connect-status-strip {
@@ -554,9 +376,7 @@ a.Connect-social-link:hover .Connect-external-icon {
 @media (prefers-reduced-motion: reduce) {
   .Connect-card,
   .Connect-social-link,
-  .Connect-external-icon,
-  .Connect-open-grid li,
-  .Connect-action {
+  .Connect-external-icon {
     transition: none;
   }
 
@@ -568,8 +388,6 @@ a.Connect-social-link:hover .Connect-external-icon {
   .reveal-enabled .Connect-card[data-reveal].is-visible:hover,
   .Connect-card:hover,
   a.Connect-social-link:hover,
-  .Connect-open-grid li:hover,
-  .Connect-action:hover,
   a.Connect-social-link:hover .Connect-external-icon {
     transform: none;
   }

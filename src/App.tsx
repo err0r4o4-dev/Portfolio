@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import SiteIntro from "./components/SiteIntro.tsx";
@@ -11,14 +11,14 @@ export default function App() {
   );
   const completeIntro = useCallback(() => {
     setIsIntroVisible(false);
-    window.requestAnimationFrame(() => window.scrollTo(0, 0));
+    window.requestAnimationFrame(() => {
+      document.getElementById("home")?.scrollIntoView();
+    });
   }, []);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
-    if (window.location.hash) {
-      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
-    }
+    window.history.replaceState(window.history.state, "", "#home");
     window.scrollTo(0, 0);
   }, []);
 
@@ -33,6 +33,7 @@ export default function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
           {/* <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} /> */}
