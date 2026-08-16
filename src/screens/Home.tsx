@@ -406,7 +406,7 @@ export default function Home() {
     const renderAmbientMotion = () => {
       currentScroll += (targetScroll - currentScroll) * 0.095;
 
-      const motionScale = window.innerWidth <= 640 ? 0.5 : 1;
+      const motionScale = window.innerWidth <= 640 ? 0.65 : 1.3;
       const bluePhase = currentScroll / 780;
       const cyanPhase = currentScroll / 940;
       const indigoPhase = currentScroll / 1140;
