@@ -16,7 +16,9 @@ A bilingual personal portfolio for Thirawat Duangta, focused on software project
 - TypeScript
 - Vite 8
 - React Router 7
-- Plain CSS with shared custom properties
+- Tailwind CSS v4
+- `@tailwindcss/vite` integration
+- CSS-first design tokens with `@theme`
 
 ## Local development
 
@@ -36,9 +38,16 @@ npm run build
 
 - `src/screens/` — route-level page composition
 - `src/components/` — reusable interface components
-- `src/styles/` — global tokens and component styles
+- `src/styles/index.css` — Tailwind entrypoint, theme tokens, shared utilities, base rules, animations, and exceptional global selectors
 - `src/assets/` — images processed by Vite
 - `public/downloads/` — downloadable CV
+
+## Styling conventions
+
+- Use Tailwind utilities directly in React components for layout, spacing, typography, responsive behavior, and interactive states.
+- Define shared semantic tokens in `src/styles/index.css` with Tailwind CSS v4 CSS-first `@theme` configuration.
+- Keep global CSS for base rules, keyframes, pseudo-elements, browser-specific selectors, and state orchestration that utilities cannot express clearly.
+- Prefer reusable `@utility` primitives for shared project patterns; no `tailwind.config.js` is required for the current setup.
 
 ## Deployment
 
