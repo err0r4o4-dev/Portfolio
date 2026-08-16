@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import "../styles/AchievementStats.css";
 
 export interface AchievementStat {
   value: number;
@@ -13,6 +12,8 @@ interface AchievementStatsProps {
   stats: AchievementStat[];
   ariaLabel: string;
 }
+
+const revealDelays = ["delay-0", "delay-75", "delay-150"];
 
 export default function AchievementStats({ stats, ariaLabel }: AchievementStatsProps) {
   const regionRef = useRef<HTMLDivElement>(null);
@@ -32,9 +33,7 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
 
   useEffect(() => {
     const region = regionRef.current;
-    if (!region) return;
-
-    if (shouldSkipAnimation) return;
+    if (!region || shouldSkipAnimation) return;
 
     let hasCounted = false;
     let animationFrameId = 0;
@@ -64,14 +63,18 @@ export default function AchievementStats({ stats, ariaLabel }: AchievementStatsP
   }, [shouldSkipAnimation]);
 
   return (
-    <div className={`Achievement-grid${isRevealFromTop ? " is-reveal-from-top" : ""}${isVisible ? " is-visible" : ""}`} ref={regionRef} role="list" aria-label={ariaLabel}>
+    <div className="mt-14 grid grid-cols-1 gap-3 min-[701px]:grid-cols-2 min-[1001px]:mt-20 min-[1001px]:grid-cols-3" ref={regionRef} role="list" aria-label={ariaLabel}>
       {stats.map((stat, index) => (
-        <article className="Achievement-card" role="listitem" key={stat.label}>
-          <span className="Achievement-symbol" aria-hidden="true">{stat.symbol}</span>
-          <strong>{Math.round(stat.value * progress).toString().padStart(2, "0")}{stat.suffix}</strong>
-          <h3>{stat.label}</h3>
-          <p>{stat.note}</p>
-          <span className="Achievement-index" aria-hidden="true">0{index + 1} ↗</span>
+        <article
+          className={`achievement-card-art relative min-h-60 overflow-hidden rounded-xl border border-[#4e8ecd]/20 bg-[linear-gradient(145deg,#071728,#020812_58%)] p-6 shadow-[inset_0_1px_rgba(237,245,255,.035),0_1.5rem_3.8rem_rgba(0,4,12,.28)] transition-[opacity,transform,border-color,box-shadow] duration-700 ease-out-expo hover:-translate-y-1 hover:border-[#459dee]/40 hover:shadow-[inset_0_1px_rgba(237,245,255,.05),0_1.8rem_4.5rem_rgba(0,14,38,.34),0_0_2rem_rgba(35,143,242,.06)] motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none ${index === 2 ? "min-[701px]:max-[1000px]:col-span-full min-[701px]:max-[1000px]:w-[calc(50%-.4rem)] min-[701px]:max-[1000px]:justify-self-center" : ""} ${isVisible ? `translate-y-0 opacity-100 ${revealDelays[index] ?? ""}` : `${isRevealFromTop ? "-translate-y-6" : "translate-y-6"} opacity-0`}`}
+          role="listitem"
+          key={stat.label}
+        >
+          <span className="mb-8 grid size-10 place-items-center rounded-lg border border-[#4e8ecd]/25 bg-[#061525] font-mono text-[.68rem] font-medium text-[#65aff8]" aria-hidden="true">{stat.symbol}</span>
+          <strong className="block text-[clamp(2.5rem,4vw,4rem)] font-semibold leading-none tracking-[-.06em] text-[#edf5ff] tabular-nums">{Math.round(stat.value * progress).toString().padStart(2, "0")}{stat.suffix}</strong>
+          <h3 className="mt-3 text-base font-semibold text-[#edf5ff]">{stat.label}</h3>
+          <p className="mt-2 max-w-72 text-xs leading-relaxed text-[#7f95ab]">{stat.note}</p>
+          <span className="absolute right-5 top-5 font-mono text-[.6rem] font-medium text-[#667d95]" aria-hidden="true">0{index + 1} ↗</span>
         </article>
       ))}
     </div>

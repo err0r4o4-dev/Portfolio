@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLanguage } from "../language";
 import ProjectCover from "./ProjectCover";
-import "../styles/ProjectModal.css";
 
 export interface Project {
   title: string;
@@ -90,26 +89,28 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [onClose]);
 
   const hasActions = project.apkUrl || project.webDemoUrl || project.githubUrl;
+  const sectionClass = "mt-14 grid grid-cols-[8.5rem_1fr] gap-[clamp(1.5rem,4vw,3rem)] border-t border-line pt-6 max-[860px]:grid-cols-1 max-[860px]:gap-4";
+  const actionClass = "inline-flex min-w-44 items-center justify-between gap-8 border border-accent/45 px-4 py-4 font-mono text-xs font-semibold text-ink transition-[background,color,transform] duration-200 hover:-translate-y-0.5 hover:bg-accent hover:text-[#06111e] motion-reduce:transition-none motion-reduce:hover:transform-none max-[520px]:w-full";
 
   return (
-    <div className="ProjectModal-overlay" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-100 grid place-items-center bg-[#020811]/90 p-[clamp(1rem,3vw,2.5rem)] backdrop-blur-[14px] animate-[modal-fade-in_.25s_ease_both] motion-reduce:animate-none max-[860px]:p-0" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <section
-        className="ProjectModal-container"
+        className="modal-frame modal-scrollbar relative max-h-[calc(100dvh_-_clamp(2rem,6vw,5rem))] w-[min(100%,74rem)] overflow-y-auto border border-accent/35 bg-[#081422] shadow-[0_2.5rem_7rem_rgba(0,44,96,.3)] animate-[modal-enter_.45s_cubic-bezier(.16,1,.3,1)_both] motion-reduce:animate-none max-[860px]:min-h-dvh max-[860px]:w-full max-[860px]:max-h-dvh max-[860px]:border-x-0"
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
         tabIndex={-1}
       >
-        <header className="ProjectModal-header">
-          <span>{project.coverNumber} / {labels.archive}</span>
-          <button ref={closeButtonRef} className="ProjectModal-close" type="button" onClick={onClose} aria-label={labels.close}>
+        <header className="sticky top-0 z-10 flex min-h-18 items-center justify-between border-b border-line bg-[#081422]/95 py-0 pl-8 pr-5 backdrop-blur-xl max-[520px]:pl-4">
+          <span className="font-mono text-[.68rem] font-medium uppercase tracking-[.1em] text-ink-muted max-[520px]:max-w-[65%]">{project.coverNumber} / {labels.archive}</span>
+          <button ref={closeButtonRef} className="grid size-11 cursor-pointer place-items-center border border-line bg-transparent p-0 text-2xl text-ink transition-[color,border-color,transform] duration-200 hover:rotate-6 hover:border-accent hover:text-accent motion-reduce:transition-none motion-reduce:hover:transform-none" type="button" onClick={onClose} aria-label={labels.close}>
             <span aria-hidden="true">×</span>
           </button>
         </header>
 
-        <div className="ProjectModal-content">
-          <div className="ProjectModal-preview">
+        <div className="grid min-h-152 grid-cols-[minmax(20rem,.8fr)_minmax(0,1.2fr)] max-[860px]:grid-cols-1">
+          <div className="sticky top-18 h-[min(calc(100dvh-9rem),42rem)] min-h-128 self-start border-r border-line max-[860px]:relative max-[860px]:top-auto max-[860px]:h-[min(72vw,28rem)] max-[860px]:min-h-80 max-[860px]:border-b max-[860px]:border-r-0">
             <ProjectCover
               title={project.title}
               subtitle={project.subtitle}
@@ -120,22 +121,22 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             />
           </div>
 
-          <article className="ProjectModal-details">
-            <p className="ProjectModal-subtitle">{project.subtitle}</p>
-            <h2 className="ProjectModal-title" id="project-modal-title">{project.title}</h2>
+          <article className="p-[clamp(2rem,5vw,4.5rem)] max-[520px]:px-4 max-[520px]:pb-16 max-[520px]:pt-10">
+            <p className="mb-5 font-mono text-[.7rem] font-semibold uppercase tracking-[.1em] text-accent">{project.subtitle}</p>
+            <h2 className="max-w-[11ch] text-[clamp(3rem,6vw,6rem)] font-semibold leading-[.86] tracking-[-.07em] text-balance max-[520px]:text-[clamp(2.8rem,15vw,4.5rem)]" id="project-modal-title">{project.title}</h2>
 
-            <div className="ProjectModal-section">
-              <h3>{labels.overview}</h3>
-              <p>{project.description}</p>
+            <div className={sectionClass}>
+              <h3 className="font-mono text-[.68rem] font-medium uppercase leading-normal tracking-[.08em] text-accent">{labels.overview}</h3>
+              <p className="max-w-160 text-ink-muted">{project.description}</p>
             </div>
 
             {project.features && project.features.length > 0 && (
-              <div className="ProjectModal-section">
-                <h3>{labels.contributions}</h3>
-                <ol className="ProjectModal-features-list">
+              <div className={sectionClass}>
+                <h3 className="font-mono text-[.68rem] font-medium uppercase leading-normal tracking-[.08em] text-accent">{labels.contributions}</h3>
+                <ol className="m-0 grid list-none p-0">
                   {project.features.map((feature, index) => (
-                    <li key={feature}>
-                      <span>0{index + 1}</span>
+                    <li className="grid grid-cols-[2.25rem_1fr] gap-4 pb-4 text-ink-muted [&+li]:border-t [&+li]:border-line [&+li]:pt-4" key={feature}>
+                      <span className="pt-1.5 font-mono text-[.64rem] font-medium text-accent">0{index + 1}</span>
                       <p>{feature}</p>
                     </li>
                   ))}
@@ -143,27 +144,26 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </div>
             )}
 
-            <div className="ProjectModal-section ProjectModal-stack-section">
-              <h3>{labels.stack}</h3>
-              <div className="ProjectModal-tags">
-                {project.techStack.map((tech) => <span key={tech}>{tech}</span>)}
+            <div className={sectionClass}>
+              <h3 className="font-mono text-[.68rem] font-medium uppercase leading-normal tracking-[.08em] text-accent">{labels.stack}</h3>
+              <div className="flex flex-wrap gap-2">
+                {project.techStack.map((tech) => <span className="border border-line px-3 py-2 font-mono text-[.68rem] font-medium text-ink-muted" key={tech}>{tech}</span>)}
               </div>
             </div>
 
-            {hasActions && (
-              <div className="ProjectModal-actions">
-                {project.apkUrl && <a href={project.apkUrl} download>{labels.download} <span aria-hidden="true">↓</span></a>}
-                {project.webDemoUrl && <a href={project.webDemoUrl} target="_blank" rel="noopener noreferrer">{labels.demo} <span aria-hidden="true">↗</span></a>}
-                {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">{labels.source} <span aria-hidden="true">↗</span></a>}
-              </div>
-            )}
-            {!hasActions && (
-              <div className="ProjectModal-actions">
-                <a href={`mailto:title.thirawat.dev@gmail.com?subject=${encodeURIComponent(`Portfolio project: ${project.title}`)}`}>
+            <div className="mt-12 flex flex-wrap gap-4 max-[520px]:flex-col">
+              {hasActions ? (
+                <>
+                  {project.apkUrl && <a className={actionClass} href={project.apkUrl} download>{labels.download} <span aria-hidden="true">↓</span></a>}
+                  {project.webDemoUrl && <a className={actionClass} href={project.webDemoUrl} target="_blank" rel="noopener noreferrer">{labels.demo} <span aria-hidden="true">↗</span></a>}
+                  {project.githubUrl && <a className={actionClass} href={project.githubUrl} target="_blank" rel="noopener noreferrer">{labels.source} <span aria-hidden="true">↗</span></a>}
+                </>
+              ) : (
+                <a className={actionClass} href={`mailto:title.thirawat.dev@gmail.com?subject=${encodeURIComponent(`Portfolio project: ${project.title}`)}`}>
                   {labels.request} <span aria-hidden="true">→</span>
                 </a>
-              </div>
-            )}
+              )}
+            </div>
           </article>
         </div>
       </section>

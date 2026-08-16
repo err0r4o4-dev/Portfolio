@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import "../styles/SiteIntro.css";
 
 interface SiteIntroProps {
   onComplete: () => void;
